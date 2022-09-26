@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="tree_departments_center" model="ir.ui.view">
+        <field name="name">tree.departments.center</field>
+        <field name="model">departments.center</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_departments_center" model="ir.actions.act_window">
+        <field name="name">Departments</field>
+        <field name="res_model">departments.center</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new plan
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+            id="child_action_departments_center"
+            action="action_departments_center"
+            parent="child_cost_profit_root"
+            sequence="101"/>
+</odoo>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="form_account_analytic_account" model="ir.ui.view">
+        <field name="name">form.account.analytic.account</field>
+        <field name="model">account.analytic.account</field>
+        <field name="inherit_id" ref="account_budget.view_account_analytic_account_form_inherit_budget"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='budget_items']" position="after">
+                <notebook string="Cost / Profit Centers">
+                    <page name="cost_profit_center">
+                        <group>
+                            <group>
+                                <field name="cost_profit_center"/>
+                                <field name="departments"/>
+                                <field name="sub_departments"/>
+                            </group>
+                            <group>
+                                <field name="location"/>
+                            </group>
+                            <button name="create_analytic_account" type="object" string="Create Account" class="o_light_label"/>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+
+<!--    <record id="tree_account_analytic_account" model="ir.ui.view">-->
+<!--        <field name="name">tree.account.analytic.account</field>-->
+<!--        <field name="model">account.analytic.account</field>-->
+<!--        <field name="inherit_id" ref="analytic.view_account_analytic_account_list"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//notebook/page[@name='budget_items']" position="after">-->
+
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>

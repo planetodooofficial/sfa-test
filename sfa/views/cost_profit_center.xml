@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="tree_parent_head" model="ir.ui.view">
+        <field name="name">tree.parent.head</field>
+        <field name="model">parent.head</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_parent_head" model="ir.actions.act_window">
+        <field name="name">Parent Head</field>
+        <field name="res_model">parent.head</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new plan
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+            id="menu_cost_profit_root"
+            name="Cost / Profit Center"
+            sequence="100"/>
+    <menuitem
+            id="child_cost_profit_root"
+            name="Configuration"
+            parent="menu_cost_profit_root"
+            sequence="100"/>
+    <menuitem
+            id="child_parent_head"
+            name="Parent Head"
+            action="action_parent_head"
+            parent="child_cost_profit_root"
+            sequence="100"/>
+
+</odoo>
