@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Travel requisition tab view in my expense form -->
+    <record id="view_travel_requisition_expense_new" model="ir.ui.view">
+        <field name="name">view.travel.requisition.expense.new</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//form/sheet/div/field[@name='description']" position="before">
+                <notebook attrs="{'invisible': [('payment_mode', '!=', 'company_account')]}">
+                    <page string="Travel Requisitions">
+                        <group>
+                            <group>
+                                <field name="name_new"/>
+                                <field name="emp_code"/>
+                            </group>
+                            <group>
+                                <field name="band"/>
+                                <field name="mobile"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="department"/>
+                                <field name="designation"/>
+                            </group>
+                            <group>
+                                <field name="company"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="purpose_of_visit"/>
+                            </group>
+                            <group>
+                                <field name="approved_by"/>
+                            </group>
+                        </group>
+
+                        <separator string="Travel Details" style="color:#7d435d; font-size:18px; font-weight:bold"/>
+                        <group>
+                            <field name="travel_detail_line_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="date"/>
+                                    <field name="from_dates"/>
+                                    <field name="to_dates"/>
+                                    <field name="departs_time"/>
+                                    <field name="arrives_time"/>
+                                    <field name="mode_and_class"/>
+                                </tree>
+                            </field>
+                        </group>
+
+                        <group>
+                            <group>
+                                <separator string="In Case of Train Booking"
+                                           style="color:#7d435d; font-size:18px; font-weight:bold"/>
+                                <field name="pan_dl_no"/>
+                                <field name="age"/>
+                            </group>
+                            <group>
+                                <separator string="In Case of International Travel"
+                                           style="color:#7d435d; font-size:16px; font-weight:bold"/>
+                                <field name="pass_name"/>
+                                <field name="pass_no"/>
+                                <field name="date_place"/>
+                            </group>
+                        </group>
+
+                        <separator string="Stay Details" style="color:#7d435d; font-size:16px; font-weight:bold"/>
+                        <group>
+                            <field name="stay_detail_line_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="name_line"/>
+                                    <field name="band_line"/>
+                                    <field name="hotel_guest_line"/>
+                                    <field name="location_line"/>
+                                    <field name="check_in_date"/>
+                                    <field name="check_out_date"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+
+            <!-- paid by field readonly -->
+            <xpath expr="//field[@name='payment_mode']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- travel_requisition field vie in expense product -->
+    <record id="view_expense_product_inherit" model="ir.ui.view">
+        <field name="name">view.expense.product.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="hr_expense.product_product_expense_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='supplier_taxes_id']" position="after">
+                <field name="travel_requisition"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- HR employee for -->
+    <record id="view_hr_employee_inherit" model="ir.ui.view">
+        <field name="name">view.hr.employee.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='mobile_phone']" position="before">
+                <field name="emp_code"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
