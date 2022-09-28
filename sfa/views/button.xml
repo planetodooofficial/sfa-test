@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <templates>
+        <t t-extend="ListView.buttons">
+            <t t-jquery="button.o_list_button_add" t-operation="after">
+                <button type="button" t-if='widget.modelName == "m.dha.sig"'
+                        class="btn btn-primary btn-sm o_list_button_upload">Upload
+                </button>
+            </t>
+        </t>
+    </templates>
+</odoo>
