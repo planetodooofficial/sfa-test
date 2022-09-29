@@ -89,7 +89,7 @@
 
             <!-- paid by field readonly -->
             <xpath expr="//field[@name='payment_mode']" position="attributes">
-                <attribute name="readonly">1</attribute>
+                <attribute name="readonly">0</attribute>
             </xpath>
         </field>
     </record>
@@ -117,4 +117,25 @@
             </xpath>
         </field>
     </record>
+
+
+    <record id="action_travel_requisition" model="ir.actions.act_window">
+        <field name="name">Travel Requisition</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.expense</field>
+        <field name="domain">[('payment_mode','=','company_account')]</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first emp!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="new_travel_requisition"
+              name="Travel Requisition"
+              parent="hr_expense.menu_hr_expense_root"
+              sequence="1"
+              action="action_travel_requisition"/>
+
 </odoo>
