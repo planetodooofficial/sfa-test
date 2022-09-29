@@ -118,7 +118,7 @@
         </field>
     </record>
 
-
+    <!-- menu action and menu of travel requisition in hr expense -->
     <record id="action_travel_requisition" model="ir.actions.act_window">
         <field name="name">Travel Requisition</field>
         <field name="type">ir.actions.act_window</field>
@@ -134,7 +134,7 @@
 
     <menuitem id="new_travel_requisition"
               name="Travel Requisition"
-              parent="hr_expense.menu_hr_expense_root"
+              parent="hr_expense.menu_hr_expense_my_expenses"
               sequence="1"
               action="action_travel_requisition"/>
 
