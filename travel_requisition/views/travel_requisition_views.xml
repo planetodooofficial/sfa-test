@@ -89,7 +89,8 @@
 
             <!-- paid by field readonly -->
             <xpath expr="//field[@name='payment_mode']" position="attributes">
-                <attribute name="readonly">0</attribute>
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
             </xpath>
         </field>
     </record>
@@ -118,13 +119,14 @@
         </field>
     </record>
 
-    <!-- menu action and menu of travel requisition in hr expense -->
-    <record id="action_travel_requisition" model="ir.actions.act_window">
-        <field name="name">Travel Requisition</field>
+    <!-- Menu action for My Travel Requisition to Report -->
+    <record id="action_travel_requisition_to_report" model="ir.actions.act_window">
+        <field name="name">Travel Requisition to Report</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.expense</field>
+        <field name="context">{'payment_mode':'company_account'}</field>
         <field name="domain">[('payment_mode','=','company_account')]</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,kanban,graph,pivot</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create your first emp!
@@ -132,10 +134,60 @@
         </field>
     </record>
 
-    <menuitem id="new_travel_requisition"
-              name="Travel Requisition"
-              parent="hr_expense.menu_hr_expense_my_expenses"
-              sequence="1"
-              action="action_travel_requisition"/>
+    <!-- Menu action for All Travel Requisition -->
+    <record id="action_all_travel_requisition" model="ir.actions.act_window">
+        <field name="name">All Travel Requisition</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.expense</field>
+        <field name="context">{'payment_mode':'company_account'}</field>
+        <field name="domain">[('payment_mode','=','company_account')]</field>
+        <field name="view_mode">tree,form,kanban,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first emp!
+            </p>
+        </field>
+    </record>
 
+    <!-- Menu action for Travel Requisition Report -->
+    <record id="action_travel_requisition_report" model="ir.actions.act_window">
+        <field name="name">Travel Requisition Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.expense.sheet</field>
+        <field name="context">{'payment_mode':'company_account'}</field>
+        <field name="domain">[('payment_mode','=','company_account')]</field>
+        <field name="view_mode">tree,form,kanban,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first emp!
+            </p>
+        </field>
+    </record>
+
+    <!-- root menu in expense -->
+    <menuitem id="menu_travel_requisition_root"
+              name="Travel Requisition"
+              parent="hr_expense.menu_hr_expense_root"
+              sequence="1"/>
+
+    <!-- Menu item for My Travel Requisition to Report -->
+    <menuitem id="menu_travel_requisition_to_report"
+              name="Travel Requisition to Report"
+              parent="menu_travel_requisition_root"
+              sequence="1"
+              action="action_travel_requisition_to_report"/>
+
+    <!-- Menu item for All My Travel Requisition-->
+    <menuitem id="menu_all_travel_requisition"
+              name="All Travel Requisition"
+              parent="menu_travel_requisition_root"
+              sequence="2"
+              action="action_all_travel_requisition"/>
+
+    <!-- Menu item for My Travel Requisition Report -->
+    <menuitem id="menu_travel_requisition_report"
+              name="My Travel Requisition Report"
+              parent="menu_travel_requisition_root"
+              sequence="3"
+              action="action_travel_requisition_report"/>
 </odoo>
