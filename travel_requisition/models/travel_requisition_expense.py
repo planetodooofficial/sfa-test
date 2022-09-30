@@ -28,6 +28,7 @@ class TravelRequisitionExpense(models.Model):
             if self.product_id.travel_requisition == True:
                 self.payment_mode = 'company_account'
 
+
 class TravelDetailsLine(models.Model):
     _name = 'travel.details.line'
 
