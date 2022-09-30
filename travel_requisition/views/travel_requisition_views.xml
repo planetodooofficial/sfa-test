@@ -119,6 +119,11 @@
         </field>
     </record>
 
+    <!-- changing default domain of My Expenses menu items in hr.expenses -->
+    <record id="hr_expense.hr_expense_actions_my_unsubmitted" model="ir.actions.act_window">
+        <field name="domain">[('payment_mode','=','own_account')]</field>
+    </record>
+
     <!-- Menu action for My Travel Requisition to Report -->
     <record id="action_travel_requisition_to_report" model="ir.actions.act_window">
         <field name="name">Travel Requisition to Report</field>
