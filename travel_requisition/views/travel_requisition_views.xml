@@ -119,7 +119,7 @@
         </field>
     </record>
 
-    <!-- changing default domain of My Expenses menu items in hr.expenses -->
+    <!-- changing default domain of My Expenses menu items action in hr.expenses -->
     <record id="hr_expense.hr_expense_actions_my_unsubmitted" model="ir.actions.act_window">
         <field name="domain">[('payment_mode','=','own_account')]</field>
     </record>
