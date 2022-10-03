@@ -13,15 +13,18 @@ class TravelRequisitionExpense(models.Model):
     company = fields.Char(string='Company', related='name_new.company_id.name', store=True)
     purpose_of_visit = fields.Char(string='Purpose of Visit')
     approved_by = fields.Char(string='Approved By', related='name_new.parent_id.name', store=True)
-    pan_dl_no = fields.Char(string='Pan Card Number or Driving License Number')
+    pan_dl_no = fields.Char(string='Pan Card Number', related='name_new.pan_no', store=True)
+    dl_number = fields.Char(string='Driving License Number', related='name_new.dl_no', store=True)
     age = fields.Integer(string='Age')
-    pass_name = fields.Char(string='Name on Passport')
+    pass_name = fields.Char(string='Name on Passport', related='name_new.name_on_passport', store=True)
     pass_no = fields.Char(string='Passport No.', related='name_new.passport_id', store=True)
     date_place = fields.Char(string='Date & Place of Issue')
     visa_required = fields.Boolean(string='Visa Required')
     travel_detail_line_ids = fields.One2many('travel.details.line', 'hr_exp_id', 'Travel Detail Line')
     stay_detail_line_ids = fields.One2many('stay.details.line', 'hr_exp_id', 'Stay Detail Line')
+    travel_requisition_opt = fields.Boolean(string='Travel Requisition')
 
+    # function for product fields = when travel requisition product is selected then function set paid by field on Company
     @api.onchange('product_id')
     def _onchange_product_expense(self):
         if self.product_id:
@@ -45,11 +48,11 @@ class StayDetailsLine(models.Model):
     _name = 'stay.details.line'
 
     hr_exp_id = fields.Many2one('hr.expense', string='Hr Expense Id')
-    name_line = fields.Many2one('hr.employee', string='name')
+    name_line = fields.Many2one('hr.employee', string='Name')
     band_line = fields.Char(string='Band')
     hotel_guest_line = fields.Char(string='Hotel / Guest House')
     location_line = fields.Char(string='Location')
-    check_in_date = fields.Date(string='check_in_date')
+    check_in_date = fields.Date(string='Check in Date')
     check_out_date = fields.Date(string='Check Out Date')
 
 
@@ -63,3 +66,6 @@ class HrEmployeeInherit(models.Model):
     _inherit = 'hr.employee'
 
     emp_code = fields.Char(string='Employee Code')
+    name_on_passport = fields.Char(string='Name on Passport')
+    dl_no = fields.Char(string="Driving License Number")
+    pan_no = fields.Char(string='Pan Card Number')
