@@ -98,6 +98,10 @@
                 <attribute name="readonly">1</attribute>
                 <attribute name="force_save">1</attribute>
             </xpath>
+
+            <xpath expr="//field[@name='product_id']" position="attributes">
+                <attribute name="domain">[('travel_requisition','=',False)]</attribute>
+            </xpath>
         </field>
     </record>
 
@@ -132,18 +136,17 @@
         </field>
     </record>
 
-    <!-- Expenses Menu and Menu item name change -->
-<!--    <reocrd model="ir.ui.menu" id="hr_expense.menu_hr_expense_my_expenses">-->
-    <!--        <field name="name">My Reimbursement</field>-->
-    <!--    </reocrd>-->
-
-    <!-- changing default domain of My Expenses(my reimbursement) to Report menu items action in hr.expenses -->
+    <!-- changing default domain of My Expenses(my reimbursement) to Report menu items action in hr.expenses
+    also changes action default names -->
     <record id="hr_expense.hr_expense_actions_my_unsubmitted" model="ir.actions.act_window">
+        <field name="name">My Reimbursement to Report</field>
         <field name="domain">[('payment_mode','=','own_account')]</field>
     </record>
 
-    <!-- Changing default domain on All My Expenses (all my reimbursement) in  -->
+    <!-- Changing default domain on All My Expenses (all my reimbursement) in hr.expenses
+    also changes action default names -->
     <record id="hr_expense.hr_expense_actions_my_all" model="ir.actions.act_window">
+        <field name="name">All My Reimbursement</field>
         <field name="domain">[('payment_mode','=','own_account')]</field>
     </record>
 
@@ -152,7 +155,7 @@
         <field name="name">Travel Requisition to Report</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.expense</field>
-        <field name="context">{'payment_mode':'company_account'}</field>
+        <field name="context">{'travel_requisition_opt':True}</field>
         <field name="domain">[('payment_mode','=','company_account')]</field>
         <field name="view_mode">tree,form,kanban,graph,pivot</field>
         <field name="help" type="html">
@@ -167,7 +170,7 @@
         <field name="name">All Travel Requisition</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.expense</field>
-        <field name="context">{'payment_mode':'company_account'}</field>
+        <field name="context">{'travel_requisition_opt':True}</field>
         <field name="domain">[('payment_mode','=','company_account')]</field>
         <field name="view_mode">tree,form,kanban,graph,pivot</field>
         <field name="help" type="html">
@@ -182,7 +185,7 @@
         <field name="name">Travel Requisition Reports</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.expense.sheet</field>
-        <field name="context">{'payment_mode':'company_account'}</field>
+        <field name="context">{'travel_requisition_opt':True}</field>
         <field name="domain">[('payment_mode','=','company_account')]</field>
         <field name="view_mode">tree,form,kanban,graph,pivot</field>
         <field name="help" type="html">
@@ -218,5 +221,16 @@
               parent="menu_travel_requisition_root"
               sequence="3"
               action="action_travel_requisition_report"/>
+
+    <!-- Changing Name of My Expenses Menu to reimbursement -->
+    <menuitem id="hr_expense.menu_hr_expense_my_expenses" name="My Reimbursement" sequence="1"
+              parent="hr_expense.menu_hr_expense_root"
+              groups="base.group_user"/>
+    <menuitem id="hr_expense.menu_hr_expense_my_expenses_to_submit" sequence="1"
+              parent="hr_expense.menu_hr_expense_my_expenses"
+              action="hr_expense.hr_expense_actions_my_unsubmitted" name="My Reimbursement to Report"/>
+    <menuitem id="hr_expense.menu_hr_expense_my_expenses_all" sequence="2"
+              parent="hr_expense.menu_hr_expense_my_expenses"
+              action="hr_expense.hr_expense_actions_my_all" name="All My Reimbursement"/>
 
 </odoo>
