@@ -25,11 +25,11 @@ class TravelRequisitionExpense(models.Model):
     travel_requisition_opt = fields.Boolean(string='Travel Requisition')
 
     # function for product fields = when travel requisition product is selected then function set paid by field on Company
-    @api.onchange('product_id')
-    def _onchange_product_expense(self):
-        if self.product_id:
-            if self.product_id.travel_requisition == True:
-                self.payment_mode = 'company_account'
+    # @api.onchange('product_id')
+    # def _onchange_product_expense(self):
+    #     if self.product_id:
+    #         if self.product_id.travel_requisition == True:
+    #             self.payment_mode = 'company_account'
 
 class TravelDetailsLine(models.Model):
     _name = 'travel.details.line'

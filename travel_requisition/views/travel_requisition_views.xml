@@ -155,7 +155,7 @@
         <field name="name">Travel Requisition to Report</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.expense</field>
-        <field name="context">{'travel_requisition_opt':True}</field>
+        <field name="context">{'default_travel_requisition_opt':True,'default_payment_mode':'company_account'}</field>
         <field name="domain">[('payment_mode','=','company_account')]</field>
         <field name="view_mode">tree,form,kanban,graph,pivot</field>
         <field name="help" type="html">
@@ -170,7 +170,7 @@
         <field name="name">All Travel Requisition</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.expense</field>
-        <field name="context">{'travel_requisition_opt':True}</field>
+        <field name="context">{'default_travel_requisition_opt':True,'default_payment_mode':'company_account'}</field>
         <field name="domain">[('payment_mode','=','company_account')]</field>
         <field name="view_mode">tree,form,kanban,graph,pivot</field>
         <field name="help" type="html">
@@ -185,7 +185,7 @@
         <field name="name">Travel Requisition Reports</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.expense.sheet</field>
-        <field name="context">{'travel_requisition_opt':True}</field>
+        <field name="context">{'default_travel_requisition_opt':True,'default_payment_mode':'company_account'}</field>
         <field name="domain">[('payment_mode','=','company_account')]</field>
         <field name="view_mode">tree,form,kanban,graph,pivot</field>
         <field name="help" type="html">
