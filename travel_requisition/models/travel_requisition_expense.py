@@ -31,40 +31,48 @@ class TravelRequisitionExpense(models.Model):
     #         if self.product_id.travel_requisition == True:
     #             self.payment_mode = 'company_account'
 
-class TravelDetailsLine(models.Model):
-    _name = 'travel.details.line'
+    # CREATING DOMAIN ON PRODUCT_ID FIELD TO DIFFERENTIATE DATA BASED ON FIELD TRUE AND FALSE
+    # @api.onchange('travel_requisition_opt')
+    # def _ondepends_product_id_view(self):
+    #     domain = {}
+    #     if self.travel_requisition_opt:
+    #         if self.travel_requisition_opt == True & self.payment_mode == 'company_account':
+    #             domain = {'product_id': [('travel_requisition', '=', True)]}
+    #         if self.travel_requisition_opt == False & self.payment_mode == 'own_account':
+    #             domain = {'product_id': [('travel_requisition', '=', False)]}
+    #         return {'domain': domain}
 
-    hr_exp_id = fields.Many2one('hr.expense', string='Hr Expense Id')
-    date = fields.Date(string='Date')
-    from_dates = fields.Date(string='From')
-    to_dates = fields.Date(string='To')
-    departs_time = fields.Float(string='Departs Time')
-    arrives_time = fields.Float(string='Arrives Time')
-    mode_and_class = fields.Char(string='Mode & Class')
+    class TravelDetailsLine(models.Model):
+        _name = 'travel.details.line'
 
+        hr_exp_id = fields.Many2one('hr.expense', string='Hr Expense Id')
+        date = fields.Date(string='Date')
+        from_dates = fields.Date(string='From')
+        to_dates = fields.Date(string='To')
+        departs_time = fields.Float(string='Departs Time')
+        arrives_time = fields.Float(string='Arrives Time')
+        mode_and_class = fields.Char(string='Mode & Class')
 
-class StayDetailsLine(models.Model):
-    _name = 'stay.details.line'
+    class StayDetailsLine(models.Model):
+        _name = 'stay.details.line'
 
-    hr_exp_id = fields.Many2one('hr.expense', string='Hr Expense Id')
-    name_line = fields.Many2one('hr.employee', string='Name')
-    band_line = fields.Char(string='Band')
-    hotel_guest_line = fields.Char(string='Hotel / Guest House')
-    location_line = fields.Char(string='Location')
-    check_in_date = fields.Date(string='Check in Date')
-    check_out_date = fields.Date(string='Check Out Date')
+        hr_exp_id = fields.Many2one('hr.expense', string='Hr Expense Id')
+        name_line = fields.Many2one('hr.employee', string='Name')
+        band_line = fields.Char(string='Band')
+        hotel_guest_line = fields.Char(string='Hotel / Guest House')
+        location_line = fields.Char(string='Location')
+        check_in_date = fields.Date(string='Check in Date')
+        check_out_date = fields.Date(string='Check Out Date')
 
+    class ExpenseProductInherit(models.Model):
+        _inherit = 'product.product'
 
-class ExpenseProductInherit(models.Model):
-    _inherit = 'product.product'
+        travel_requisition = fields.Boolean('Travel Requisitions')
 
-    travel_requisition = fields.Boolean('Travel Requisitions')
+    class HrEmployeeInherit(models.Model):
+        _inherit = 'hr.employee'
 
-
-class HrEmployeeInherit(models.Model):
-    _inherit = 'hr.employee'
-
-    emp_code = fields.Char(string='Employee Code')
-    name_on_passport = fields.Char(string='Name on Passport')
-    dl_no = fields.Char(string="Driving License Number")
-    pan_no = fields.Char(string='Pan Card Number')
+        emp_code = fields.Char(string='Employee Code')
+        name_on_passport = fields.Char(string='Name on Passport')
+        dl_no = fields.Char(string="Driving License Number")
+        pan_no = fields.Char(string='Pan Card Number')

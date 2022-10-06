@@ -7,11 +7,13 @@
         <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
         <field name="arch" type="xml">
 
+            <!-- travel requisition boolean field in form after payment_mode -->
             <xpath expr="//field[@name='payment_mode']" position="after">
                 <label for="travel_requisition_opt"/>
                 <field name="travel_requisition_opt" readonly="1"/>
             </xpath>
 
+            <!-- notebook of travel requisition in form visible on payment_mode = company_account -->
             <xpath expr="//form/sheet/div/field[@name='description']" position="before">
                 <notebook attrs="{'invisible': [('payment_mode', '!=', 'company_account')]}">
                     <page string="Travel Requisitions">
@@ -99,8 +101,15 @@
                 <attribute name="force_save">1</attribute>
             </xpath>
 
-            <xpath expr="//field[@name='product_id']" position="attributes">
-                <attribute name="domain">[('travel_requisition','=',False)]</attribute>
+            <!-- filter on product_id field for show product based on menu action selected -->
+            <xpath expr="//field[@name='product_id']" position="replace">
+                <field name="product_id" required="1" domain="[('travel_requisition','=',True)]"
+                       attrs="{'readonly': [('sheet_is_editable', '=', False)],'invisible':[('payment_mode','=','own_account')]}"
+                       context="{'default_can_be_expensed': 1, 'tree_view_ref': 'hr_expense.product_product_expense_tree_view', 'form_view_ref': 'hr_expense.product_product_expense_form_view'}"/>
+
+                <field name="product_id" required="1" domain="[('travel_requisition','=',False)]"
+                       attrs="{'readonly': [('sheet_is_editable', '=', False)],'invisible':[('payment_mode','=','company_account')]}"
+                       context="{'default_can_be_expensed': 1, 'tree_view_ref': 'hr_expense.product_product_expense_tree_view', 'form_view_ref': 'hr_expense.product_product_expense_form_view'}"/>
             </xpath>
         </field>
     </record>
@@ -137,16 +146,20 @@
     </record>
 
     <!-- changing default domain of My Expenses(my reimbursement) to Report menu items action in hr.expenses
-    also changes action default names -->
+    also changes action menu default names -->
     <record id="hr_expense.hr_expense_actions_my_unsubmitted" model="ir.actions.act_window">
         <field name="name">My Reimbursement to Report</field>
+        <field name="context">{'search_default_my_expenses': 1, 'search_default_no_report': 1,
+            'payment_mode':'own_account'}
+        </field>
         <field name="domain">[('payment_mode','=','own_account')]</field>
     </record>
 
     <!-- Changing default domain on All My Expenses (all my reimbursement) in hr.expenses
-    also changes action default names -->
+    also changes action menu default names -->
     <record id="hr_expense.hr_expense_actions_my_all" model="ir.actions.act_window">
         <field name="name">All My Reimbursement</field>
+        <field name="context">{'search_default_my_expenses': 1, 'payment_mode':'own_account'}</field>
         <field name="domain">[('payment_mode','=','own_account')]</field>
     </record>
 
