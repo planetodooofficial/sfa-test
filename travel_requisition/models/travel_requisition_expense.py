@@ -24,6 +24,20 @@ class TravelRequisitionExpense(models.Model):
     stay_detail_line_ids = fields.One2many('stay.details.line', 'hr_exp_id', 'Stay Detail Line')
     travel_requisition_opt = fields.Boolean(string='Travel Requisition')
 
+    # product id field for travel requisition to filter product list based on menu selected
+    travel_product_id = fields.Many2one('product.product', string='Product', readonly=False, tracking=True,
+                                        states={'draft': [('readonly', False)], 'reported': [('readonly', False)],
+                                                'approved': [('readonly', False)], 'refused': [('readonly', False)]},
+                                        domain="[('can_be_expensed', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id), ('travel_requisition','=',True)]",
+                                        ondelete='restrict')
+
+    # product_id actual field
+    # product_id = fields.Many2one('product.product', string='Product', readonly=False, tracking=True,
+    #                              states={'draft': [('readonly', False)], 'reported': [('readonly', False)],
+    #                                      'approved': [('readonly', False)], 'refused': [('readonly', False)]},
+    #                              domain="[('can_be_expensed', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id)]",
+    #                              ondelete='restrict', compute='_ondepends_product_id_view', store=1)
+
     # function for product fields = when travel requisition product is selected then function set paid by field on Company
     # @api.onchange('product_id')
     # def _onchange_product_expense(self):
@@ -32,14 +46,14 @@ class TravelRequisitionExpense(models.Model):
     #             self.payment_mode = 'company_account'
 
     # CREATING DOMAIN ON PRODUCT_ID FIELD TO DIFFERENTIATE DATA BASED ON FIELD TRUE AND FALSE
-    # @api.onchange('travel_requisition_opt')
+    # @api.depends('travel_requisition_opt')
     # def _ondepends_product_id_view(self):
     #     domain = {}
     #     if self.travel_requisition_opt:
     #         if self.travel_requisition_opt == True & self.payment_mode == 'company_account':
-    #             domain = {'product_id': [('travel_requisition', '=', True)]}
+    #             domain = {'product_id': [('product_id.travel_requisition', '=', True)]}
     #         if self.travel_requisition_opt == False & self.payment_mode == 'own_account':
-    #             domain = {'product_id': [('travel_requisition', '=', False)]}
+    #             domain = {'product_id': [('product_id.travel_requisition', '=', False)]}
     #         return {'domain': domain}
 
     class TravelDetailsLine(models.Model):

@@ -103,18 +103,20 @@
 
             <!-- filter on product_id field for show product based on menu action selected -->
             <xpath expr="//field[@name='product_id']" position="replace">
-                <field name="product_id" required="1" domain="[('travel_requisition','=',True)]"
-                       attrs="{'readonly': [('sheet_is_editable', '=', False)],'invisible':[('payment_mode','=','own_account')]}"
-                       context="{'default_can_be_expensed': 1, 'tree_view_ref': 'hr_expense.product_product_expense_tree_view', 'form_view_ref': 'hr_expense.product_product_expense_form_view'}"/>
-
                 <field name="product_id" required="1" domain="[('travel_requisition','=',False)]"
                        attrs="{'readonly': [('sheet_is_editable', '=', False)],'invisible':[('payment_mode','=','company_account')]}"
                        context="{'default_can_be_expensed': 1, 'tree_view_ref': 'hr_expense.product_product_expense_tree_view', 'form_view_ref': 'hr_expense.product_product_expense_form_view'}"/>
             </xpath>
+            <xpath expr="//field[@name='product_id']" position="before">
+                <field name="travel_product_id" required="1" domain="[('travel_requisition','=',True)]"
+                       attrs="{'readonly': [('sheet_is_editable', '=', False)],'invisible':[('payment_mode','=','own_account')]}"
+                       context="{'default_can_be_expensed': 1, 'tree_view_ref': 'hr_expense.product_product_expense_tree_view', 'form_view_ref': 'hr_expense.product_product_expense_form_view'}"/>
+            </xpath>
+
         </field>
     </record>
 
-    <!-- travel_requisition field vie in expense product -->
+    <!-- travel_requisition field view in expense product -->
     <record id="view_expense_product_inherit" model="ir.ui.view">
         <field name="name">view.expense.product.inherit</field>
         <field name="model">product.product</field>
