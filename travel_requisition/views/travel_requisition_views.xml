@@ -95,23 +95,21 @@
                 </notebook>
             </xpath>
 
-            <!-- paid by field readonly -->
+            <!-- filter on product_id field for show product based on menu action selected -->
             <xpath expr="//field[@name='payment_mode']" position="attributes">
                 <attribute name="readonly">1</attribute>
                 <attribute name="force_save">1</attribute>
             </xpath>
 
-            <!-- filter on product_id field for show product based on menu action selected -->
-            <xpath expr="//field[@name='product_id']" position="replace">
-                <field name="product_id" required="1" domain="[('travel_requisition','=',False)]"
-                       attrs="{'readonly': [('sheet_is_editable', '=', False)],'invisible':[('payment_mode','=','company_account')]}"
-                       context="{'default_can_be_expensed': 1, 'tree_view_ref': 'hr_expense.product_product_expense_tree_view', 'form_view_ref': 'hr_expense.product_product_expense_form_view'}"/>
-            </xpath>
-            <xpath expr="//field[@name='product_id']" position="before">
-                <field name="travel_product_id" required="1" domain="[('travel_requisition','=',True)]"
-                       attrs="{'readonly': [('sheet_is_editable', '=', False)],'invisible':[('payment_mode','=','own_account')]}"
-                       context="{'default_can_be_expensed': 1, 'tree_view_ref': 'hr_expense.product_product_expense_tree_view', 'form_view_ref': 'hr_expense.product_product_expense_form_view'}"/>
-            </xpath>
+            <!--            <xpath expr="//field[@name='product_id']" position="after">-->
+            <!--                <field name="product_id" required="1" domain="[('travel_requisition','=',True)]"-->
+            <!--                       attrs="{'readonly': [('sheet_is_editable', '=', False)],'invisible':[('payment_mode','=','own_account')]}"-->
+            <!--                       context="{'default_can_be_expensed': 1, 'tree_view_ref': 'hr_expense.product_product_expense_tree_view', 'form_view_ref': 'hr_expense.product_product_expense_form_view'}"/>-->
+
+            <!--                <field name="product_id" required="1" domain="[('travel_requisition','=',False)]"-->
+            <!--                       attrs="{'readonly': [('sheet_is_editable', '=', False)],'invisible':[('payment_mode','=','company_account')]}"-->
+            <!--                       context="{'default_can_be_expensed': 1, 'tree_view_ref': 'hr_expense.product_product_expense_tree_view', 'form_view_ref': 'hr_expense.product_product_expense_form_view'}"/>-->
+            <!--            </xpath>-->
 
         </field>
     </record>
@@ -170,7 +168,9 @@
         <field name="name">Travel Requisition to Report</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.expense</field>
-        <field name="context">{'default_travel_requisition_opt':True,'default_payment_mode':'company_account'}</field>
+        <field name="context">
+            {'default_travel_requisition_opt':True,'default_payment_mode':'company_account','travel_prd': True}
+        </field>
         <field name="domain">[('payment_mode','=','company_account')]</field>
         <field name="view_mode">tree,form,kanban,graph,pivot</field>
         <field name="help" type="html">
@@ -185,7 +185,9 @@
         <field name="name">All Travel Requisition</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.expense</field>
-        <field name="context">{'default_travel_requisition_opt':True,'default_payment_mode':'company_account'}</field>
+        <field name="context">
+            {'default_travel_requisition_opt':True,'default_payment_mode':'company_account','travel_prd': True}
+        </field>
         <field name="domain">[('payment_mode','=','company_account')]</field>
         <field name="view_mode">tree,form,kanban,graph,pivot</field>
         <field name="help" type="html">
@@ -200,7 +202,9 @@
         <field name="name">Travel Requisition Reports</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">hr.expense.sheet</field>
-        <field name="context">{'default_travel_requisition_opt':True,'default_payment_mode':'company_account'}</field>
+        <field name="context">
+            {'default_travel_requisition_opt':True,'default_payment_mode':'company_account','travel_prd': True}
+        </field>
         <field name="domain">[('payment_mode','=','company_account')]</field>
         <field name="view_mode">tree,form,kanban,graph,pivot</field>
         <field name="help" type="html">
