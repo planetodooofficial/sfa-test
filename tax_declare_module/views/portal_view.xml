@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="menu_taxdeclaration_form" model="website.menu">
+        <field name="name">Tax Declaration</field>
+        <field name="url">/tax_declaration</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence">55</field>
+    </record>
+    <template id="create_taxdeclaration" name="Tax Declaration">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="oe_structure">
+                    <div class="container">
+                        <form role="form" action="/create/NewTaxDeclaration" method="POST"
+                              enctype="multipart/form-data">
+                            <style>
+                                .header{
+                                text-align:center;
+                                font-size:30px;
+                                font-weight:600;
+                                color:white;
+                                font-weight: bold;
+                                font-family: "Lucida Console", "Courier New", monospace;
+                                background-image: url("tax_declare_module/static/description/header.jpg");
+                                outline: 4px solid grey;
+                                outline-offset: 2px;
+                                outline-style: outset
+                                }
+                                .whiteblock{
+                                width:1100px;
+                                background: rgba(255, 255, 255, 1);
+                                padding: 20px;
+                                margin: 5px;
+                                border-style:solid;
+                                border-radius: 10px;
+                                box-shadow: inset -2px 2px 2px white;
+                                }
+                            </style>
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <br/>
+                            <div class="header">
+                                <h1 class="form-title">Tax Declaration</h1>
+                            </div>
+                            <br/>
+
+                            <div class="whiteblock">
+                                <!-- employee name -->
+                                <label for="name" class="control-label">Employee Name</label>
+                                <input type="text" id="name" name="name"
+                                       placeholder="Select the Employee" t-att-value="user.name"/>
+
+                                <!-- fiscal year -->
+                                <label for="c_year" class="control-label">Financial Year</label>
+                                <select id="c_year" name="c_year">
+                                    <option>Year</option>
+                                    <t t-foreach="c_year" t-as="year">
+                                        <option t-esc="year.name"/>
+                                    </t>
+                                </select>
+                            </div>
+                            <br/>
+
+                            <!-- 80C deduction -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="4">
+                                        <label for="eightc" class="control-label">
+                                            80C : Deduction towards payments made to
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;">
+                                    <td>
+                                        <label for="cone" class="control-label">Life Insurance Premium</label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="coneamt" name="coneamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="conefile" name="conefile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;">
+                                    <td>
+                                        <label for="ctwo" class="control-label">Provident Fund</label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="ctwoamt" name="ctwoamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="ctwofile" name="ctwofile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;">
+                                    <td>
+                                        <label for="cthree" class="control-label">Subscription to certain equity
+                                            shares
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="cthreeamt" name="cthreeamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="cthreefile" name="cthreefile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;">
+                                    <td>
+                                        <label for="cfour" class="control-label">Tuition Fees</label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="cfouramt" name="cfouramt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="cfourfile" name="cfourfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;">
+                                    <td>
+                                        <label for="cfive" class="control-label">National Savings Certificate,
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="cfiveamt" name="cfiveamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="cfivefile" name="cfivefile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;">
+                                    <td>
+                                        <label for="csix" class="control-label">Housing Loan Principal</label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="csixamt" name="csixamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="csixfile" name="csixfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;">
+                                    <td>
+                                        <label for="cseven" class="control-label">Other various items</label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="csevenamt" name="csevenamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="csevenfile" name="csevenfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- 80CCC -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="ccc" class="control-label">
+                                            80CCC : Annuity plan of LIC or other insurer towards Pension Scheme
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="cccamt" name="cccamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="cccfile" name="cccfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- 80CCD(1) -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="ccd" class="control-label">
+                                            80CCD(1) : Pension Scheme of Central Government
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="ccdcamt" name="ccdcamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="ccdfile" name="ccdfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- 80CCD(1B) -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="ccdoneb" class="control-label">
+                                            80CCD(1B) : Deduction towards payments made to Pension Scheme of Central
+                                            Government, excluding deduction claimed under 80CCD (1)
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="ccdonebcamt" name="ccdonebcamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="ccdonebfile" name="ccdonebfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <table class="whiteblock">
+                                <!-- 80CCD(2) -->
+                                <tr>
+                                    <td colspan="4">
+                                        <label for="ccdtwo" class="control-label">
+                                            80CCD(2) : Deduction towards contribution made by an employer to the
+                                            Pension Scheme of Central Government
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;">
+                                    <td>
+                                        <label for="ccdfirst" class="control-label">If Employer is a PSU, State
+                                            Government or Others
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="ccdfirstamt" name="ccdfirstamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="ccdfirstfile" name="ccdfirstfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;">
+                                    <td>
+                                        <label for="ccdsec" class="control-label">If Employer is a PSU, State
+                                            Government or Others
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="ccdsecamt" name="ccdsecamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="ccdsecfile" name="ccdsecfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- 80D -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="4">80D</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <label for="dsecone" class="control-label">
+                                            section 1 : Deduction towards payments made to Health Insurance Premium
+                                            &amp; Preventive Health check up
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;">
+                                    <td>
+                                        <label for="dstate" class="control-label">For Self / Spouse or Dependent
+                                            Children
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="dstateamt" name="dstateamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="dstatefile" name="dstatefile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;">
+                                    <td>
+                                        <label for="dcentral" class="control-label">For Parents</label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="dcentralamt" name="dcentralamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="dcentralfile" name="dcentralfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <label for="dsectwo" class="control-label">
+                                            section 2 : Deduction towards Medical Expenditure incurred on a Senior
+                                            Citizen, if no premium is paid on health insurance coverage
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;">
+                                    <td>
+                                        <label for="dstatetwo" class="control-label">For Self / Spouse or Dependent
+                                            Children
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="dstatetwoamt" name="dstatetwoamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="dstatetwofile" name="dstatetwofile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;">
+                                    <td>
+                                        <label for="dcentraltwo" class="control-label">For Parents</label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="dcentraltwoamt" name="dcentraltwoamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="dcentraltwofile" name="dcentraltwofile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- 80DD -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="dd" class="control-label">
+                                            80DD : Deduction towards payments made towards Maintenance or Medical
+                                            treatment of a Disabled Dependent or Paid / Deposited any amount under
+                                            relevant approved scheme
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="ddamt" name="ddamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="ddfile" name="ddfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- 80DDB -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="ddb" class="control-label">
+                                            80DDB : Deduction towards payments made towards Medical treatment of
+                                            Self or Dependant for specified diseases
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="ddbamt" name="ddbamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="ddbfile" name="ddbfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- 80E -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="e" class="control-label">
+                                            80E : Deduction towards interest payments made on loan for higher
+                                            education of Self or relative
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="eamt" name="eamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="efile" name="efile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- 80EE -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="ee" class="control-label">
+                                            80EE : Deduction towards interest payments made on loan taken for
+                                            acquisition of residential house property where the loan is sanctioned
+                                            between 1st April 2016 to 31st March 2017
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="eeamt" name="eeamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="eefile" name="eefile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!--80EEA-->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="eea" class="control-label">
+                                            80EEA : Deduction available only to individuals towards interest
+                                            payments made on loan taken for acquisition of residential house
+                                            property for the first time where the loan is sanctioned between 1st
+                                            April 2019 to 31st March 2022 &amp; deduction should not have been
+                                            claimed
+                                            u/s 80EE
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="eeaamt" name="eeaamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="eeafile" name="eeafile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- 80EEB -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="eeb" class="control-label">
+                                            80EEB : Deduction towards interest payments made on loan for purchase of
+                                            Electric Vehicle where the loan is sanctioned between 1st April 2019 to
+                                            31st March 2023
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="eebamt" name="eebamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="eebfile" name="eebfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!--80G-->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="4">
+                                        <label for="g" class="control-label">
+                                            80G : Deduction towards Donations made to prescribed Funds, Charitable
+                                            Institutions, etc. Donation are eligible for deduction under the below
+                                            categories
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;">
+                                    <td>
+                                        <label for="limit" class="control-label">Without any limit</label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="limitamt" name="limitamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="limitfile" name="limitfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                                <tr style="font-size:13px;">
+                                    <td>
+                                        <label for="subject" class="control-label">Subject to qualifying limit
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="subjectamt" name="subjectamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="subjectfile" name="subjectfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- 80GG -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="gg" class="control-label">
+                                            80GG : Deduction towards rent paid for house &amp; applicable to only
+                                            those who are self-employed or for whom HRA is not part of Salary
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="ggamt" name="ggamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="ggfile" name="ggfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- 80GGA -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="gga" class="control-label">
+                                            80GGA : Deduction towards Donations made for Scientific Research or
+                                            Rural Development
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="ggaamt" name="ggaamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="ggafile" name="ggafile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- 80GGC -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="ggc" class="control-label">
+                                            80GGC : Deduction towards Donations made to Political Party or Electoral
+                                            Trust
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="ggcamt" name="ggcamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="ggcfile" name="ggcfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- 80TTA -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="tta" class="control-label">
+                                            80TTA : Deduction on interest received on saving bank accounts by
+                                            Non-Senior Citizens
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="ttaamt" name="ttaamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="ttafile" name="ttafile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- 80TTB -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="ttb" class="control-label">
+                                            80TTB : Deduction on interest received on deposits by Resident Senior
+                                            Citizens
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="ttbamt" name="ttbamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="ttbfile" name="ttbfile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- 80U -->
+                            <table class="whiteblock">
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="u" class="control-label">
+                                            80U : Deductions for a resident individual taxpayer with Disability
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="uamt" name="uamt"/>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="ufile" name="ufile" multiple="true"
+                                               accept="image/*,application/pdf,video/*"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <!-- submit button -->
+                            <div class="whiteblock">
+                                <button id="submit" type="submit" class="btn btn-outline-secondary btn-block ">
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <record id="taxdeclare_thanks" model="website.page">
+        <field name="name">Thanks</field>
+        <field name="type">qweb</field>
+        <field name="url">/taxdeclare-thank-you</field>
+        <field name="website_published">True</field>
+        <field name="key">tax_declare_module.taxdeclare_thanks</field>
+        <field name="arch" type="xml">
+            <t name="Thanks" t-name="tax_declare_module.taxdeclare_thanks">
+                <t t-call="website.layout">
+                    <div id="wrap">
+                        <div class="container">
+                            <h1>Thanks!</h1>
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="alert alert-success" role="status">
+                                        Your Record Submitted Successfully!!
+                                    </div>
+                                    <p>
+                                        We will get back to you shortly.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="import_file_form_view" model="ir.ui.view">
+        <field name="name">import.file.form.view</field>
+        <field name="model">vendor.bills</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+
+            <form>
+                <sheet>
+                    <group>
+                        <field name="upload_file"/>
+                    </group>
+                    <footer>
+                        <button name="import_vendor_bills" string="Upload" type="object" class="btn-primary"
+                                data-hotkey="q"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="import_file_action" model="ir.actions.act_window">
+        <field name="name">Import Vendor Bills</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">vendor.bills</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="import_file_form_view"/>
+        <field name="target">new</field>
+    </record>
+
+
+    <menuitem id="menu_import_vendor" name="Import Vendor Bills" sequence="10" parent="account.account_management_menu"
+              action="sfa.import_file_action"/>
+
+
+</odoo>

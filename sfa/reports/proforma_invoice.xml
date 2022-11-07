@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--hello
+-->
+<odoo>
+    <template id="proforma_invoice_report">
+        <t t-call="web.html_container">
+            <t t-call="sfa.report_proforma_invoice">
+                <style>
+                    td{
+                    padding:2px;
+                    }
+<!--                    .header_text{-->
+<!--                    font-size: 14px;-->
+
+                </style>
+                <div class="page">
+                    <t t-foreach="docs" t-as="doc">
+                        <table style="width:100%; border:1px solid black;">
+                            <tr>
+                                <td style="width:15%; border-left:1px solid black">Invoice No :</td>
+                                <td style="width:35%;">
+                                    <t t-esc="doc.name"/>
+                                </td>
+                                <td style="width:15%; border-left:1px solid black">Place of Supply :</td>
+                                <td style="width:35%;">
+                                    <t t-esc="doc.partner_shipping_id.state_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-left:1px solid black">Invoice Date :</td>
+                                <td style="">
+                                    <t t-esc="doc.invoice_date"/>
+                                </td>
+                                <td colspan="2" style="width:25%; border-left:1px solid black"/>
+                            </tr>
+                            <tr>
+                                <td style="border-left:1px solid black">GST No. :</td>
+                                <td>
+                                    <t t-esc="doc.partner_id.vat"/>
+                                </td>
+                                <td colspan="2" style="border-left:1px solid black"/>
+                            </tr>
+                            <tr>
+                                <td style="border-left:1px solid black">PAN No. :</td>
+                                <td>
+                                    <t t-esc="doc.partner_id.pan_no"/>
+                                </td>
+                                <td colspan="2" style="border-left:1px solid black"/>
+                            </tr>
+                        </table>
+                        <table style="width:100%; border:1px solid black;">
+                            <tr>
+                                <td style="width:50%; border:1px solid black; font-weight:bold;" class="text-center">
+                                    Bill To
+                                    Party
+                                </td>
+                                <td style="width:50%; border:1px solid black; font-weight:bold;" class="text-center">
+                                    Ship To
+                                    Party
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="width:100%; border:1px solid black;">
+                            <tr>
+                                <td style="width:10%; border-left:1px solid black;">Name :</td>
+                                <td style="width:40%;">
+                                    <t t-esc="doc.partner_id.name"/>
+                                </td>
+                                <td style="width:10%; border-left:1px solid black;">Name :</td>
+                                <td style="width:40%;">
+                                    <t t-esc="doc.partner_shipping_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-left:1px solid black;">Address :</td>
+                                <td>
+                                    <span>
+                                        <t t-esc="doc.partner_id.street"/>
+                                    </span>
+                                    <br/>
+                                    <span><t t-esc="doc.partner_id.street2"/>,
+                                        <t t-esc="doc.partner_id.city"/>
+                                    </span>
+                                </td>
+                                <td style="border-left:1px solid black;">Address :</td>
+                                <td>
+                                    <span>
+                                        <t t-esc="doc.partner_shipping_id.street"/>
+                                    </span>
+                                    <br/>
+                                    <span><t t-esc="doc.partner_shipping_id.street2"/>,
+                                        <t t-esc="doc.partner_shipping_id.city"/>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-left:1px solid black;">State :</td>
+                                <td>
+                                    <span><t t-esc="doc.partner_id.state_id.name"/>,
+                                        <t t-esc="doc.partner_id.zip"/>
+                                    </span>
+                                </td>
+                                <td style="border-left:1px solid black;">State :</td>
+                                <td>
+                                    <span>
+                                        <t t-esc="doc.partner_shipping_id.state_id.name"/>
+                                        <table>
+                                            <tr>
+                                                <td>Code :</td>
+                                                <td><t t-esc="doc.partner_shipping_id.zip"/></td>
+                                            </tr>
+                                        </table>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-left:1px solid black;">Pan :</td>
+                                <td>
+                                    <t t-esc="doc.partner_id.pan_no"/>
+                                </td>
+                                <td style="border-left:1px solid black;">Pan :</td>
+                                <td>
+                                    <t t-esc="doc.partner_shipping_id.pan_no"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-left:1px solid black;">GSTIN :</td>
+                                <td>
+                                    <t t-esc="doc.partner_id.vat"/>
+                                </td>
+                                <td style="border-left:1px solid black;">GSTIN :</td>
+                                <td>
+                                    <t t-esc="doc.partner_shipping_id.l10n_in_shipping_gstin"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="width:100%">
+                            <tr>
+                                <td style="width:10%; border:1px solid black; font-weight:bold;" class="text-center">S. No.</td>
+                                <td style="width:40%; border:1px solid black; font-weight:bold;" class="text-center">Product Description
+                                </td>
+                                <td style="width:10%; border:1px solid black; font-weight:bold;" class="text-center">HSN Code</td>
+                                <td style="width:10%; border:1px solid black; font-weight:bold;" class="text-center">QTY</td>
+                                <td style="width:10%; border:1px solid black; font-weight:bold;" class="text-center">Rate</td>
+                                <td style="width:10%; border:1px solid black; font-weight:bold;" class="text-center">AMT</td>
+                            </tr>
+                            <t t-set="sr_no" t-value="1"/>
+                            <t t-set="total_qty" t-value="0"/>
+                            <t t-foreach="doc.invoice_line_ids" t-as="order_line">
+                                <tr>
+                                    <!--  S. No.-->
+                                    <td style="width:10%; border:1px solid black;" class="text-center">
+                                        <t t-esc="sr_no"/>
+                                        <t t-set="sr_no" t-value="sr_no + 1"/>
+                                    </td>
+                                    <!--  Product Description-->
+                                    <td style="width:10%; border:1px solid black;" class="text-center">
+                                        <t t-esc="order_line.product_id.name"/>
+                                    </td>
+                                    <!--     HSN Code-->
+                                    <td style="width:10%; border:1px solid black;" class="text-center">
+                                        <t t-esc="order_line.hsn_code"/>
+                                    </td>
+                                    <!--         QTY-->
+                                    <td style="width:10%; border:1px solid black;" class="text-center">
+                                        <t t-esc="order_line.quantity" t-options="{'widget': 'float', 'precision': 2}"/>
+                                        <t t-set="total_qty" t-value="(total_qty + order_line.quantity)"/>
+                                    </td>
+                                    <!--    Rate-->
+                                    <td style="width:10%; border:1px solid black;" class="text-center">
+                                        <t t-esc="order_line.price_unit"
+                                           t-options="{'widget': 'float', 'precision': 2}"/>
+                                    </td>
+                                    <!--   AMT-->
+                                    <td style="width:10%; border:1px solid black;" class="text-center">
+                                        <t t-esc="order_line.price_subtotal"
+                                           t-options="{'widget': 'float', 'precision': 2}"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr>
+                                <td colspan="3" style="width:10%; border:1px solid black; font-weight:bold;"
+                                    class="text-center">Total
+                                </td>
+                                <td style="width:10%; border:1px solid black;" class="text-center">
+                                    <strong>
+                                        <t t-esc="total_qty"/>
+                                    </strong>
+                                </td>
+                                <td style="width:10%; border:1px solid black;"></td>
+                                <td style="width:10%; border:1px solid black;"></td>
+                            </tr>
+                        </table>
+                        <table style="width:100%; border:1px solid black">
+                            <tr>
+                                <td style="width:40%; border:1px solid black; font-weight:bold;" class="text-center">Total Amounts in
+                                    Words
+                                </td>
+                                <td style="width:25%; border:1px solid black; font-weight:bold;" class="text-center">Total Amounts Before
+                                    Tax
+                                </td>
+                                <td style="width:15%; border:1px solid black;" class="text-right">
+                                    <t t-esc="doc.amount_untaxed" t-options="{'widget': 'float', 'precision': 2}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowspan='5' style="width:40%; padding-top:5px;">
+                                    <strong>Rupees :-</strong>
+                                    <span style="text-transform: capitalize; border-bottom: 1px dashed black;"
+                                          t-esc="doc.amt.replace(',', '')"/>
+                                    <span style="border-bottom: 1px dashed black;">Paise only</span>
+                                </td>
+                                <td style="border:1px solid black;" class="text-center">IGST %</td>
+                                <td style="border:1px solid black;" class="text-right">
+                                    <t t-esc="doc.total_igst_amt" t-options="{'widget': 'float', 'precision': 2}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <!--                                <td style="width:40%;"></td>-->
+                                <td style="border:1px solid black;" class="text-center">SGST %</td>
+                                <td style="border:1px solid black;" class="text-right">
+                                    <t t-esc="doc.total_sgst_amt" t-options="{'widget': 'float', 'precision': 2}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <!--                                <td style="width:40%;"></td>-->
+                                <td style="border:1px solid black;" class="text-center">CGST %</td>
+                                <td style="border:1px solid black;" class="text-right">
+                                    <t t-esc="doc.total_cgst_amt" t-options="{'widget': 'float', 'precision': 2}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <!--                                <td style="width:40%;"></td>-->
+                                <td style="border:1px solid black;" class="text-center">Rounded Off</td>
+                                <td style="border:1px solid black;" class="text-right">
+                                    <span t-esc="round(doc.amount_total)"
+                                          t-options="{'widget': 'float', 'precision': 2}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <!--                                <td style="width:40%;"></td>-->
+                                <td style="border:1px solid black;" class="text-center"><strong>Total Amount After Tax</strong></td>
+                                <td style="border:1px solid black;" class="text-right">
+                                    <strong><t t-esc="doc.amount_total" t-options="{'widget': 'float', 'precision': 2}"/></strong>
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="width:100%; border:1px solid black">
+                            <tr>
+                                <td style="width:41%">
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td>Beneficiary Name :</td>
+                                            <td>SFA Sporting Services Pvt Ltd</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border-top:1px solid black">Bank Name :</td>
+                                            <td style="border-top:1px solid black">HSBC Bank</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border-top:1px solid black">Bank A/C :</td>
+                                            <td style="border-top:1px solid black">006326243001</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border-top:1px solid black">Bank IFSC :</td>
+                                            <td style="border-top:1px solid black">HSBC0400002</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="border-top:1px solid black; font-weight:bold;"
+                                                class="text-center">
+                                                <underline>Terms
+                                                    and Condition
+                                                </underline>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="border-top:1px solid black; padding-top:5px;"
+                                                class="text-center">
+                                                <span>
+                                                    *Full payment should be released on the
+                                                </span>
+                                                <span>
+                                                    presentation of invoice.
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+<!--                                <td style="width:20%; border-left:1px solid black">-->
+<!--                                </td>-->
+                                <td style="width:59%; border:1px solid black">
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td style="width:40%; border-right:1px solid black;padding-top:-10px;"/>
+                                            <td style="width:60%; font-size:11px; font-weight:bold;" class="text-center">
+                                                <br/>
+                                                <br/>
+                                                Ceritified that the particulars
+                                                given
+                                                above are true and correct
+                                                <br/>
+                                                <br/>
+                                                <br/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:20%; border-right:1px solid black"/>
+                                            <td style="width:100%; border-top:1px solid red; border-bottom:1px solid red; font-weight:bold;"
+                                                class="text-center">
+                                                For SFA Sporting Services Pvt Ltd
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:20%; border-right:1px solid black"/>
+                                            <td>
+                                                <br/>
+                                                <br/>
+                                                <br/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="width:20%; border-top:1px solid black; border-right:1px solid black"/>
+                                            <td style="width:100%; border-top:1px solid red; font-weight:bold;" class="text-center">
+                                                Authorised Signatory
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+    <template id="external_layout_standard_proforma_invoice">
+        <!--          this is for header part   -->
+        <div t-attf-class="header o_company_#{company.id}_layout">
+            <div class="row">
+                <div class="col-md-12" style="position:absolute; ">
+                    <table style="width:100%">
+                        <tr>
+                            <td style="font-size:15px; padding-right:5px;" class="text-right">
+                                <span >Original for Recipient</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:100%; border:1px solid black; font-weight:bold; font-size:42px;" class="text-center">
+                                <span>Proforma Invoice</span>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+<!--            <div class="o_boxed_header"/>/-->
+        </div>
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
+             t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+             t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <div class="o_boxed_header"/>
+            <t t-raw="0"/>
+        </div>
+        <!--          this is for footer part  -->
+        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+            <div class="text-center" style="border-top: 1px solid black">
+                <div class="col-md-12">
+                    <table style="width:100%">
+                        <tr>
+                            <td style="width:50%" class="text-center">
+                                <div>
+                                    <span t-esc="doc.name"/>
+                                </div>
+                            </td>
+                            <td style="width:50%" class="text-center">
+                                <div t-if="report_type == 'pdf'">
+                                    Page:
+                                    <span class="page"/>
+                                    /
+                                    <span class="topage"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="report_proforma_invoice">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <!--    Multicompany    -->
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <t t-call="sfa.external_layout_standard_proforma_invoice">
+            <t t-raw="0"/>
+        </t>
+    </template>
+</odoo>

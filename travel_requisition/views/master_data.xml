@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- view for designation master -->
+    <!--    <record id="designation_master_tree_view" model="ir.ui.view">-->
+    <!--        <field name="name">designation.master.tree.view</field>-->
+    <!--        <field name="model">designation.master</field>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <tree>-->
+    <!--                <field name="designation_value"/>-->
+    <!--            </tree>-->
+    <!--        </field>-->
+    <!--    </record>-->
+    <!--    <record id="designation_master_form_view" model="ir.ui.view">-->
+    <!--        <field name="name">designation.master.form.view</field>-->
+    <!--        <field name="model">designation.master</field>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <form>-->
+    <!--                <sheet>-->
+    <!--                    <group>-->
+    <!--                        <field name="designation_value"/>-->
+    <!--                    </group>-->
+    <!--                </sheet>-->
+    <!--            </form>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <!-- view for grade master -->
+    <record id="grade_master_tree_view" model="ir.ui.view">
+        <field name="name">grade.master.tree.view</field>
+        <field name="model">grade.master</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="grade_new"/>
+                <field name="cadre_id"/>
+                <field name="grade_title_id"/>
+            </tree>
+        </field>
+    </record>
+    <record id="grade_master_form_view" model="ir.ui.view">
+        <field name="name">grade.master.form.view</field>
+        <field name="model">grade.master</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="grade_new"/>
+                        <field name="cadre_id"/>
+                        <field name="grade_title_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- view for cadre master -->
+    <record id="cadre_master_tree_view" model="ir.ui.view">
+        <field name="name">cadre.master.tree.view</field>
+        <field name="model">cadre.master</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="cadre_new"/>
+            </tree>
+        </field>
+    </record>
+    <record id="cadre_master_form_view" model="ir.ui.view">
+        <field name="name">cadre.master.form.view</field>
+        <field name="model">cadre.master</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="cadre_new"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- view for grade title -->
+    <record id="grade_title_master_tree_view" model="ir.ui.view">
+        <field name="name">grade.title.master.tree.view</field>
+        <field name="model">grade.title.master</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="grade_title_line"/>
+            </tree>
+        </field>
+    </record>
+    <record id="grade_title_master_form_view" model="ir.ui.view">
+        <field name="name">grade.title.master.form.view</field>
+        <field name="model">grade.title.master</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="grade_title_line"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- view for Mode and Class -->
+    <record id="mode_class_master_tree_view" model="ir.ui.view">
+        <field name="name">mode.class.master.tree.view</field>
+        <field name="model">mode.class.master</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="mode_class_line"/>
+            </tree>
+        </field>
+    </record>
+    <record id="mode_class_master_form_view" model="ir.ui.view">
+        <field name="name">mode.class.master.form.view</field>
+        <field name="model">mode.class.master</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="mode_class_line"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- action for designation -->
+    <!--    <record id="action_designation_master" model="ir.actions.act_window">-->
+    <!--        <field name="name">Designation</field>-->
+    <!--        <field name="type">ir.actions.act_window</field>-->
+    <!--        <field name="res_model">designation.master</field>-->
+    <!--        <field name="view_mode">tree,form</field>-->
+    <!--        <field name="help" type="html">-->
+    <!--            <p class="o_view_nocontent_smiling_face">-->
+    <!--                Create new Designation!-->
+    <!--            </p>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <!-- action for grade -->
+    <record id="action_grade_master" model="ir.actions.act_window">
+        <field name="name">Grade</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">grade.master</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create new Grade!
+            </p>
+        </field>
+    </record>
+
+    <!-- action for cadre -->
+    <record id="action_cadre_master" model="ir.actions.act_window">
+        <field name="name">Cadre</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cadre.master</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create new Cadre!
+            </p>
+        </field>
+    </record>
+
+    <!-- action for grade title -->
+    <record id="action_grade_title_master" model="ir.actions.act_window">
+        <field name="name">Grade Title</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">grade.title.master</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create new Grade Title!
+            </p>
+        </field>
+    </record>
+
+    <!-- action for mode and class -->
+    <record id="action_mode_class_master" model="ir.actions.act_window">
+        <field name="name">Mode and Class</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mode.class.master</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create new Mode and Class!
+            </p>
+        </field>
+    </record>
+
+    <!-- menu item for designation -->
+    <!--    <menuitem id="designation_menu"-->
+    <!--              name="Designation"-->
+    <!--              parent="hr.menu_human_resources_configuration"-->
+    <!--              action="action_designation_master"/>-->
+
+    <!-- menu item for Grade -->
+    <menuitem id="grade_menu"
+              name="Grade"
+              parent="hr.menu_human_resources_configuration"
+              action="action_grade_master"/>
+
+    <!-- menu item for Cadre -->
+    <menuitem id="cadre_menu"
+              name="Cadre"
+              parent="hr.menu_human_resources_configuration"
+              action="action_cadre_master"/>
+
+    <!-- menu item for grade title -->
+    <menuitem id="grade_title_menu"
+              name="Grade Title"
+              parent="hr.menu_human_resources_configuration"
+              action="action_grade_title_master"/>
+
+    <!-- menu item for mode and class -->
+    <menuitem id="mode_class_menu"
+              name="Mode and Class"
+              parent="hr.menu_human_resources_configuration"
+              action="action_mode_class_master"/>
+</odoo>

@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="employee_tax_declaration_tree_view" model="ir.ui.view">
+        <field name="name">employee.tax.declaration.tree.view</field>
+        <field name="model">employee.tax.declaration</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="c_year"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="employee_tax_declaration_form_view" model="ir.ui.view">
+        <field name="name">employee.tax.declaration.form.view</field>
+        <field name="model">employee.tax.declaration</field>
+        <field name="arch" type="xml">
+            <form>
+                <style>
+                    .custombox{
+                    width:1100px;
+                    background: rgba(255, 255, 255, 1);
+                    padding: 20px;
+                    margin: 5px;
+                    border-style:solid;
+                    border-radius: 10px;
+                    box-shadow: inset -2px 2px 2px white;
+                    }
+
+                    .help-tip{
+                    position: absolute;
+                    text-align: center;
+                    background-color: #BCDBEA;
+                    border-radius: 50%;
+                    width: 24px;
+                    height: 24px;
+                    font-size: 14px;
+                    line-height: 26px;
+                    cursor: default;
+                    }
+
+                    .help-tip:before{
+                    content:'?';
+                    font-weight: bold;
+                    color:#fff;
+                    }
+
+                    .help-tip:hover p{
+                    display:block;
+                    transform-origin: 100% 0%;
+
+                    -webkit-animation: fadeIn 0.3s ease-in-out;
+                    animation: fadeIn 0.3s ease-in-out;
+
+                    }
+
+                    .help-tip p{
+                    display: none;
+                    text-align: left;
+                    background-color: #1E2021;
+                    padding: 5px;
+                    position: absolute;
+                    border-radius: 1px;
+                    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+                    color: #FFF;
+                    font-size: 13px;
+                    line-height: 1.4;
+                    }
+
+                    .help-tip p:before{
+                    position: absolute;
+                    border:3px solid transparent;
+                    border-bottom-color:#1E2021;
+                    }
+
+                    .help-tip p:after{
+                    height:40px;
+                    content:'';
+                    position: absolute;
+                    }
+
+                    @-webkit-keyframes fadeIn {
+                    0% {
+                    opacity:0;
+                    transform: scale(0.6);
+                    }
+
+                    100% {
+                    opacity:100%;
+                    transform: scale(1);
+                    }
+                    }
+
+                    @keyframes fadeIn {
+                    0% { opacity:0; }
+                    100% { opacity:100%; }
+                    }
+                </style>
+                <header>
+                    <button name="tax_declaration_submit" string="Submit" type="object" class="btn-primary"
+                            state="submitted" attrs="{'invisible':[('state','!=','draft')]}"/>
+                    <button name="tax_declaration_approve" string="Approve" type="object" class="btn-primary"
+                            groups="hr.group_hr_manager" state="approved"
+                            attrs="{'invisible':[('state','!=','submitted')]}"/>
+                    <button name="tax_declaration_reset" string="Reset to Draft" type="object" class="btn-primary"
+                            groups="hr.group_hr_manager" state="draft"
+                            attrs="{'invisible':[('state','!=','submitted'),('state','!=','approved')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+                </header>
+
+                <sheet>
+                    <group class="custombox">
+                        <group>
+                            <field name="name" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="c_year" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                    </group>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80C : Deduction towards payments made to&#160;&#160;
+                    </span>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80c80ccc80ccd(1).png"/>
+                        </p>
+                    </span>
+                    <group class="custombox">
+                        <table>
+                            <tr>
+                                <td>Life Insurance Premium</td>
+                                <td>
+                                    <field name="clife_amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                </td>
+                                <td>
+                                    <field name="clife_document" filename="cfilename"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                    <field name="cfilename" invisible="1"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Provident Fund</td>
+                                <td>
+                                    <field name="cprovident_amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                </td>
+                                <td>
+                                    <field name="cprovident_document" filename="cpfilename"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                    <field name="cpfilename" invisible="1"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Subscription to certain equity shares</td>
+                                <td>
+                                    <field name="csubscript_amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                </td>
+                                <td>
+                                    <field name="csubscript_document" filename="csfilename"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                    <field name="csfilename" invisible="1"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tuition Fees</td>
+                                <td>
+                                    <field name="ctution_amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                </td>
+                                <td>
+                                    <field name="ctution_document" filename="ctfilename"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                    <field name="ctfilename" invisible="1"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>National Savings Certificate</td>
+                                <td>
+                                    <field name="cnational_amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                </td>
+                                <td>
+                                    <field name="cnational_document" filename="cnfilename"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                    <field name="cnfilename" invisible="1"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Housing Loan Principal</td>
+                                <td>
+                                    <field name="chouse_amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                </td>
+                                <td>
+                                    <field name="chouse_document" filename="chfilename"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                    <field name="chfilename" invisible="1"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Other various items</td>
+                                <td>
+                                    <field name="cother_amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                </td>
+                                <td>
+                                    <field name="cother_document" filename="cofilename"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                    <field name="cofilename" invisible="1"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80CCC : Annuity plan of LIC or other insurer towards Pension Scheme&#160;&#160;
+                    </span>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80c80ccc80ccd(1).png"/>
+                        </p>
+                    </span>
+                    <group class="custombox">
+                        <field name="eightccc_amount"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eightccc_document" filename="cccfilename"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="cccfilename" invisible="1"/>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80CCD(1) : Pension Scheme of Central Government&#160;&#160;
+                    </span>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80c80ccc80ccd(1).png"/>
+                        </p>
+                    </span>
+                    <group class="custombox">
+                        <field name="eightccdone_amount"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eightccdone_document" filename="ccdfilename"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="ccdfilename" invisible="1"/>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80CCD(1B) : Deduction towards payments made to Pension Scheme of Central Government,
+                        excluding deduction claimed under 80CCD (1)&#160;&#160;
+                    </span>
+                    <br/>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80ccd(1b).png"/>
+                        </p>
+                    </span>
+                    <br/>
+                    <group class="custombox">
+                        <field name="eightccdoneb_amount"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eightccdoneb_document" filename="ccdbfilename"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="ccdbfilename" invisible="1"/>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80CCD(2) : Deduction towards contribution made by an employer to the Pension Scheme of
+                        Central
+                        Government
+                    </span>
+                    <group class="custombox">
+                        <table>
+                            <tr>
+                                <td width="55%">If Employer is a PSU, State Government or Others&#160;&#160;
+                                    <span class="help-tip">
+                                        <p>
+                                            <img src="tax_declare_module/static/description/80ccd(2)state.png"/>
+                                        </p>
+                                    </span>
+                                </td>
+                                <td>
+                                    <field name="ccdtwostate_amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                </td>
+                                <td>
+                                    <field name="ccdtwostate_document" filename="ccdtfilename"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                    <field name="ccdtfilename" invisible="1"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>If Employer is Central Government&#160;&#160;
+                                    <span class="help-tip">
+                                        <p>
+                                            <img src="tax_declare_module/static/description/80ccd(2)central.png"/>
+                                        </p>
+                                    </span>
+                                </td>
+                                <td>
+                                    <field name="ccdtwocentral_amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                </td>
+                                <td>
+                                    <field name="ccdtwocentral_document" filename="ccdtcfilename"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                    <field name="ccdtcfilename" invisible="1"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </group>
+                    <br/>
+
+                    <separator string="80D" style="color:#7d435d; font-size:15px; "/>
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        section 1 : Deduction towards payments made to Health Insurance Premium &amp; Preventive
+                        Health
+                        check up
+                    </span>
+                    <group class="custombox">
+                        <table>
+                            <tr>
+                                <td width="55%">For Self / Spouse or Dependent Children&#160;&#160;
+                                    <span class="help-tip">
+                                        <p>
+                                            <img src="tax_declare_module/static/description/80dOneself.png"/>
+                                        </p>
+                                    </span>
+                                </td>
+                                <td>
+                                    <field name="seconedepend_amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                </td>
+                                <td>
+                                    <field name="seconedepend_document" filename="sdfilename"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                    <field name="sdfilename" invisible="1"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>For Parents&#160;&#160;
+                                    <span class="help-tip">
+                                        <p>
+                                            <img src="tax_declare_module/static/description/80dOneparent.png"/>
+                                        </p>
+                                    </span>
+                                </td>
+                                <td>
+                                    <field name="seconeparent_amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                </td>
+                                <td>
+                                    <field name="seconeparent_document" filename="spfilename"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                    <field name="spfilename" invisible="1"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        section 2 : Deduction towards Medical Expenditure incurred on a Senior Citizen, if no
+                        premium is
+                        paid on
+                        health insurance coverage
+                    </span>
+                    <group class="custombox">
+                        <table>
+                            <tr>
+                                <td width="55%">For Self / Spouse or Dependent Children&#160;&#160;
+                                    <span class="help-tip">
+                                        <p>
+                                            <img src="tax_declare_module/static/description/80dTwoself.png"/>
+                                        </p>
+                                    </span>
+                                </td>
+                                <td>
+                                    <field name="sectwodepend_amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                </td>
+                                <td>
+                                    <field name="sectwodepend_document" filename="scfilename"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                    <field name="scfilename" invisible="1"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>For Parents&#160;&#160;
+                                    <span class="help-tip">
+                                        <p>
+                                            <img src="tax_declare_module/static/description/80dTwoparent.png"/>
+                                        </p>
+                                    </span>
+                                </td>
+                                <td>
+                                    <field name="sectwoparent_amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                </td>
+                                <td>
+                                    <field name="sectwoparent_document" filename="scpfilename"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                    <field name="scpfilename" invisible="1"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80DD : Deduction towards payments made towards Maintenance or Medical treatment of a
+                        Disabled
+                        Dependent or Paid / Deposited any amount under relevant approved scheme&#160;&#160;
+                    </span>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80dd.png"/>
+                        </p>
+                    </span>
+                    <group class="custombox">
+                        <field name="eightdd_amount"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eightdd_document" filename="ddfilename"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="ddfilename" invisible="1"/>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80DDB : Deduction towards payments made towards Medical treatment of Self or Dependant for
+                        specified diseases&#160;&#160;
+                    </span>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80ddb.png"/>
+                        </p>
+                    </span>
+                    <group class="custombox">
+                        <field name="eightddb_amount"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eightddb_document" filename="ddbfilename"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="ddbfilename" invisible="1"/>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80E : Deduction towards interest payments made on loan for higher education of Self or
+                        relative&#160;&#160;
+                    </span>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80e.png"/>
+                        </p>
+                    </span>
+                    <group class="custombox">
+                        <field name="eighte_amount"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eighte_document" filename="efilename"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="efilename" invisible="1"/>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80EE : Deduction towards interest payments made on loan taken for acquisition of residential
+                        house property where the loan is sanctioned between 1st April 2016 to 31st March 2017&#160;&#160;
+                    </span>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80ee.png"/>
+                        </p>
+                    </span>
+                    <group class="custombox">
+                        <field name="eightee_amount"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eightee_document" filename="eefilename"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eefilename" invisible="1"/>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80EEA : Deduction available only to individuals towards interest payments made on loan taken
+                        for
+                        acquisition of residential house property for the first time where the loan is sanctioned
+                        between 1st April 2019 to 31st March 2022 &#38; deduction should not have been claimed u/s
+                        80EE&#160;&#160;
+                    </span>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80eea.png"/>
+                        </p>
+                    </span>
+                    <group class="custombox">
+                        <field name="eighteea_amount"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eighteea_document" filename="eeafilename"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eeafilename" invisible="1"/>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80EEB : Deduction towards interest payments made on loan for purchase of Electric Vehicle
+                        where
+                        the loan is sanctioned between 1st April 2019 to 31st March 2023&#160;&#160;
+                    </span>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80eeb.png"/>
+                        </p>
+                    </span>
+                    <group class="custombox">
+                        <field name="eighteeb_amount"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eighteeb_document" filename="eebfilename"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eebfilename" invisible="1"/>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80G : Deduction towards Donations made to prescribed Funds, Charitable Institutions, etc.
+                        Donation are eligible for deduction under the below categories&#160;&#160;
+                        <br/>
+                        <span class="help-tip">
+                            <p>
+                                <img src="tax_declare_module/static/description/80gqualify.png"/>
+                            </p>
+                        </span>
+                    </span>
+                    <br/>
+                    <group class="custombox">
+                        <table>
+                            <tr>
+                                <td>Without any limit</td>
+                                <td>
+                                    <field name="ggwithout_amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                </td>
+                                <td>
+                                    <field name="ggwithout_document" filename="ggwfilename"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                    <field name="ggwfilename" invisible="1"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Subject to qualifying limit</td>
+                                <td>
+                                    <field name="ggsubject_amount"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                </td>
+                                <td>
+                                    <field name="ggsubject_document" filename="ggsfilename"
+                                           attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                                    <field name="ggsfilename" invisible="1"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80GG : Deduction towards rent paid for house &#38; applicable to only those who are
+                        self-employed or for whom HRA is not part of Salary&#160;&#160;
+                    </span>
+                    <br/>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80gg.png"/>
+                        </p>
+                    </span>
+                    <br/>
+                    <group class="custombox">
+                        <field name="eightgg_amount"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eightgg_document" filename="ggfilename"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="ggfilename" invisible="1"/>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80GGA : Deduction towards Donations made for Scientific Research or Rural Development&#160;&#160;
+                    </span>
+                    <br/>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80gga.png"/>
+                        </p>
+                    </span>
+                    <br/>
+                    <group class="custombox">
+                        <field name="eightgga_amount"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eightgga_document" filename="ggafilename"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="ggafilename" invisible="1"/>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80GGC : Deduction towards Donations made to Political Party or Electoral Trust&#160;&#160;
+                    </span>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80ggc.png"/>
+                        </p>
+                    </span>
+                    <group class="custombox">
+                        <field name="eightggc_amount"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eightggc_document" filename="ggcfilename"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="ggcfilename" invisible="1"/>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80TTA : Deduction on interest received on saving bank accounts by Non-Senior Citizens&#160;&#160;
+                    </span>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80tta.png"/>
+                        </p>
+                    </span>
+                    <group class="custombox">
+                        <field name="eighttta_amount"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eighttta_document" filename="ttafilename"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="ttafilename" invisible="1"/>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80TTB : Deduction on interest received on deposits by Resident Senior Citizens&#160;&#160;
+                    </span>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80ttb.png"/>
+                        </p>
+                    </span>
+                    <group class="custombox">
+                        <field name="eightttb_amount"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eightttb_document" filename="ttbfilename"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="ttbfilename" invisible="1"/>
+                    </group>
+                    <br/>
+
+                    <span style="color:#7d435d; font-size:15px; font-weight:bold;">
+                        80U : Deductions for a resident individual taxpayer with Disability&#160;&#160;
+                    </span>
+                    <span class="help-tip">
+                        <p>
+                            <img src="tax_declare_module/static/description/80u.png"/>
+                        </p>
+                    </span>
+                    <group class="custombox">
+                        <field name="eightu_amount"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="eightu_document" filename="ufilename"
+                               attrs="{'readonly': [('state', '!=', 'draft'),('state','!=','submitted')]}"/>
+                        <field name="ufilename" invisible="1"/>
+                    </group>
+                    <br/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_empmenu" model="ir.actions.act_window">
+        <field name="name">Tax Declaration</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">employee.tax.declaration</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first emp!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="new_empmenu"
+              name="Tax Declaration"
+              parent="hr.menu_hr_employee_payroll"
+              action="action_empmenu"/>
+</odoo>

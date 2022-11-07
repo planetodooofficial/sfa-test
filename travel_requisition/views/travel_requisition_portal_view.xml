@@ -1,0 +1,966 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- all expense list template -->
+    <template id="expenses">
+        <t t-call="website.layout">
+            <title>Travel Requisition</title>
+            <div class="oe_structure"/>
+            <div class="oe_structure">
+                <div class="container">
+                    <t t-foreach="expenses" t-as="expense">
+                        <p>
+                            <a t-attf-href="/my/TravelRequisition/{{ slug(expense) }}">
+                                <t t-esc="expense.name"/>
+                            </a>
+                        </p>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- selected expense details template 1 -->
+    <!--    <template id="expense_detail">-->
+    <!--        <t t-call="website.layout">-->
+    <!--            <title>Expenses</title>-->
+    <!--            <div class="oe_structure"/>-->
+    <!--            <div class="oe_structure">-->
+    <!--                <div class="container">-->
+    <!--                    <h3>-->
+    <!--                        <t t-esc="expense.name"/>-->
+    <!--                    </h3>-->
+    <!--                    <li>-->
+    <!--                        <t t-esc="expense.employee_id.name"/>-->
+    <!--                    </li>-->
+    <!--                    <li>-->
+    <!--                        <t t-esc="expense.payment_mode"/>-->
+    <!--                    </li>-->
+    <!--                    <li>-->
+    <!--                        <t t-esc="expense.date"/>-->
+    <!--                    </li>-->
+    <!--                    <li>-->
+    <!--                        <t t-esc="expense.state"/>-->
+    <!--                    </li>-->
+    <!--                    <li>-->
+    <!--                        <t t-esc="expense.total_amount"/>-->
+    <!--                    </li>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </t>-->
+    <!--    </template>-->
+
+    <!-- selected expense details template 2 -->
+    <template id="expense_detail" name="Travel Requisition">
+        <t t-call="portal.portal_layout">
+            <t t-set="o_portal_fullwidth_alert" groups="project.group_project_user">
+                <t t-call="portal.portal_back_in_edit_mode">
+                    <t t-set="backend_url"
+                       t-value="'/web#model=hr.expense&amp;id=%s&amp;view_type=form' % (expense.id)"/>
+                </t>
+            </t>
+
+            <t t-call="portal.portal_record_layout">
+                <t t-set="card_header">
+                    <h5 class="mb-0">
+                        <small class="text-muted">Travel Requisition -</small>
+                        <span t-field="expense.name"/>
+                        <span class="float-right"></span>
+                    </h5>
+                </t>
+                <t t-set="card_body">
+                    <div class="container">
+                        <div class="row justify-content-md-center">
+                            <div class="col-lg-3">
+                                <b>Expense Name</b>
+                                <br/>
+                                <b>Product</b>
+                                <br/>
+                                <b>Total Amount</b>
+                                <br/>
+                                <b>Taxes</b>
+                                <br/>
+                            </div>
+                            <div class="col-lg-3">
+                                <t t-esc="expense.name"/>
+                                <br/>
+                                <t t-esc="expense.product_id.name"/>
+                                <br/>
+                                <t t-esc="expense.total_amount"/>
+                                <br/>
+                                <t t-esc="expense.tax_ids.name"/>
+                                <br/>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <b>Bill Reference</b>
+                                <br/>
+                                <b>Expense Date</b>
+                                <br/>
+                                <b>Account</b>
+                                <br/>
+                                <b>Analytic Account</b>
+                                <br/>
+                                <b>Analytic Tags</b>
+                                <br/>
+                                <b>Employee</b>
+                                <br/>
+                                <b>Paid By</b>
+                                <br/>
+                            </div>
+                            <div class="col-lg-3">
+                                <t t-esc="expense.reference"/>
+                                <br/>
+                                <t t-esc="expense.date"/>
+                                <br/>
+                                <t t-esc="expense.account_id.name"/>
+                                <br/>
+                                <t t-esc="expense.analytic_account_id.name"/>
+                                <br/>
+                                <t t-esc="expense.analytic_tag_ids.name"/>
+                                <br/>
+                                <t t-esc="expense.employee_id.name"/>
+                                <br/>
+                                <t t-if="expense.payment_mode == 'company_account'">
+                                    <spam>Company</spam>
+                                </t>
+                                <t t-else="expense.payment_mode == 'own_account'">
+                                    <spam>Employee (to reimburse)</spam>
+                                </t>
+                                <br/>
+                            </div>
+                        </div>
+                        <h4>Travel Requisitions Info.</h4>
+                        <hr/>
+                    </div>
+                    <div class="container">
+                        <div class="row justify-content-md-center">
+                            <div class="col">
+                                <table>
+                                    <tr>
+                                        <td style="width:330px;">
+                                            <b>Employee Code</b>
+                                        </td>
+                                        <td style="width:450px;">
+                                            <t t-esc="expense.emp_code"/>
+                                        </td>
+                                        <td style="width:330px;">
+                                            <b>Company</b>
+                                        </td>
+                                        <td style="width:450px;">
+                                            <t t-esc="expense.company_id.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Mobile No.</b>
+                                        </td>
+                                        <td>
+                                            <t t-esc="expense.mobile"/>
+                                        </td>
+                                        <td>
+                                            <b>Department</b>
+                                        </td>
+                                        <td>
+                                            <t t-esc="expense.department"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Grade</b>
+                                        </td>
+                                        <td>
+                                            <t t-esc="expense.t_grade.grade_new"/>
+                                        </td>
+                                        <td>
+                                            <b>Designation</b>
+                                        </td>
+                                        <td>
+                                            <t t-esc="expense.designation"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Cadre</b>
+                                        </td>
+                                        <td>
+                                            <t t-esc="expense.t_cadre.cadre_new"/>
+                                        </td>
+                                        <td>
+                                            <b>Purpose of Visit</b>
+                                        </td>
+                                        <td>
+                                            <t t-esc="expense.purpose_of_visit"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Grade Title</b>
+                                        </td>
+                                        <td>
+                                            <t t-esc="expense.t_grade_title.grade_title_line"/>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="container">
+                                <div class="col">
+                                    <table style="width:100%" border="1">
+                                        <br/>
+                                        <h5>Travel Details</h5>
+                                        <hr/>
+                                        <tr>
+                                            <td>
+                                                <b>Date</b>
+                                            </td>
+                                            <td>
+                                                <b>From</b>
+                                            </td>
+                                            <td>
+                                                <b>Departs Time</b>
+                                            </td>
+                                            <td>
+                                                <b>To</b>
+                                            </td>
+                                            <td>
+                                                <b>Arrives Time</b>
+                                            </td>
+                                            <td>
+                                                <b>Mode &amp; Class</b>
+                                            </td>
+                                        </tr>
+
+                                        <!-- using foreach loop show the one to many data -->
+                                        <t t-foreach="expense.travel_detail_line_ids" t-as="travelline">
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="travelline.date"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="travelline.from_dates"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="travelline.departs_time"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="travelline.to_dates"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="travelline.arrives_time"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="travelline.mode_and_class.mode_class_line"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                </div>
+                                <br/>
+                            </div>
+
+                            <div class="col">
+                                <br/>
+                                <table>
+                                    <h5>In Case of Train Booking</h5>
+                                    <hr/>
+                                    <tr>
+                                        <td style="width:70%;">
+                                            <b>Pan Card Number</b>
+                                        </td>
+                                        <td>
+                                            <t t-esc="expense.pan_no_new"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Driving License Number</b>
+                                        </td>
+                                        <td>
+                                            <t t-esc="expense.dl_number"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Age</b>
+                                        </td>
+                                        <td>
+                                            <t t-esc="expense.age"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="col">
+                                <br/>
+                                <table>
+                                    <h5>In Case of International Travel</h5>
+                                    <hr/>
+                                    <tr>
+                                        <td style="width:70%;">
+                                            <b>Name on Passport</b>
+                                        </td>
+                                        <td>
+                                            <t t-esc="expense.pass_name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Passport No.</b>
+                                        </td>
+                                        <td>
+                                            <t t-esc="expense.pass_no"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Date &amp; Place of Issue</b>
+                                        </td>
+                                        <td>
+                                            <div class="o_row">
+                                                <t t-esc="expense.pass_issue_date"/>
+                                                <t t-esc="expense.pass_issue_loc"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+
+                            <div class="container">
+                                <div class="col">
+                                    <table style="width:100%" border="1">
+                                        <br/>
+                                        <h5>Stay Details</h5>
+                                        <hr/>
+                                        <tr>
+                                            <td>
+                                                <b>Name</b>
+                                            </td>
+                                            <td>
+                                                <b>Hotel / Guest House</b>
+                                            </td>
+                                            <td>
+                                                <b>Location</b>
+                                            </td>
+                                            <td>
+                                                <b>Check In Date</b>
+                                            </td>
+                                            <td>
+                                                <b>Check out Date</b>
+                                            </td>
+                                        </tr>
+
+                                        <!-- using foreach loop show the one to many data -->
+                                        <t t-foreach="expense.stay_detail_line_ids" t-as="stayline">
+                                            <tr>
+                                                <td>
+                                                    <t t-esc="stayline.name_line.name"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="stayline.hotel_guest_line"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="stayline.location_line"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="stayline.check_in_date"/>
+                                                </td>
+                                                <td>
+                                                    <t t-esc="stayline.check_out_date"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                </div>
+                                <br/>
+                            </div>
+
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- adding expenses block in My Account menu of website -->
+    <template id="portal_all_expenses" name="Portal My Home : Expenses" customize_show="True"
+              inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Travel Requisition</t>
+                <t t-set="url" t-value="'/my/TravelRequisition/'"/>
+                <t t-set="placeholder_count" t-value="'count_expenses'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_menu_expenses" name="Portal layout : expenses menu entries"
+              inherit_id="portal.portal_breadcrumbs" priority="20">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'expense'" t-attf-class="breadcrumb-item #{'active ' if not expense else ''}">
+                <a t-if="expense" t-attf-href="/my/TravelRequisition/?{{ keep_query() }}">Travel Requisition</a>
+                <t t-else="">Travel Requisition</t>
+            </li>
+            <li t-if="expense" class="breadcrumb-item active">
+                <t t-esc="expense.name"/>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_all_expenses_list" name="All Expenses">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Travel Requisition</t>
+            </t>
+
+            <!-- create button for travel requisition-->
+            <form action="/create/TravelRequisition">
+                <button class="btn btn-primary" role="submit">create</button>
+            </form>
+
+            <t t-if="not expenses">
+                <p>There are currently no Reimbursement for your account.</p>
+            </t>
+            <t t-if="expenses" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Travel Requisition #</th>
+                        <th class="text-right">Employee Name</th>
+                        <th class="text-right">Paid By</th>
+                        <th class="text-right">Date</th>
+                        <th class="text-center">State</th>
+                        <th class="text-right">Total</th>
+                    </tr>
+                </thead>
+                <t t-foreach="expenses" t-as="expense">
+                    <tr>
+                        <td>
+                            <a t-attf-href="/my/TravelRequisition/{{ slug(expense) }}">
+                                <t t-esc="expense.name"/>
+                            </a>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="expense.employee_id.name"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="expense.payment_mode"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="expense.date"/>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-pill badge-secondary">
+                                <span t-field="expense.state"/>
+                            </span>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="expense.total_amount"/>
+                        </td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- My Reimbursement form to create record in odoo portal -->
+    <template id="create_travel_requisition" name="Travel Requisition">
+        <xpath expr="//head" position="inside">
+            <script type="text/javascript" src="/travel_requisition/static/src/js/portal.js" charset="UTF-8" async="1"/>
+        </xpath>
+        <div class="oe_structure">
+            <form role="form" action="/create/TravelRequisition" method="POST"
+                  enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                <t t-call="portal.portal_layout">
+                    <t t-call="portal.portal_record_layout">
+                        <t t-set="card_header">
+                            <center>
+                                <h2>
+                                    <small class="text-muted">Travel Requisition Form</small>
+                                </h2>
+                            </center>
+                        </t>
+
+                        <t t-set="card_body">
+                            <div class="container">
+                                <div class="row justify-content-md-center">
+                                    <table>
+                                        <tr>
+                                            <td style="width:150px">
+                                                <b>Expense Name</b>
+                                            </td>
+                                            <td style="width:300px">
+                                                <input type="text" id="t_expname" name="t_expname" style="width:210px;"
+                                                       required="1"/>
+                                            </td>
+                                            <td style="width:150px">
+                                                <b>Bill Reference</b>
+                                            </td>
+                                            <td style="width:300px">
+                                                <input type="text" id="t_ref" name="t_ref" style="width:210px;"
+                                                       required="1"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <b>Product</b>
+                                            </td>
+                                            <td>
+                                                <!-- getting products from Many 2 one field-->
+                                                <select id="t_product" name="t_product" style="width:210px;"
+                                                        required="1">
+                                                    <option></option>
+                                                    <t t-foreach="t_product" t-as="tprod">
+                                                        <option t-att-value="tprod.id">
+                                                            <t t-esc="tprod.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <b>Expense Date</b>
+                                            </td>
+                                            <td>
+                                                <!-- <t t-set="curdate" t-value="date.today().strftime('%d/%m/%Y')"/>-->
+                                                <input type="date" id="cdate" name="cdate" t-att-value="cdate"
+                                                       style="width:210px;"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <b>Total Amount</b>
+                                            </td>
+                                            <td>
+                                                <input type="text" id="t_total_amount" name="t_total_amount"
+                                                       style="width:210px;"/>
+                                                <span>
+                                                    <!-- getting currency from Many 2 one field-->
+                                                    <select id="t_currency_name" name="t_currency_name">
+                                                        <t t-foreach="t_currency_name" t-as="t_currency_name">
+                                                            <option t-att-value="t_currency_name.id">
+                                                                <t t-esc="t_currency_name.name"/>
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <b>Account</b>
+                                            </td>
+                                            <td>
+                                                <!-- getting account from Many 2 one field-->
+                                                <select id="t_account_id" name="t_account_id" style="width:210px;">
+                                                    <!-- show only default account select into many 2 one-->
+                                                    <option t-att-value="t_account_id_def.id">
+                                                        <t t-esc="t_account_id_def.name"/>
+                                                    </option>
+                                                    <!-- show all account list -->
+                                                    <t t-foreach="t_account_id" t-as="taccid">
+                                                        <option t-att-value="taccid.id">
+                                                            <t t-esc="taccid.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <b>Taxes</b>
+                                            </td>
+                                            <td>
+                                                <!-- getting taxes from Many 2 many field-->
+                                                <select id="t_tax_name" name="t_tax_name" style="width:210px;">
+                                                    <option></option>
+                                                    <t t-foreach="t_tax_name" t-as="ttaxn">
+                                                        <option t-att-value="ttaxn.id">
+                                                            <t t-esc="ttaxn.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <b>Analytic Account</b>
+                                            </td>
+                                            <td>
+                                                <!-- getting Analytic Account from Many 2 one field-->
+                                                <select id="t_analytic_account" name="t_analytic_account"
+                                                        style="width:210px;">
+                                                    <option></option>
+                                                    <t t-foreach="t_analytic_account" t-as="tacc">
+                                                        <option t-att-value="tacc.id">
+                                                            <t t-esc="tacc.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <b>Analytic Tags</b>
+                                            </td>
+                                            <td>
+                                                <!-- getting Analytic Account from Many 2 Many field-->
+                                                <select id="t_analytic_account_tag" name="t_analytic_account_tag"
+                                                        style="width:210px;">
+                                                    <option></option>
+                                                    <t t-foreach="t_analytic_account_tag" t-as="ttag">
+                                                        <option t-att-value="ttag.id">
+                                                            <t t-esc="ttag.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <b>Employee</b>
+                                            </td>
+                                            <td>
+                                                <input type="text" id="t_name" name="t_name" t-att-value="user.name"
+                                                       readonly="1" style="width:210px;"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <b>Paid By</b>
+                                            </td>
+                                            <td>
+                                                <!-- getting Paid By from radio button field-->
+                                                <select name="payment_mode" readonly="1" disabled="1">
+                                                    <option value="own_account">Employee (to reimburse)</option>
+                                                    <option value="company_account" selected="1">Company</option>
+                                                </select>
+                                                <!--                                                <t t-if="t_paid_id.payment_mode == 'company_account'">-->
+                                                <!--                                                    <input type="text" id="t_paid_id" name="t_paid_id" value="Company"-->
+                                                <!--                                                           readonly="1" style="width:210px;"/>-->
+                                                <!--                                                </t>-->
+                                                <!--                                                <t t-else="t_paid_id.payment_mode == 'own_account'">-->
+                                                <!--                                                    <input type="text" id="t_paid_id" name="t_paid_id"-->
+                                                <!--                                                           value="Employee (to reimburse)" readonly="1"-->
+                                                <!--                                                           style="width:210px;"/>-->
+                                                <!--                                                </t>-->
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <div class="col">
+                                        <h4>Travel Requisitions Info.</h4>
+                                        <hr/>
+                                        <div class="justify-content-md-center">
+                                            <table>
+                                                <tr>
+                                                    <td style="width:330px;">
+                                                        <b>Employee Code</b>
+                                                    </td>
+                                                    <td style="width:450px;">
+                                                        <input type="text" id="t_empcode" name="t_empcode"
+                                                               style="width:210px;"/>
+                                                    </td>
+                                                    <td style="width:330px;">
+                                                        <b>Company</b>
+                                                    </td>
+                                                    <td style="width:450px;">
+                                                        <input type="text" id="t_comp" name="t_comp"
+                                                               style="width:210px;"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <b>Mobile No.</b>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="t_mob" name="t_mob"
+                                                               style="width:210px;"/>
+                                                    </td>
+                                                    <td>
+                                                        <b>Department</b>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="t_department" name="t_department"
+                                                               style="width:210px;"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <b>Grade</b>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="t_gr" name="t_gr"
+                                                               style="width:210px;"/>
+                                                    </td>
+                                                    <td>
+                                                        <b>Designation</b>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="t_desig" name="t_desig"
+                                                               style="width:210px;"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <b>Cadre</b>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="t_cad" name="t_cad"
+                                                               style="width:210px;"/>
+                                                    </td>
+                                                    <td>
+                                                        <b>Purpose of Visit</b>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="t_purpose" name="t_purpose"
+                                                               style="width:210px;" required="1"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <b>Grade Title</b>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="t_grat" name="t_grat"
+                                                               style="width:210px;"/>
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <br/>
+
+                                    <form role="form" action="/create/TravelDetails" method="POST"
+                                          enctype="multipart/form-data">
+                                        <div class="col">
+                                            <table style="width:100%" border="1">
+                                                <br/>
+                                                <h5>Travel Details</h5>
+                                                <hr/>
+                                                <tr>
+                                                    <td>
+                                                        <b>Date</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>From</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>Departs Time</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>To</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>Arrives Time</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>Mode &amp; Class</b>
+                                                    </td>
+                                                </tr>
+
+                                                <!-- using foreach loop show the one to many data -->
+                                                <tr>
+                                                    <td>
+                                                        <input type="date" id="t_date" name="t_date"
+                                                               style="width:170px;"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="date" id="t_from" name="t_from"
+                                                               style="width:170px;"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="time" id="t_depart_time" name="t_depart_time"
+                                                               style="width:170px;"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="date" id="t_to" name="t_to" style="width:170px;"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="time" id="t_arrive_time" name="t_arrive_time"
+                                                               style="width:170px;"/>
+                                                    </td>
+                                                    <td>
+                                                        <select id="t_mode_class" name="t_mode_class"
+                                                                style="width:210px;"
+                                                                required="1">
+                                                            <option></option>
+<!--                                                            <t t-foreach="t_mode_class" t-as="tmodclas">-->
+<!--                                                                <option t-att-value="tmodclas.id">-->
+<!--                                                                    <t t-esc="tmodclas.name"/>-->
+<!--                                                                </option>-->
+<!--                                                            </t>-->
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <button id="submit" type="submit"
+                                                    class="btn btn-secondary">
+                                                Add
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                    <div class="col">
+                                        <br/>
+                                        <table>
+                                            <h5>In Case of Train Booking</h5>
+                                            <hr/>
+                                            <tr>
+                                                <td style="width:70%;">
+                                                    <b>Pan Card Number</b>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="t_pan_card" name="t_pan_card"
+                                                           style="width:210px;"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <b>Driving License Number</b>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="t_driving_li" name="t_driving_li"
+                                                           style="width:210px;"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <b>Age</b>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="t_age" name="t_age"
+                                                           style="width:210px;"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="col">
+                                        <br/>
+                                        <table>
+                                            <h5>In Case of International Travel</h5>
+                                            <hr/>
+                                            <tr>
+                                                <td style="width:70%;">
+                                                    <b>Name on Passport</b>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="t_passport_name"
+                                                           name="t_passport_name"
+                                                           style="width:210px;"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <b>Passport No.</b>
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="t_pass_no" name="t_pass_no"
+                                                           style="width:210px;"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <b>Date &amp; Place of Issue</b>
+                                                </td>
+                                                <td>
+                                                    <div class="o_row">
+                                                        <input type="text" id="t_place_issue"
+                                                               name="t_place_issue"
+                                                               style="width:210px;"/>
+                                                        <input type="text" id="t_date_issue" name="t_date_issue"
+                                                               style="width:210px;"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="container">
+                                        <div class="col">
+                                            <table style="width:100%" border="1">
+                                                <br/>
+                                                <h5>Stay Details</h5>
+                                                <hr/>
+                                                <tr>
+                                                    <td>
+                                                        <b>Name</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>Hotel / Guest House</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>Location</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>Check In Date</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>Check out Date</b>
+                                                    </td>
+                                                </tr>
+
+                                                <!-- using foreach loop show the one to many data -->
+                                                <!--<t t-foreach="expense.stay_detail_line_ids" t-as="stayline">-->
+                                                <tr>
+                                                    <td>
+                                                        <input type="text" id="t_stay_name" name="t_stay_name"
+                                                               style="width:210px;"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="t_hotelguest" name="t_hotelguest"
+                                                               style="width:210px;"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" id="t_location" name="t_location"
+                                                               style="width:210px;"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="date" id="t_checkin_date"
+                                                               name="t_checkin_date"
+                                                               style="width:210px;"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="date" id="t_checkout_date"
+                                                               name="t_checkout_date"
+                                                               style="width:210px;"/>
+                                                    </td>
+                                                </tr>
+                                                <!--</t>-->
+                                            </table>
+                                            <button id="submit" type="submit"
+                                                    class="btn btn-secondary">
+                                                Add
+                                            </button>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                    <!-- submit button -->
+                                    <button id="submit" type="submit" class="btn btn-outline-secondary btn-block mt-3"
+                                            style="width:210px;">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </form>
+        </div>
+    </template>
+
+</odoo>
