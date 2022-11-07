@@ -744,75 +744,75 @@
                                     </div>
                                     <br/>
 
-                                    <form role="form" action="/create/TravelDetails" method="POST"
-                                          enctype="multipart/form-data">
-                                        <div class="col">
-                                            <table style="width:100%" border="1">
-                                                <br/>
-                                                <h5>Travel Details</h5>
-                                                <hr/>
-                                                <tr>
-                                                    <td>
-                                                        <b>Date</b>
-                                                    </td>
-                                                    <td>
-                                                        <b>From</b>
-                                                    </td>
-                                                    <td>
-                                                        <b>Departs Time</b>
-                                                    </td>
-                                                    <td>
-                                                        <b>To</b>
-                                                    </td>
-                                                    <td>
-                                                        <b>Arrives Time</b>
-                                                    </td>
-                                                    <td>
-                                                        <b>Mode &amp; Class</b>
-                                                    </td>
-                                                </tr>
+                                    <!--                                    <form role="form" action="/create/TravelDetails" method="POST"-->
+                                    <!--                                          enctype="multipart/form-data">-->
+                                    <div class="col">
+                                        <table style="width:100%" border="1">
+                                            <br/>
+                                            <h5>Travel Details</h5>
+                                            <hr/>
+                                            <tr>
+                                                <td>
+                                                    <b>Date</b>
+                                                </td>
+                                                <td>
+                                                    <b>From</b>
+                                                </td>
+                                                <td>
+                                                    <b>Departs Time</b>
+                                                </td>
+                                                <td>
+                                                    <b>To</b>
+                                                </td>
+                                                <td>
+                                                    <b>Arrives Time</b>
+                                                </td>
+                                                <td>
+                                                    <b>Mode &amp; Class</b>
+                                                </td>
+                                            </tr>
 
-                                                <!-- using foreach loop show the one to many data -->
-                                                <tr>
-                                                    <td>
-                                                        <input type="date" id="t_date" name="t_date"
-                                                               style="width:170px;"/>
-                                                    </td>
-                                                    <td>
-                                                        <input type="date" id="t_from" name="t_from"
-                                                               style="width:170px;"/>
-                                                    </td>
-                                                    <td>
-                                                        <input type="time" id="t_depart_time" name="t_depart_time"
-                                                               style="width:170px;"/>
-                                                    </td>
-                                                    <td>
-                                                        <input type="date" id="t_to" name="t_to" style="width:170px;"/>
-                                                    </td>
-                                                    <td>
-                                                        <input type="time" id="t_arrive_time" name="t_arrive_time"
-                                                               style="width:170px;"/>
-                                                    </td>
-                                                    <td>
-                                                        <select id="t_mode_class" name="t_mode_class"
-                                                                style="width:210px;"
-                                                                required="1">
-                                                            <option></option>
-<!--                                                            <t t-foreach="t_mode_class" t-as="tmodclas">-->
-<!--                                                                <option t-att-value="tmodclas.id">-->
-<!--                                                                    <t t-esc="tmodclas.name"/>-->
-<!--                                                                </option>-->
-<!--                                                            </t>-->
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                            <button id="submit" type="submit"
-                                                    class="btn btn-secondary">
-                                                Add
-                                            </button>
-                                        </div>
-                                    </form>
+                                            <!-- using foreach loop show the one to many data -->
+                                            <tr>
+                                                <td>
+                                                    <input type="date" id="t_date" name="t_date"
+                                                           style="width:170px;"/>
+                                                </td>
+                                                <td>
+                                                    <input type="date" id="t_from" name="t_from"
+                                                           style="width:170px;"/>
+                                                </td>
+                                                <td>
+                                                    <input type="time" id="t_depart_time" name="t_depart_time"
+                                                           style="width:170px;"/>
+                                                </td>
+                                                <td>
+                                                    <input type="date" id="t_to" name="t_to" style="width:170px;"/>
+                                                </td>
+                                                <td>
+                                                    <input type="time" id="t_arrive_time" name="t_arrive_time"
+                                                           style="width:170px;"/>
+                                                </td>
+                                                <td>
+                                                    <select id="t_mode_class" name="t_mode_class"
+                                                            style="width:210px;"
+                                                            required="1">
+                                                        <option></option>
+                                                        <t t-foreach="t_mode_class" t-as="tmodclas">
+                                                            <option t-att-value="tmodclas.id">
+                                                                <t t-esc="tmodclas.mode_class_line"/>
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <button id="submit" type="submit"
+                                                class="btn btn-secondary">
+                                            Add
+                                        </button>
+                                    </div>
+                                    <!--                                    </form>-->
 
                                     <div class="col">
                                         <br/>

@@ -150,12 +150,12 @@ class AllExpense(http.Controller):
 
                 'purpose_of_visit': kw.get('t_purpose'),
 
-                'travel_detail_line_ids.date': kw.get('t_date'),
-                'travel_detail_line_ids.from_dates': kw.get('t_from'),
-                'travel_detail_line_ids.departs_time': kw.get('t_depart_time'),
-                'travel_detail_line_ids.to_dates': kw.get('t_to'),
-                'travel_detail_line_ids.arrives_time': kw.get('t_arrive_time'),
-                'travel_detail_line_ids.mode_and_class': t_modeclass,
+                'date': kw.get('t_date'),
+                'from_dates': kw.get('t_from'),
+                'departs_time': kw.get('t_depart_time'),
+                'to_dates': kw.get('t_to'),
+                'arrives_time': kw.get('t_arrive_time'),
+                'mode_and_class': t_modeclass,
             }
 
             # create method override to create record from form
