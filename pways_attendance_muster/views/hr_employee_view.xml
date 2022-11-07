@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <record id="hr_employee_view__inherit" model="ir.ui.view">
+            <field name="name">hr.employee.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='mobile_phone']" position="before">
+                    <field name="join_date"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_contract_view__inherit" model="ir.ui.view">
+            <field name="name">hr.contract.form.inherit</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//field[@name='structure_type_id']" position="after">
+                    <field name="work_hours"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_work_entry_type_view_form_inherit" model="ir.ui.view">
+            <field name="name">hr.work.entry.type.form.inherit</field>
+            <field name="model">hr.work.entry.type</field>
+            <field name="inherit_id" ref="hr_work_entry.hr_work_entry_type_view_form"/>
+            <field name="arch" type="xml">
+                <field name="is_leave" position="after">
+                    <field name="is_paid"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

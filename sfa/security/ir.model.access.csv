@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+departments_center,departments.center,model_departments_center,base.group_user,1,1,1,1
+location_center,location.center,model_location_center,base.group_user,1,1,1,1
+parent_head,parent.head,model_parent_head,base.group_user,1,1,1,1
+sub_departments,sub.departments,model_sub_departments,base.group_user,1,1,1,1
+analytic_wizards,analytic.wizards,model_analytic_wizards,base.group_user,1,1,1,1
+vendor_bills,vendor.bills,model_vendor_bills,,1,1,1,1
+contra_voucher,contra.voucher,model_contra_voucher,,1,1,1,1
+receipt_register,receipt.register,model_receipt_register,,1,1,1,1

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Travel requisition tab view in my expense form -->
+    <record id="view_travel_requisition_expense_new" model="ir.ui.view">
+        <field name="name">view.travel.requisition.expense.new</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+        <field name="arch" type="xml">
+
+            <!-- travel requisition boolean field in form after payment_mode -->
+            <xpath expr="//field[@name='payment_mode']" position="after">
+                <field name="travel_requisition_opt" readonly="1" invisible="1"/>
+            </xpath>
+
+            <!-- notebook of travel requisition in form visible on payment_mode = company_account -->
+            <xpath expr="//form/sheet/div/field[@name='description']" position="before">
+                <notebook attrs="{'invisible': [('payment_mode', '!=', 'company_account')]}">
+                    <page string="Travel Requisitions">
+                        <group>
+                            <group>
+                                <field name="emp_code"/>
+                                <field name="t_grade"/>
+                                <field name="t_cadre"/>
+                                <field name="t_grade_title"/>
+                            </group>
+                            <group>
+                                <field name="mobile"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="department"/>
+                                <field name="designation"/>
+                            </group>
+                            <group>
+                                <field name="company_id"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group>
+                                <!-- field readonly and required based on condition using attrs -->
+                                <field name="purpose_of_visit"
+                                       attrs="{'readonly': [('state', '!=', 'draft')],'required':[('travel_requisition_opt','=',True)]}"/>
+                            </group>
+                            <!--<group>-->
+                            <!--<field name="approved_by"/>-->
+                            <!--</group>-->
+                        </group>
+
+                        <separator string="Travel Details" style="color:#7d435d; font-size:18px; font-weight:bold"/>
+                        <group>
+                            <field name="travel_detail_line_ids" nolabel="1"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                <tree editable="bottom">
+                                    <field name="date" width="20%"/>
+                                    <field name="from_dates" width="20%"/>
+                                    <field name="departs_time" width="20%" widget="float_time"/>
+                                    <field name="to_dates" width="20%"/>
+                                    <field name="arrives_time" width="20%" widget="float_time"/>
+                                    <field name="mode_and_class" width="20%"/>
+                                </tree>
+                            </field>
+                        </group>
+
+                        <group>
+                            <group>
+                                <separator string="In Case of Train Booking"
+                                           style="color:#7d435d; font-size:18px; font-weight:bold"/>
+                                <field name="pan_no_new"/>
+                                <field name="dl_number"/>
+                                <field name="age"/>
+                            </group>
+                            <group>
+                                <separator string="In Case of International Travel"
+                                           style="color:#7d435d; font-size:16px; font-weight:bold"/>
+                                <field name="pass_name"/>
+                                <field name="pass_no"/>
+
+                                <label for="pass_issue_date" string="Date &amp; Place of Issue"/>
+                                <div class="o_row">
+                                    <field name="pass_issue_date" nolabel="1"/>
+                                    <field name="pass_issue_loc" nolabel="1"/>
+                                </div>
+                            </group>
+                        </group>
+
+                        <separator string="Stay Details" style="color:#7d435d; font-size:16px; font-weight:bold"/>
+                        <group>
+                            <field name="stay_detail_line_ids" nolabel="1"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                <tree editable="bottom">
+                                    <field name="name_line" width="20%"/>
+                                    <field name="hotel_guest_line" width="20%"/>
+                                    <field name="location_line" width="20%"/>
+                                    <field name="check_in_date" width="20%"/>
+                                    <field name="check_out_date" width="20%"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+
+            <!-- Making Readonly fields when state is not draft -->
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='product_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='total_amount']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='currency_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='tax_ids']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='reference']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='account_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='analytic_account_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='analytic_tag_ids']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='employee_id']" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+            </xpath>
+
+            <!-- filter on product_id field for show product based on menu action selected -->
+            <xpath expr="//field[@name='payment_mode']" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+
+            <!--            <xpath expr="//field[@name='product_id']" position="after">-->
+            <!--                <field name="product_id" required="1" domain="[('travel_requisition','=',True)]"-->
+            <!--                       attrs="{'readonly': [('sheet_is_editable', '=', False)],'invisible':[('payment_mode','=','own_account')]}"-->
+            <!--                       context="{'default_can_be_expensed': 1, 'tree_view_ref': 'hr_expense.product_product_expense_tree_view', 'form_view_ref': 'hr_expense.product_product_expense_form_view'}"/>-->
+
+            <!--                <field name="product_id" required="1" domain="[('travel_requisition','=',False)]"-->
+            <!--                       attrs="{'readonly': [('sheet_is_editable', '=', False)],'invisible':[('payment_mode','=','company_account')]}"-->
+            <!--                       context="{'default_can_be_expensed': 1, 'tree_view_ref': 'hr_expense.product_product_expense_tree_view', 'form_view_ref': 'hr_expense.product_product_expense_form_view'}"/>-->
+            <!--            </xpath>-->
+
+        </field>
+    </record>
+
+    <!-- travel_requisition field view in expense product -->
+    <record id="view_expense_product_inherit" model="ir.ui.view">
+        <field name="name">view.expense.product.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="hr_expense.product_product_expense_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='supplier_taxes_id']" position="after">
+                <field name="travel_requisition"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <!-- changing default domain of My Expenses(my reimbursement) to Report menu items action in hr.expenses
+    also changes action menu default names -->
+    <record id="hr_expense.hr_expense_actions_my_unsubmitted" model="ir.actions.act_window">
+        <field name="name">My Reimbursement to Report</field>
+        <field name="context">{'search_default_my_expenses': 1, 'search_default_no_report': 1,
+            'payment_mode':'own_account'}
+        </field>
+        <field name="domain">[('payment_mode','=','own_account')]</field>
+    </record>
+
+    <!-- Changing default domain on All My Expenses (all my reimbursement) in hr.expenses
+    also changes action menu default names -->
+    <record id="hr_expense.hr_expense_actions_my_all" model="ir.actions.act_window">
+        <field name="name">All My Reimbursement</field>
+        <field name="context">{'search_default_my_expenses': 1, 'payment_mode':'own_account'}</field>
+        <field name="domain">[('payment_mode','=','own_account')]</field>
+    </record>
+
+    <!-- Menu action for Travel Requisition to Report -->
+    <record id="action_travel_requisition_to_report" model="ir.actions.act_window">
+        <field name="name">Travel Requisition to Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.expense</field>
+        <field name="context">
+            {'default_travel_requisition_opt':True,'default_payment_mode':'company_account','travel_prd': True}
+        </field>
+        <field name="domain">[('payment_mode','=','company_account')]</field>
+        <field name="view_mode">tree,form,kanban,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first emp!
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu action for All Travel Requisition -->
+    <record id="action_all_travel_requisition" model="ir.actions.act_window">
+        <field name="name">All Travel Requisition</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.expense</field>
+        <field name="context">
+            {'default_travel_requisition_opt':True,'default_payment_mode':'company_account','travel_prd': True}
+        </field>
+        <field name="domain">[('payment_mode','=','company_account')]</field>
+        <field name="view_mode">tree,form,kanban,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first emp!
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu action for Travel Requisition Report -->
+    <record id="action_travel_requisition_report" model="ir.actions.act_window">
+        <field name="name">Travel Requisition Reports</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.expense.sheet</field>
+        <field name="context">
+            {'default_travel_requisition_opt':True,'default_payment_mode':'company_account','travel_prd': True}
+        </field>
+        <field name="domain">[('payment_mode','=','company_account')]</field>
+        <field name="view_mode">tree,form,kanban,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first emp!
+            </p>
+        </field>
+    </record>
+
+    <!-- root menu in expense -->
+    <menuitem id="menu_travel_requisition_root"
+              name="Travel Requisition"
+              parent="hr_expense.menu_hr_expense_root"
+              sequence="1"/>
+
+    <!-- Menu item for My Travel Requisition to Report -->
+    <menuitem id="menu_travel_requisition_to_report"
+              name="Travel Requisition to Report"
+              parent="menu_travel_requisition_root"
+              sequence="1"
+              action="action_travel_requisition_to_report"/>
+
+    <!-- Menu item for All My Travel Requisition-->
+    <menuitem id="menu_all_travel_requisition"
+              name="All Travel Requisition"
+              parent="menu_travel_requisition_root"
+              sequence="2"
+              action="action_all_travel_requisition"/>
+
+    <!-- Menu item for My Travel Requisition Report -->
+    <menuitem id="menu_travel_requisition_report"
+              name="Travel Requisition Reports"
+              parent="menu_travel_requisition_root"
+              sequence="3"
+              action="action_travel_requisition_report"/>
+
+    <!-- Changing Name of My Expenses Menu to reimbursement -->
+    <menuitem id="hr_expense.menu_hr_expense_my_expenses" name="My Reimbursement" sequence="1"
+              parent="hr_expense.menu_hr_expense_root"
+              groups="base.group_user"/>
+    <menuitem id="hr_expense.menu_hr_expense_my_expenses_to_submit" sequence="1"
+              parent="hr_expense.menu_hr_expense_my_expenses"
+              action="hr_expense.hr_expense_actions_my_unsubmitted" name="My Reimbursement to Report"/>
+    <menuitem id="hr_expense.menu_hr_expense_my_expenses_all" sequence="2"
+              parent="hr_expense.menu_hr_expense_my_expenses"
+              action="hr_expense.hr_expense_actions_my_all" name="All My Reimbursement"/>
+
+</odoo>

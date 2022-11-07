@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+travel_details_line,travel.details.line,model_travel_details_line,,1,1,1,1
+stay_details_line,stay.details.line,model_stay_details_line,,1,1,1,1
+grade_master,grade.master,model_grade_master,,1,1,1,1
+cadre_master,cadre.master,model_cadre_master,,1,1,1,1
+grade_title_master,grade.title.master,model_grade_title_master,,1,1,1,1
+mode_class_master,mode.class.master,model_mode_class_master,,1,1,1,1
+

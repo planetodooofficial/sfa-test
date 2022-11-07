@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_hr_emp_custom_inherit" model="ir.ui.view">
+        <field name="name">view.hr.emp.custom.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='hr_settings']" position="after">
+                <page name="tax_declaration" string="Tax Declaration">
+                    <group>
+                        <field name="emp_tax_dec_ids" nolabel="1">
+                            <tree>
+                                <field name="name"/>
+                                <field name="c_year"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

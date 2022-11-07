@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="form_analytic_wizards" model="ir.ui.view">
+        <field name="name">form.analytic.wizards</field>
+        <field name="model">analytic.wizards</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <button name="create_analytic_accounts" type="object" class="btn btn-info"
+                                string="Create Analytic Accounts"/>
+                    </group>
+                    <footer>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_create_analytic_accounts" model="ir.actions.act_window">
+        <field name="name">Create Analytic Accounts</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">analytic.wizards</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="child_create_analytic_account"
+              name="Create Analytic Account"
+              action="action_create_analytic_accounts"
+              parent="account.menu_analytic_accounting"/>
+</odoo>
