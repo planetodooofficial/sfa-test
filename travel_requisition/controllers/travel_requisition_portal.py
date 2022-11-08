@@ -37,7 +37,6 @@ class AllExpense(http.Controller):
         # get current login user
         userid = request.env.user.employee_id
 
-
         # get products based on search filter from many 2 one
         t_product = request.env['product.product'].sudo().search(
             [('travel_requisition', '=', True), ('can_be_expensed', '=', True)])
@@ -97,7 +96,17 @@ class AllExpense(http.Controller):
             't_gr': user_info,
             't_desig': user_info,
             't_cad': user_info,
+            't_grat': user_info,
+
             't_mode_class': t_mode_class,
+
+            't_pan_card': user_info,
+            't_driving_li': user_info,
+            't_age': user_info,
+            't_passport_name': user_info,
+            't_pass_no': user_info,
+            't_place_issue': user_info,
+            't_date_issue': user_info,
         }
         if kw:
 
