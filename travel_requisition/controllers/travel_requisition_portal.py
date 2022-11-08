@@ -37,6 +37,7 @@ class AllExpense(http.Controller):
         # get current login user
         userid = request.env.user.employee_id
 
+
         # get products based on search filter from many 2 one
         t_product = request.env['product.product'].sudo().search(
             [('travel_requisition', '=', True), ('can_be_expensed', '=', True)])
@@ -71,7 +72,10 @@ class AllExpense(http.Controller):
         travel_detail_id_form = request.env['hr.expense'].sudo().search([])
         stay_detail_id_form = request.env['hr.expense'].sudo().search([])
 
+        # travel_detail_l = request.env['travel.details.line'].sudo().search([])
         t_mode_class = request.env['mode.class.master'].sudo().search([])
+        user_info = request.env['hr.employee'].sudo().browse(userid.id)
+        # print(user_info.emp_code)
 
         tautofill_data = {
             # 'module_fields_name' : defined_fields_name
@@ -86,6 +90,13 @@ class AllExpense(http.Controller):
             't_account_id_def': t_account_id_def,
             # 't_paid_id': t_paid_id,
 
+            't_empcode': user_info,
+            't_comp': user_info,
+            't_mob': user_info,
+            't_department': user_info,
+            't_gr': user_info,
+            't_desig': user_info,
+            't_cad': user_info,
             't_mode_class': t_mode_class,
         }
         if kw:
@@ -150,12 +161,12 @@ class AllExpense(http.Controller):
 
                 'purpose_of_visit': kw.get('t_purpose'),
 
-                'date': kw.get('t_date'),
-                'from_dates': kw.get('t_from'),
-                'departs_time': kw.get('t_depart_time'),
-                'to_dates': kw.get('t_to'),
-                'arrives_time': kw.get('t_arrive_time'),
-                'mode_and_class': t_modeclass,
+                'travel_detail_l.date': kw.get('t_date'),
+                'travel_detail_l.from_dates': kw.get('t_from'),
+                'travel_detail_l.departs_time': kw.get('t_depart_time'),
+                'travel_detail_l.to_dates': kw.get('t_to'),
+                'travel_detail_l.arrives_time': kw.get('t_arrive_time'),
+                'travel_detail_l.mode_and_class': t_modeclass,
             }
 
             # create method override to create record from form
@@ -163,32 +174,32 @@ class AllExpense(http.Controller):
 
         return http.request.render('travel_requisition.create_travel_requisition', tautofill_data)
 
-    @http.route('/create/TravelDetails', website=True, auth='public')
-    def travel_details_form(self, **kw):
-        t_mode_class = request.env['mode.class.master'].sudo().search([])
-
-        autofill = {
-            # 'module_fields_name' : defined_fields_name
-            't_mode_class': t_mode_class,
-        }
-
-        if kw:
-            if kw.get('t_mode_class'):
-                # here t_mode_class many 2 one getting id in string is convert into integer and store in field
-                t_modeclass = int(kw.get('t_mode_class'))
-            else:
-                t_modeclass = False
-
-            vals = {
-                'date': kw.get('t_date'),
-                'from_dates': kw.get('t_from'),
-                'departs_time': kw.get('t_depart_time'),
-                'to_dates': kw.get('t_to'),
-                'arrives_time': kw.get('t_arrive_time'),
-                'mode_and_class': t_modeclass,
-            }
-            create_record = request.env['travel.details.line'].sudo().create(vals)
-        return http.request.render('travel_requisition.create_travel_requisition', autofill)
+    # @http.route('/create/TravelDetails', website=True, auth='public')
+    # def travel_details_form(self, **kw):
+    #     t_mode_class = request.env['mode.class.master'].sudo().search([])
+    #
+    #     autofill = {
+    #         # 'module_fields_name' : defined_fields_name
+    #         't_mode_class': t_mode_class,
+    #     }
+    #
+    #     if kw:
+    #         if kw.get('t_mode_class'):
+    #             # here t_mode_class many 2 one getting id in string is convert into integer and store in field
+    #             t_modeclass = int(kw.get('t_mode_class'))
+    #         else:
+    #             t_modeclass = False
+    #
+    #         vals = {
+    #             'date': kw.get('t_date'),
+    #             'from_dates': kw.get('t_from'),
+    #             'departs_time': kw.get('t_depart_time'),
+    #             'to_dates': kw.get('t_to'),
+    #             'arrives_time': kw.get('t_arrive_time'),
+    #             'mode_and_class': t_modeclass,
+    #         }
+    #         create_record = request.env['travel.details.line'].sudo().create(vals)
+    #     return http.request.render('travel_requisition.create_travel_requisition', autofill)
 
 
 class ExpenseCustomerPortal(CustomerPortal):

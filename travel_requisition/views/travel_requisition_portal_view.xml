@@ -670,14 +670,15 @@
                                                     </td>
                                                     <td style="width:450px;">
                                                         <input type="text" id="t_empcode" name="t_empcode"
-                                                               style="width:210px;"/>
+                                                               style="width:210px;" t-att-value="t_empcode.emp_code"
+                                                               readonly="1"/>
                                                     </td>
                                                     <td style="width:330px;">
                                                         <b>Company</b>
                                                     </td>
                                                     <td style="width:450px;">
                                                         <input type="text" id="t_comp" name="t_comp"
-                                                               style="width:210px;"/>
+                                                               style="width:210px;" t-att-value="t_comp.company_id"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -686,14 +687,15 @@
                                                     </td>
                                                     <td>
                                                         <input type="text" id="t_mob" name="t_mob"
-                                                               style="width:210px;"/>
+                                                               style="width:210px;" t-att-value="t_mob.mobile_phone"/>
                                                     </td>
                                                     <td>
                                                         <b>Department</b>
                                                     </td>
                                                     <td>
                                                         <input type="text" id="t_department" name="t_department"
-                                                               style="width:210px;"/>
+                                                               style="width:210px;"
+                                                               t-att-value="t_department.department_id"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -702,14 +704,14 @@
                                                     </td>
                                                     <td>
                                                         <input type="text" id="t_gr" name="t_gr"
-                                                               style="width:210px;"/>
+                                                               style="width:210px;" t-att-value="t_gr.grade"/>
                                                     </td>
                                                     <td>
                                                         <b>Designation</b>
                                                     </td>
                                                     <td>
                                                         <input type="text" id="t_desig" name="t_desig"
-                                                               style="width:210px;"/>
+                                                               style="width:210px;" t-att-value="t_desig.job_id"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -718,7 +720,7 @@
                                                     </td>
                                                     <td>
                                                         <input type="text" id="t_cad" name="t_cad"
-                                                               style="width:210px;"/>
+                                                               style="width:210px;" t-att-value="t_cad.cadre"/>
                                                     </td>
                                                     <td>
                                                         <b>Purpose of Visit</b>
@@ -734,7 +736,7 @@
                                                     </td>
                                                     <td>
                                                         <input type="text" id="t_grat" name="t_grat"
-                                                               style="width:210px;"/>
+                                                               style="width:210px;" t-att-value="t_grat.grade_title"/>
                                                     </td>
                                                     <td></td>
                                                     <td></td>
@@ -775,19 +777,17 @@
                                             <!-- using foreach loop show the one to many data -->
                                             <tr>
                                                 <td>
-                                                    <input type="date" id="t_date" name="t_date"
-                                                           style="width:170px;"/>
+                                                    <input type="date" id="t_date" name="t_date"/>
                                                 </td>
                                                 <td>
-                                                    <input type="date" id="t_from" name="t_from"
-                                                           style="width:170px;"/>
+                                                    <input type="date" id="t_from" name="t_from"/>
                                                 </td>
                                                 <td>
                                                     <input type="time" id="t_depart_time" name="t_depart_time"
                                                            style="width:170px;"/>
                                                 </td>
                                                 <td>
-                                                    <input type="date" id="t_to" name="t_to" style="width:170px;"/>
+                                                    <input type="date" id="t_to" name="t_to"/>
                                                 </td>
                                                 <td>
                                                     <input type="time" id="t_arrive_time" name="t_arrive_time"
@@ -795,7 +795,6 @@
                                                 </td>
                                                 <td>
                                                     <select id="t_mode_class" name="t_mode_class"
-                                                            style="width:210px;"
                                                             required="1">
                                                         <option></option>
                                                         <t t-foreach="t_mode_class" t-as="tmodclas">
@@ -804,6 +803,17 @@
                                                             </option>
                                                         </t>
                                                     </select>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-danger">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor" class="bi bi-trash"
+                                                             viewBox="0 0 16 16">
+                                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                            <path fill-rule="evenodd"
+                                                                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                                        </svg>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         </table>
