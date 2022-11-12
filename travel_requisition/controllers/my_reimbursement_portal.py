@@ -36,6 +36,8 @@ class AllMyExpense(http.Controller):
     def myreimbursement_form(self, **kw):
         # get current login user
         userid = request.env.user.employee_id
+        demo = request.env['hr.expense'].sudo().search([('travel_requisition_opt', '=', False)])
+        # demo = self._document_check_access('hr.expense')
 
         # get products based on search filter from many2one
         r_product = request.env['product.product'].sudo().search(
@@ -71,6 +73,7 @@ class AllMyExpense(http.Controller):
             'user': userid,
             'r_product': r_product,
             'cdate': cdate,
+            'demo': demo,
             # 'currency_name': currency_name,
             # 'tax_name': tax_name,
             # 'analytic_account': analytic_account,
@@ -135,7 +138,6 @@ class AllMyExpense(http.Controller):
 
             # create method override to create record from form
             create_record = request.env['hr.expense'].sudo().create(vals)
-
         return http.request.render('travel_requisition.create_my_reimbursement', autofill_data)
 
 

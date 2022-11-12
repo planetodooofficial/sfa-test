@@ -131,6 +131,12 @@
                             </div>
                         </div>
                     </div>
+                    <div id="my_reimbursement_communication" class="mt-4">
+                        <h2>History</h2>
+                        <t t-call="portal.message_thread">
+                            <t t-set="object" t-value="rexpense"/>
+                        </t>
+                    </div>
                 </t>
             </t>
         </t>
@@ -240,7 +246,8 @@
                                     <table>
                                         <tr>
                                             <td style="width:150px">
-                                                <b>Expense Name</b><sup style="color:red;">*</sup>
+                                                <b>Expense Name</b>
+                                                <sup style="color:red;">*</sup>
                                             </td>
                                             <td style="width:300px">
                                                 <input type="text" id="expname" name="expname" style="width:210px;"
@@ -265,7 +272,8 @@
 
                                         <tr>
                                             <td>
-                                                <b>Product</b><sup style="color:red;">*</sup>
+                                                <b>Product</b>
+                                                <sup style="color:red;">*</sup>
                                             </td>
                                             <td>
                                                 <!-- getting products from Many 2 one field-->
@@ -290,7 +298,8 @@
 
                                         <tr>
                                             <td>
-                                                <b>Total Amount</b><sup style="color:red;">*</sup>
+                                                <b>Total Amount</b>
+                                                <sup style="color:red;">*</sup>
                                             </td>
                                             <td>
                                                 <input type="text" id="total_amount" name="total_amount"
@@ -414,6 +423,34 @@
                 </t>
             </form>
         </div>
+        <!--
+        Generic chatter template for the frontend
+        This template provide the container of the chatter. The rest is done in js.
+        To use this template, you need to call it after setting the following variable in your template or in your controller:
+            :object browserecord : the mail_thread object
+            :message_per_page int (optional): number of message per chatter page
+            :token string (optional): if you want your chatter to be available for non-logged user,
+                     you can use a token to verify the identity of the user;
+                     the message will be posted with the identity of the partner_id of the object
+            :hash : signed token with the partner_id using `_sign_token` method (on mail.thread)
+            :pid : identifier of the partner signing the token
+    -->
+        <!--        <template id="message_thread">-->
+        <!--            <div id="discussion" data-anchor="true" class="d-print-none o_portal_chatter o_not_editable p-0"-->
+        <!--                 t-att-data-token="token" t-att-data-res_model="object._name" t-att-data-pid="pid"-->
+        <!--                 t-att-data-hash="hash" t-att-data-res_id="object.id" t-att-data-pager_step="message_per_page or 10"-->
+        <!--                 t-att-data-allow_composer="'0' if disable_composer else '1'"-->
+        <!--                 t-att-data-two_columns="'true' if two_columns else 'false'">-->
+        <!--            </div>-->
+        <!--        </template>-->
+        <!--        <div id="my_reimbursement_communication" class="mt-4">-->
+        <!--            <h2>History</h2>-->
+        <!--            <t t-call="portal.message_thread">-->
+        <!--                <t t-foreach="demo" t-as="d">-->
+        <!--                    <t t-set="object" t-value="d"/>-->
+        <!--                </t>-->
+        <!--            </t>-->
+        <!--        </div>-->
     </template>
 
 </odoo>

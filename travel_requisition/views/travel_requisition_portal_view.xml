@@ -380,6 +380,12 @@
                             </div>
                         </div>
                     </div>
+                    <div id="my_reimbursement_communication" class="mt-4">
+                        <h2>History</h2>
+                        <t t-call="portal.message_thread">
+                            <t t-set="object" t-value="expense"/>
+                        </t>
+                    </div>
                 </t>
             </t>
         </t>
@@ -468,9 +474,6 @@
 
     <!-- My Reimbursement form to create record in odoo portal -->
     <template id="create_travel_requisition" name="Travel Requisition">
-        <xpath expr="." position="inside">
-
-        </xpath>
         <div class="oe_structure">
             <form role="form" action="/create/TravelRequisition" method="POST"
                   enctype="multipart/form-data">
@@ -994,5 +997,4 @@
             </form>
         </div>
     </template>
-
 </odoo>
