@@ -7,7 +7,7 @@ var core = require('web.core');
 var rpc = require('web.rpc');
 var session = require('web.session');
 var utils = require('web.utils');
-// var web_client = require('web.web_client');
+//var web_client = require('web.web_client');
 var _t = core._t;
 var QWeb = core.qweb;
 
@@ -19,8 +19,8 @@ var AttendanceDashboard = AbstractAction.extend({
     template: 'AttendanceDashboard',
     events: {
         'keyup .searchInput': '_onKeypress',
-        // 'change #report_type': 'onChangeReportType',
-        // 'click  #pdf_button': 'download_pdf',
+        'change #report_type': 'onChangeReportType',
+        'click  #pdf_button': 'download_pdf',
     },
     
     init: function(parent, options) {
@@ -88,7 +88,7 @@ var AttendanceDashboard = AbstractAction.extend({
                 'data': result,
                 'context': {
                     'active_model': 'hr.attendance.muster.dashboard',
-                    // 'landscape': 1,
+                     'landscape': 1,
                     'data': result
                 },
                 'display_name': 'Attendance Muster Report',

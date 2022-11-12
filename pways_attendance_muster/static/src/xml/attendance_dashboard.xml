@@ -9,30 +9,42 @@
         <div style="background-color: #c7cbce">
             <h3 style="text-align: center; padding: 10px;font-size: 20px;">
                 <span>Attendance Muster From :</span>
-               <strong><span t-esc="header_date.start_date"/></strong> To
-               <strong><span t-esc="header_date.end_date"/></strong>
-               <br/>
+                <strong><span t-esc="header_date.start_date"/></strong>
+                To
+                <strong><span t-esc="header_date.end_date"/></strong>
+                <br/>
             </h3>
             <div class="row">
                 <div class="col-sm-4"/>
                 <div class="col-sm-2">
                     <h3>
                         P = Present<br/>
-                        PL = Paid Leave<br/>
-                        H = Holidays<br/>
-                        A/H = Attendance Hours<br/>
+                        PL = Paid Leave
+                        <br/>
+                        H = Holidays
+                        <br/>
+                        <!--                        A/H = Attendance Hours<br/>-->
                     </h3>
                 </div>
                 <div class="col-sm-2">
                     <h3>
                         A = Absent<br/>
-                        UL = Unpaid Leave<br/>
-                        WO = Weekoff<br/>
+                        UL = Unpaid Leave
+                        <br/>
+                        WO = Weekoff
+                        <br/>
                     </h3>
                 </div>
                 <div class="col-sm-2">
-                    <br/><input type="search" class="form-control searchInput" id="o-export-search-filter" placeholder="Search Employee..." style="border-radius: 1px;" t-att-value="search_text" name="search_input"/>
-                        <br/>
+                    <br/>
+                    <input type="search" class="form-control searchInput" id="o-export-search-filter"
+                           placeholder="Search Employee..." style="border-radius: 1px;" t-att-value="search_text"
+                           name="search_input"/>
+                    <br/>
+
+                </div>
+                <div class="col-sm-1">
+                    <button id="pdf_button" type="button" class="btn btn-primary" style="background-color:#00A09D;border-color:#00A09D; border-radius:0px;margin-top: 19px; width: max-content;"><span class="fa fa-download"/>Generate Reports</button>
                 </div>
             </div>
             <div class="container" width="100%">
@@ -86,11 +98,17 @@
                             <td style="vertical-align: middle;">
                                 <div style="display: flex;">
                                     <div>
-                                        <img t-att-src="'/web/image/hr.employee/'+ emp.id +'/image_1920'" style="height: 30px;width: 30px;border-radius: 50%;"/>
+                                        <img t-att-src="'/web/image/hr.employee/'+ emp.id +'/image_1920'"
+                                             style="height: 30px;width: 30px;border-radius: 50%;"/>
                                     </div>
                                     <div style="padding-left: 10px;">
-                                        <strong><span t-esc="emp.employee_id"/></strong><br/>
-                                        <span t-if="emp.position" t-esc="emp.position" />
+                                        <strong><span t-esc="emp.employee_id"/></strong>
+                                        <br/>
+                                        <span t-if="emp.position" t-esc="emp.position"/>
+                                        <br/>
+                                        <span t-if="emp.hire_date" t-esc="emp.hire_date"/>
+                                        <br/>
+                                        <span t-if="emp.position" t-esc="emp.department"/>
                                     </div>
                                 </div>
                             </td>
@@ -130,7 +148,7 @@
                                 <td style="vertical-align: middle;">
                                     <strong><span t-esc="total['holidays_records']"/></strong>
                                 </td>
-                                 <td style="vertical-align: middle;">
+                                <td style="vertical-align: middle;">
                                     <strong><span t-esc="total['attendance_hours_records']"/></strong>
                                 </td>
                                 <td style="vertical-align: middle;">

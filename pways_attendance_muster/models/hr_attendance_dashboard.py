@@ -9,6 +9,7 @@ import pytz
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
 import calendar
 
+
 class HrAttendanceDashboard(models.Model):   
     _name = "hr.attendance.muster.dashboard"
     _description = "Employees Attendance Muster Dashboard"
@@ -35,7 +36,7 @@ class HrAttendanceDashboard(models.Model):
         public_holiday_dates = []
         for date in un_present_days:
             date_start = date.strftime(DEFAULT_SERVER_DATE_FORMAT)
-            holiday_ids = self.env['resource.calendar.leaves'].search([('date_from', '<=', date_start), ('date_to', '>=', date_start), ('resource_id', '=',False)])
+            holiday_ids = self.env['resource.calendar.leaves'].search([('date_from', '<=', date_start), ('date_to', '>=', date_start), ('resource_id', '=', False)])
             if holiday_ids:
                 public_holiday_dates.append(date_start)
         return public_holiday_dates
@@ -67,7 +68,7 @@ class HrAttendanceDashboard(models.Model):
         year = self.date_from.year
         month = self.date_from.month
         weekoff_dates = []
-        total_days = [0,1,2,3,4,5,6]
+        total_days = [0, 1, 2, 3, 4, 5, 6]
         
         weekdays_id = employee_id.resource_calendar_id.attendance_ids.mapped('dayofweek')
         weekoffdays_set = set(weekdays_id)
@@ -77,9 +78,9 @@ class HrAttendanceDashboard(models.Model):
 
         for week in weekoff:
             weeks = self.dayNameFromWeekday(week)
-            for wekday in weeks.itermonthdays(year,month):
+            for wekday in weeks.itermonthdays(year, month):
                 if wekday != 0:
-                    day = date(year,month,wekday)
+                    day = date(year, month, wekday)
                     if day.weekday() == week:
                         first_day = (str(year) + "-" + str(month) + "-" + str(wekday))
                         first_date = datetime.datetime.strptime(first_day, '%Y-%m-%d').date()
@@ -154,7 +155,7 @@ class HrAttendanceDashboard(models.Model):
 
             for spec_date in all_days:
                 header_list.append(spec_date.strftime("%d"))
-            header_list.extend(['P', 'A', 'UL', 'PL', 'WO', 'H', 'A/H', 'Paid Days'])
+            header_list.extend(['P', 'A', 'UL', 'PL', 'WO', 'H', 'Paid Days'])
             domain = [('check_in', '>=', from_date), ('check_out', '<=', to_date)]
 
             if employee_ids:
@@ -187,6 +188,7 @@ class HrAttendanceDashboard(models.Model):
                         'id': employee_id.id,
                         'employee_id': employee_id.name,
                         'position': employee_id.job_id.name,
+                        'department': employee_id.department_id.name,
                         'hire_date': original_hire_date if original_hire_date else False,
                         'std_work_hrs': company_id.work_hours or working_hours,
                         'contract_status': state,
@@ -246,7 +248,9 @@ class HrAttendanceDashboard(models.Model):
 
                         if spec_date in fil_date:
                             att_rec = values.filtered(lambda x: x.check_in.date() == spec_date)
-                            worked_hours = round(sum(att_rec.mapped('worked_hours')),2)
+                            if att_rec:
+                                worked_hours = 'P'
+                            # worked_hours = round(sum(att_rec.mapped('worked_hours')), 2)
 
                         else:
                             if str(spec_date) in paid_dates:
@@ -263,7 +267,8 @@ class HrAttendanceDashboard(models.Model):
 
                             else:
                                 worked_hours = "A"
-                        worked_hours_list.append(worked_hours)           
+                        worked_hours_list.append(worked_hours)
+                        print(header_date)
             return {
                 'employee_ids': emp_list,
                 'header_date': header_date,
