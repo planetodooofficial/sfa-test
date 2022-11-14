@@ -72,7 +72,6 @@
                     <div class="container">
                         <div class="row justify-content-md-center">
                             <div class="col-lg-3">
-                                <hr/>
                                 <br/>
                                 <b>Expense Name</b>
                                 <br/>
@@ -84,7 +83,6 @@
                                 <!--                                <br/>-->
                             </div>
                             <div class="col-lg-3">
-                                <hr/>
                                 <br/>
                                 <t t-esc="rexpense.name"/>
                                 <br/>
@@ -99,7 +97,6 @@
                             <div class="col-lg-3">
                                 <b>Status</b>
                                 <br/>
-                                <hr/>
                                 <!--                                <b>Bill Reference</b>-->
                                 <!--                                <br/>-->
                                 <b>Expense Date</b>
@@ -132,7 +129,6 @@
                                     <spam>REFUSED</spam>
                                 </t>
                                 <br/>
-                                <hr/>
                                 <!--                                <t t-esc="rexpense.reference"/>-->
                                 <!--                                <br/>-->
                                 <t t-esc="rexpense.date"/>
