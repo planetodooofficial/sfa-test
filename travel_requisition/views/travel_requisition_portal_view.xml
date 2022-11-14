@@ -72,6 +72,7 @@
                     <div class="container">
                         <div class="row justify-content-md-center">
                             <div class="col-lg-3">
+                                <br/>
                                 <b>Expense Name</b>
                                 <br/>
                                 <b>Product</b>
@@ -82,6 +83,7 @@
                                 <!--<br/>-->
                             </div>
                             <div class="col-lg-3">
+                                <br/>
                                 <t t-esc="expense.name"/>
                                 <br/>
                                 <t t-esc="expense.product_id.name"/>
@@ -93,6 +95,8 @@
                             </div>
 
                             <div class="col-lg-3">
+                                <b>Status</b>
+                                <br/>
                                 <!--<b>Bill Reference</b>-->
                                 <!--<br/>-->
                                 <b>Expense Date</b>
@@ -109,6 +113,22 @@
                                 <br/>
                             </div>
                             <div class="col-lg-3">
+                                <t t-if="expense.state == 'draft'">
+                                    <spam>TO SUBMIT</spam>
+                                </t>
+                                <t t-if="expense.state == 'reported'">
+                                    <spam>SUBMITTED</spam>
+                                </t>
+                                <t t-if="expense.state == 'approved'">
+                                    <spam>APPROVED</spam>
+                                </t>
+                                <t t-if="expense.state == 'done'">
+                                    <spam>PAID</spam>
+                                </t>
+                                <t t-if="expense.state == 'refused'">
+                                    <spam>REFUSED</spam>
+                                </t>
+                                <br/>
                                 <!--<t t-esc="expense.reference"/>-->
                                 <!--<br/>-->
                                 <t t-esc="expense.date"/>
@@ -496,6 +516,7 @@
                                         <tr>
                                             <td style="width:150px">
                                                 <b>Expense Name</b>
+                                                <sup style="color:red;">*</sup>
                                             </td>
                                             <td style="width:300px">
                                                 <input type="text" id="t_expname" name="t_expname" style="width:210px;"
@@ -521,6 +542,7 @@
                                         <tr>
                                             <td>
                                                 <b>Product</b>
+                                                <sup style="color:red;">*</sup>
                                             </td>
                                             <td>
                                                 <!-- getting products from Many 2 one field-->
@@ -539,13 +561,14 @@
                                             </td>
                                             <td>
                                                 <input type="text" id="t_name" name="t_name" t-att-value="user.name"
-                                                       readonly="1" style="width:210px;"/>
+                                                       readonly="1" style="width:210px;" disabled="1"/>
                                             </td>
                                         </tr>
 
                                         <tr>
                                             <td>
                                                 <b>Total Amount</b>
+                                                <sup style="color:red;">*</sup>
                                             </td>
                                             <td>
                                                 <input type="text" id="t_total_amount" name="t_total_amount"
@@ -666,7 +689,7 @@
                                                     <td style="width:450px;">
                                                         <input type="text" id="t_empcode" name="t_empcode"
                                                                style="width:210px;" t-att-value="t_empcode.emp_code"
-                                                               readonly="1"/>
+                                                               readonly="1" disabled="1"/>
                                                     </td>
                                                     <td style="width:330px;">
                                                         <b>Company</b>
@@ -674,7 +697,7 @@
                                                     <td style="width:450px;">
                                                         <input type="text" id="t_comp" name="t_comp"
                                                                style="width:210px;" t-att-value="t_comp.company_id.name"
-                                                               readonly="1"/>
+                                                               readonly="1" disabled="1"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -684,7 +707,7 @@
                                                     <td>
                                                         <input type="text" id="t_mob" name="t_mob"
                                                                style="width:210px;" t-att-value="t_mob.mobile_phone"
-                                                               readonly="1"/>
+                                                               readonly="1" disabled="1"/>
                                                     </td>
                                                     <td>
                                                         <b>Department</b>
@@ -693,7 +716,7 @@
                                                         <input type="text" id="t_department" name="t_department"
                                                                style="width:210px;"
                                                                t-att-value="t_department.department_id.name"
-                                                               readonly="1"/>
+                                                               readonly="1" disabled="1"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -703,7 +726,7 @@
                                                     <td>
                                                         <input type="text" id="t_gr" name="t_gr"
                                                                style="width:210px;" t-att-value="t_gr.grade.grade_new"
-                                                               readonly="1"/>
+                                                               readonly="1" disabled="1"/>
                                                     </td>
                                                     <td>
                                                         <b>Designation</b>
@@ -711,7 +734,7 @@
                                                     <td>
                                                         <input type="text" id="t_desig" name="t_desig"
                                                                style="width:210px;" t-att-value="t_desig.job_id.name"
-                                                               readonly="1"/>
+                                                               readonly="1" disabled="1"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -721,7 +744,7 @@
                                                     <td>
                                                         <input type="text" id="t_cad" name="t_cad"
                                                                style="width:210px;" t-att-value="t_cad.cadre.cadre_new"
-                                                               readonly="1"/>
+                                                               readonly="1" disabled="1"/>
                                                     </td>
                                                     <td>
                                                         <b>Purpose of Visit</b>
@@ -740,7 +763,7 @@
                                                         <input type="text" id="t_grat" name="t_grat"
                                                                style="width:210px;"
                                                                t-att-value="t_grat.grade_title.grade_title_line"
-                                                               readonly="1"/>
+                                                               readonly="1" disabled="1"/>
                                                     </td>
                                                     <td></td>
                                                     <td></td>
@@ -776,6 +799,12 @@
                                                 <td>
                                                     <b>Mode &amp; Class</b>
                                                 </td>
+                                                <td>
+                                                    <button id="add1" type="button"
+                                                            class="btn btn-secondary" onclick="addRow()">
+                                                        Add
+                                                    </button>
+                                                </td>
                                             </tr>
 
                                             <!-- using foreach loop show the one to many data -->
@@ -809,7 +838,7 @@
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn btn-danger">
+                                                    <button id="del1" type="button" class="btn btn-danger">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                              fill="currentColor" class="bi bi-trash"
                                                              viewBox="0 0 16 16">
@@ -821,10 +850,6 @@
                                                 </td>
                                             </tr>
                                         </table>
-                                        <button id="submit" type="submit"
-                                                class="btn btn-secondary" onclick="addRow()">
-                                            Add
-                                        </button>
                                     </div>
                                     <!--                                    </form>-->
 
@@ -840,7 +865,7 @@
                                                 <td>
                                                     <input type="text" id="t_pan_card" name="t_pan_card"
                                                            style="width:210px;" t-att-value="t_pan_card.pan"
-                                                           readonly="1"/>
+                                                           readonly="1" disabled="1"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -850,7 +875,7 @@
                                                 <td>
                                                     <input type="text" id="t_driving_li" name="t_driving_li"
                                                            style="width:210px;" t-att-value="t_driving_li.dl_no"
-                                                           readonly="1"/>
+                                                           readonly="1" disabled="1"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -859,7 +884,8 @@
                                                 </td>
                                                 <td>
                                                     <input type="text" id="t_age" name="t_age"
-                                                           style="width:210px;" t-att-value="t_age.age" readonly="1"/>
+                                                           style="width:210px;" t-att-value="t_age.age" readonly="1"
+                                                           disabled="1"/>
                                                 </td>
                                             </tr>
                                         </table>
@@ -878,7 +904,8 @@
                                                     <input type="text" id="t_passport_name"
                                                            name="t_passport_name"
                                                            style="width:210px;"
-                                                           t-att-value="t_passport_name.name_on_passport" readonly="1"/>
+                                                           t-att-value="t_passport_name.name_on_passport" readonly="1"
+                                                           disabled="1"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -888,7 +915,7 @@
                                                 <td>
                                                     <input type="text" id="t_pass_no" name="t_pass_no"
                                                            style="width:210px;" t-att-value="t_pass_no.passport_id"
-                                                           readonly="1"/>
+                                                           readonly="1" disabled="1"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -900,12 +927,12 @@
                                                         <input type="date" id="t_date_issue" name="t_date_issue"
                                                                style="width:115px;"
                                                                t-att-value="t_date_issue.emp_pass_issue_date"
-                                                               readonly="1"/>
+                                                               readonly="1" disabled="1"/>
                                                         <input type="text" id="t_place_issue"
                                                                name="t_place_issue"
                                                                style="width:91px;"
                                                                t-att-value="t_place_issue.emp_pass_issue_loc"
-                                                               readonly="1"/>
+                                                               readonly="1" disabled="1"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -933,6 +960,12 @@
                                                     </td>
                                                     <td>
                                                         <b>Check out Date</b>
+                                                    </td>
+                                                    <td>
+                                                        <button id="add2" type="button"
+                                                                class="btn btn-secondary">
+                                                            Add
+                                                        </button>
                                                     </td>
                                                 </tr>
 
@@ -962,7 +995,7 @@
                                                                style="width:200px;"/>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-danger">
+                                                        <button id="del2" type="button" class="btn btn-danger">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                  height="16"
                                                                  fill="currentColor" class="bi bi-trash"
@@ -976,10 +1009,6 @@
                                                 </tr>
                                                 <!--</t>-->
                                             </table>
-                                            <button id="submit" type="submit"
-                                                    class="btn btn-secondary">
-                                                Add
-                                            </button>
                                         </div>
                                         <br/>
                                     </div>

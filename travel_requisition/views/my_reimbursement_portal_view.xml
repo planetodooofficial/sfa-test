@@ -72,6 +72,8 @@
                     <div class="container">
                         <div class="row justify-content-md-center">
                             <div class="col-lg-3">
+                                <hr/>
+                                <br/>
                                 <b>Expense Name</b>
                                 <br/>
                                 <b>Product</b>
@@ -82,6 +84,8 @@
                                 <!--                                <br/>-->
                             </div>
                             <div class="col-lg-3">
+                                <hr/>
+                                <br/>
                                 <t t-esc="rexpense.name"/>
                                 <br/>
                                 <t t-esc="rexpense.product_id.name"/>
@@ -93,6 +97,9 @@
                             </div>
 
                             <div class="col-lg-3">
+                                <b>Status</b>
+                                <br/>
+                                <hr/>
                                 <!--                                <b>Bill Reference</b>-->
                                 <!--                                <br/>-->
                                 <b>Expense Date</b>
@@ -109,6 +116,23 @@
                                 <br/>
                             </div>
                             <div class="col-lg-3">
+                                <t t-if="rexpense.state == 'draft'">
+                                    <spam>TO SUBMIT</spam>
+                                </t>
+                                <t t-if="rexpense.state == 'reported'">
+                                    <spam>SUBMITTED</spam>
+                                </t>
+                                <t t-if="rexpense.state == 'approved'">
+                                    <spam>APPROVED</spam>
+                                </t>
+                                <t t-if="rexpense.state == 'done'">
+                                    <spam>PAID</spam>
+                                </t>
+                                <t t-if="rexpense.state == 'refused'">
+                                    <spam>REFUSED</spam>
+                                </t>
+                                <br/>
+                                <hr/>
                                 <!--                                <t t-esc="rexpense.reference"/>-->
                                 <!--                                <br/>-->
                                 <t t-esc="rexpense.date"/>
