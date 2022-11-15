@@ -160,7 +160,8 @@ class AllMyExpense(http.Controller):
                         'datas': base64.standard_b64encode(attachment)
                     })
                     print(attachment_id)
-                create_record.sudo().update({'expense_document': attachment_id.datas, 'expensename': attachment_id.display_name})
+                create_record.sudo().update(
+                    {'expense_document': attachment_id.datas, 'expensename': attachment_id.display_name})
 
         return http.request.render('travel_requisition.create_my_reimbursement', autofill_data)
 
