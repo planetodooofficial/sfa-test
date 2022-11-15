@@ -30,6 +30,9 @@ class TravelRequisitionExpense(models.Model):
     stay_detail_line_ids = fields.One2many('stay.details.line', 'hr_exp_id', 'Stay Detail Line')
     travel_requisition_opt = fields.Boolean(string='Travel Requisition')
 
+    expense_document = fields.Binary('Add Attachment')
+    expensename = fields.Char('File Name')
+
     # @api.model
     # def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
     #     res = super(TravelRequisitionExpense, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,

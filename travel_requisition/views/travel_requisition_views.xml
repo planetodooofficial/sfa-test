@@ -7,9 +7,15 @@
         <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
         <field name="arch" type="xml">
 
+
             <!-- travel requisition boolean field in form after payment_mode -->
             <xpath expr="//field[@name='payment_mode']" position="after">
                 <field name="travel_requisition_opt" readonly="1" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="expense_document" filename="expensename"/>
+                <field name="expensename" invisible="1"/>
             </xpath>
 
             <!-- notebook of travel requisition in form visible on payment_mode = company_account -->

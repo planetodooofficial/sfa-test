@@ -2,6 +2,7 @@ from odoo import http, _
 from odoo.http import content_disposition, Controller, request, route
 from odoo.addons.portal.controllers.portal import CustomerPortal
 from datetime import date
+import base64
 
 
 class AllMyExpense(http.Controller):
@@ -45,6 +46,11 @@ class AllMyExpense(http.Controller):
 
         # get current date
         cdate = date.today()
+
+        # field for attachment add
+        files = request.httprequest.files.getlist('myfile')
+        print(files, "this is file")
+        attachment_id = []
 
         # get default selected account based on search filter from many 2 one
         # account_id_def = request.env['account.account'].sudo().search(
@@ -138,6 +144,24 @@ class AllMyExpense(http.Controller):
 
             # create method override to create record from form
             create_record = request.env['hr.expense'].sudo().create(vals)
+            if kw.get('myfile', False):
+                Attachments = request.env['ir.attachment']
+                files = request.httprequest.files.getlist('myfile')
+                # file = kwargs.get('myfile', False)
+                for file in files:
+                    attachment = file.read()
+                    attachment_id = Attachments.sudo().create({
+                        'name': file.filename,
+                        'display_name': 'new',
+                        'res_name': 'new',
+                        'type': 'binary',
+                        'res_model': 'hr.expense',
+                        'res_id': create_record.id,
+                        'datas': base64.standard_b64encode(attachment)
+                    })
+                    print(attachment_id)
+                create_record.sudo().update({'expense_document': attachment_id.datas, 'expensename': attachment_id.display_name})
+
         return http.request.render('travel_requisition.create_my_reimbursement', autofill_data)
 
 

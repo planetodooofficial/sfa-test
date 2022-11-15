@@ -81,6 +81,8 @@
                                 <br/>
                                 <!--                                <b>Taxes</b>-->
                                 <!--                                <br/>-->
+                                <b>Attachment</b>
+                                <br/>
                             </div>
                             <div class="col-lg-3">
                                 <br/>
@@ -92,6 +94,9 @@
                                 <br/>
                                 <!--                                <t t-esc="rexpense.tax_ids.name"/>-->
                                 <!--                                <br/>-->
+                                <!--                                <image src="t-esc='rexpense.expense_document'"/>-->
+                                <!--                                <t t-esc="rexpense.expense_document"/>-->
+                                <br/>
                             </div>
 
                             <div class="col-lg-3">
@@ -315,7 +320,6 @@
                                                        readonly="1" style="width:210px;"/>
                                             </td>
                                         </tr>
-
                                         <tr>
                                             <td>
                                                 <b>Total Amount</b>
@@ -377,6 +381,15 @@
                                         </tr>
 
                                         <tr>
+                                            <td>
+                                                <b>Add Attachment</b>
+                                                <sup style="color:red;">*</sup>
+                                            </td>
+                                            <td>
+                                                <input type="file" id="myfile" name="myfile" class="file"
+                                                       multiple="true" data-show-upload="true" data-show-caption="true"
+                                                       lass="file" required="1"/>
+                                            </td>
                                             <!--                                            <td>-->
                                             <!--                                                <b>Taxes</b>-->
                                             <!--                                            </td>-->
