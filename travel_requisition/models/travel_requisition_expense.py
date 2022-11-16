@@ -6,6 +6,10 @@ from odoo import models, fields, api, _
 class TravelRequisitionExpense(models.Model):
     _inherit = 'hr.expense'
 
+    # sequence for my reimbursement & travel requisition
+    hr_sequence = fields.Char(string='No.', required=True, copy=False, readonly=True, index=True,
+                              default=lambda self: _('New'))
+
     # name_new = fields.Many2one('hr.employee', string='Name', default=(lambda self: self.env.user))
     emp_code = fields.Char(string='Employee Code', related='employee_id.emp_code', store=True)
     mobile = fields.Char(string='Mobile No.', related='employee_id.mobile_phone', store=True)
@@ -28,7 +32,7 @@ class TravelRequisitionExpense(models.Model):
 
     travel_detail_line_ids = fields.One2many('travel.details.line', 'hr_exp_id', 'Travel Detail Line')
     stay_detail_line_ids = fields.One2many('stay.details.line', 'hr_exp_id', 'Stay Detail Line')
-    travel_requisition_opt = fields.Boolean(string='Travel Requisition')
+    travel_requisition_opt = fields.Boolean(string='Travel Requisition', default=False)
 
     expense_document = fields.Binary('Add Attachment')
     expensename = fields.Char('File Name')
@@ -77,6 +81,16 @@ class TravelRequisitionExpense(models.Model):
     #         if self.travel_requisition_opt == False & self.payment_mode == 'own_account':
     #             domain = {'product_id': [('product_id.travel_requisition', '=', False)]}
     #         return {'domain': domain}
+
+    # sequence is differenciate for my reimbursement and travel requisition
+    # @api.model
+    # def create(self, vals):
+    #     if vals.get('hr_sequence', _('New')) == _('New'):
+    #         if self.context.get('travel_requisition_opt'):
+    #             vals['hr_sequence'] = self.env['ir.sequence'].next_by_code('my.reimburse.code') or _('New')
+    #         else:
+    #             vals['hr_sequence'] = self.env['ir.sequence'].next_by_code('travel.requisition.code') or _('New')
+    #     return super(TravelRequisitionExpense, self).create(vals)
 
     class TravelDetailsLine(models.Model):
         _name = 'travel.details.line'
