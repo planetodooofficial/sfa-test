@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
 
-    <!-- Sequence for my reimbursement in hr.expense -->
-<!--    <record id="seq_my_reimbursement_code" model="ir.sequence">-->
-<!--        <field name="name">Employee Id</field>-->
-<!--        <field name="code">my.reimburse.code</field>-->
-<!--        <field name="active">TRUE</field>-->
-<!--        <field name="prefix">EXP</field>-->
+    <!--     Sequence for my reimbursement in hr.expense -->
+    <record id="seq_my_reimbursement_code" model="ir.sequence">
+        <field name="name">My Reimbursement Sequence</field>
+        <field name="code">my.reimburse.code</field>
+        <field name="active">TRUE</field>
+        <field name="prefix">EXP</field>
 <!--        <field name="padding"></field>-->
-<!--        <field name="number_next">1</field>-->
-<!--        <field name="number_increment">1</field>-->
-<!--    </record>-->
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
 
-    <!-- Sequence for travel requisition in hr.expense -->
-<!--    <record id="seq_travel_requisition_code" model="ir.sequence">-->
-<!--        <field name="name">Employee Id</field>-->
-<!--        <field name="code">travel.requisition.code</field>-->
-<!--        <field name="active">TRUE</field>-->
-<!--        <field name="prefix">TR</field>-->
+    <!--     Sequence for travel requisition in hr.expense -->
+    <record id="seq_travel_requisition_code" model="ir.sequence">
+        <field name="name">Travel Requisition Sequence</field>
+        <field name="code">travel.requisition.code</field>
+        <field name="active">TRUE</field>
+        <field name="prefix">TR</field>
 <!--        <field name="padding"></field>-->
-<!--        <field name="number_next">1</field>-->
-<!--        <field name="number_increment">1</field>-->
-<!--    </record>-->
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
 
     <!-- Travel requisition tab view in my expense form -->
     <record id="view_travel_requisition_expense_new" model="ir.ui.view">
@@ -38,8 +38,15 @@
 
             <!-- upload file field and file name field -->
             <xpath expr="//field[@name='employee_id']" position="after">
-                <field name="expense_document" filename="expensename" attrs="{'invisible': [('payment_mode', '!=', 'own_account')]}"/>
+                <field name="expense_document" filename="expensename"
+                       attrs="{'invisible': [('payment_mode', '!=', 'own_account')]}"/>
                 <field name="expensename" invisible="1" attrs="{'invisible': [('payment_mode', '!=', 'own_account')]}"/>
+            </xpath>
+
+            <!-- sequence field to show sequence-->
+            <xpath expr="//form/sheet/div[2]" position="before">
+                <label for="hr_sequence"/>
+                <field name="hr_sequence"/>
             </xpath>
 
             <!-- notebook of travel requisition in form visible on payment_mode = company_account -->

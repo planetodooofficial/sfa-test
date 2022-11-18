@@ -72,6 +72,7 @@
                     <div class="container">
                         <div class="row justify-content-md-center">
                             <div class="col-lg-3">
+                                <b>No.</b>
                                 <br/>
                                 <b>Expense Name</b>
                                 <br/>
@@ -85,6 +86,7 @@
                                 <br/>
                             </div>
                             <div class="col-lg-3">
+                                <t t-esc="rexpense.hr_sequence"/>
                                 <br/>
                                 <t t-esc="rexpense.name"/>
                                 <br/>
@@ -96,6 +98,13 @@
                                 <!--                                <br/>-->
                                 <!--                                <image src="t-esc='rexpense.expense_document'"/>-->
                                 <!--                                <t t-esc="rexpense.expense_document"/>-->
+                                <t t-if="attachments">
+                                    <t t-foreach="attachments" t-as="attachment">
+                                        <a t-att-href="'/attachment/download?attachment_id=%i' % attachment.id">
+                                            <span t-esc="attachment.name" class="fa fa-download"/>
+                                        </a>
+                                    </t>
+                                </t>
                                 <br/>
                             </div>
 
@@ -269,6 +278,13 @@
                             <div class="container">
                                 <div class="row justify-content-md-center">
                                     <table>
+                                        <!--<tr>-->
+                                        <!--<td style="width:150px">No.</td>-->
+                                        <!--<td style="width:300px">-->
+                                        <!--    <input type="text" id="expseq" name="expseq" style="width:210px;" t-att-value="expseq.id"-->
+                                        <!--           required="1"/>-->
+                                        <!--    </td>-->
+                                        <!--</tr>-->
                                         <tr>
                                             <td style="width:150px">
                                                 <b>Expense Name</b>

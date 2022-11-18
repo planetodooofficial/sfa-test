@@ -83,14 +83,14 @@ class TravelRequisitionExpense(models.Model):
     #         return {'domain': domain}
 
     # sequence is differenciate for my reimbursement and travel requisition
-    # @api.model
-    # def create(self, vals):
-    #     if vals.get('hr_sequence', _('New')) == _('New'):
-    #         if self.context.get('travel_requisition_opt'):
-    #             vals['hr_sequence'] = self.env['ir.sequence'].next_by_code('my.reimburse.code') or _('New')
-    #         else:
-    #             vals['hr_sequence'] = self.env['ir.sequence'].next_by_code('travel.requisition.code') or _('New')
-    #     return super(TravelRequisitionExpense, self).create(vals)
+    @api.model
+    def create(self, vals):
+        if vals.get('hr_sequence', _('New')) == _('New'):
+            if self.env.context.get('default_travel_requisition_opt'):
+                vals['hr_sequence'] = self.env['ir.sequence'].next_by_code('travel.requisition.code') or _('New')
+            else:
+                vals['hr_sequence'] = self.env['ir.sequence'].next_by_code('my.reimburse.code') or _('New')
+        return super(TravelRequisitionExpense, self).create(vals)
 
     class TravelDetailsLine(models.Model):
         _name = 'travel.details.line'

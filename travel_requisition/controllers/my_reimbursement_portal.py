@@ -3,6 +3,8 @@ from odoo.http import content_disposition, Controller, request, route
 from odoo.addons.portal.controllers.portal import CustomerPortal
 from datetime import date
 import base64
+from werkzeug.utils import redirect
+import io
 
 
 class AllMyExpense(http.Controller):
@@ -26,12 +28,39 @@ class AllMyExpense(http.Controller):
             'sortby': sortby
         })
 
-    @http.route('/my/MyReimbursement/<model("hr.expense"):rexpense>', auth='public', website=True)
+    @http.route(['/my/MyReimbursement/<model("hr.expense"):rexpense>'], type='http', auth='public', website=True)
     def display_my_expense_detail(self, rexpense):
+
+        # field for show attached file in record on website form
+        attachments = request.env['ir.attachment'].sudo().search(
+            [('res_model', '=', 'hr.expense'),
+             ('res_id', '=', rexpense.id)], order='id')
         return http.request.render('travel_requisition.my_expense_detail', {
             'rexpense': rexpense,
             'page_name': 'pexpense',
+            'attachments': attachments,
         })
+
+    @http.route(['/attachment/download', ], type='http', auth='public')
+    def download_attachment(self, attachment_id):
+        # Check if this is a valid attachment id
+        attachment = request.env['ir.attachment'].sudo().search([('id', '=', int(attachment_id))])
+
+        if attachment:
+            attachment = attachment[0]
+        else:
+            return redirect('/my/MyReimbursement/')
+
+        if attachment["type"] == "url":
+            if attachment["url"]:
+                return redirect(attachment["url"])
+            else:
+                return request.not_found()
+        elif attachment["datas"]:
+            data = io.BytesIO(base64.standard_b64decode(attachment["datas"]))
+            return http.send_file(data, filename=attachment['name'], as_attachment=True)
+        else:
+            return request.not_found()
 
     @http.route('/create/MyReimbursement', website=True, auth='public')
     def myreimbursement_form(self, **kw):
@@ -144,6 +173,8 @@ class AllMyExpense(http.Controller):
 
             # create method override to create record from form
             create_record = request.env['hr.expense'].sudo().create(vals)
+
+            # this code related to add attachment from website
             if kw.get('myfile', False):
                 Attachments = request.env['ir.attachment']
                 files = request.httprequest.files.getlist('myfile')
@@ -160,8 +191,13 @@ class AllMyExpense(http.Controller):
                         'datas': base64.standard_b64encode(attachment)
                     })
                     print(attachment_id)
-                create_record.sudo().update(
+
+                showdata = create_record.sudo().update(
                     {'expense_document': attachment_id.datas, 'expensename': attachment_id.display_name})
+
+                # it can redirect to the created record after submit
+                if create_record:
+                    return request.redirect('/my/MyReimbursement/%s' % create_record.id)
 
         return http.request.render('travel_requisition.create_my_reimbursement', autofill_data)
 
