@@ -97,8 +97,8 @@ class TravelRequisitionExpense(models.Model):
 
         hr_exp_id = fields.Many2one('hr.expense', string='Hr Expense Id')
         date = fields.Date(string='Date')
-        from_dates = fields.Date(string='From', required=True)
-        to_dates = fields.Date(string='To', required=True)
+        from_dates = fields.Date(string='From date', required=True)
+        to_dates = fields.Date(string='To Date', required=True)
         departs_time = fields.Float(string='Departs Time', required=True)
         arrives_time = fields.Float(string='Arrives Time', required=True)
         mode_and_class = fields.Many2one('mode.class.master', string='Mode & Class', required=True)

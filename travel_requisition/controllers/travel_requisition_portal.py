@@ -1,7 +1,7 @@
 from odoo import http, _
 from odoo.http import content_disposition, Controller, request, route
 from odoo.addons.portal.controllers.portal import CustomerPortal
-from datetime import date, datetime
+from datetime import date, datetime, time, timedelta
 
 
 class AllExpense(http.Controller):
@@ -107,7 +107,8 @@ class AllExpense(http.Controller):
                 rfrom = False
 
             if kw.get('t_depart_time'):
-                rdepartstime = kw.get('t_depart_time')
+                # rdepartstime = float(kw.get('t_depart_time'))
+                rdepartstime = float(kw.get('t_depart_time').replace(":", "."))
             else:
                 rdepartstime = False
 
@@ -117,7 +118,7 @@ class AllExpense(http.Controller):
                 rto = False
 
             if kw.get('t_arrive_time'):
-                rarrivetime = kw.get('t_arrive_time')
+                rarrivetime = float(kw.get('t_arrive_time').replace(":", "."))
             else:
                 rarrivetime = False
 
@@ -165,8 +166,8 @@ class AllExpense(http.Controller):
                 'date': datetime.strptime(rdate, '%Y-%m-%d').date(),
                 'from_dates': datetime.strptime(rfrom, '%Y-%m-%d').date(),
                 'to_dates': datetime.strptime(rto, '%Y-%m-%d').date(),
-                'departs_time': datetime.strptime(rdepartstime, '%H:%M').time(),
-                'arrives_time': datetime.strptime(rarrivetime, '%H:%M').time(),
+                'departs_time': rdepartstime,
+                'arrives_time': rarrivetime,
                 'mode_and_class': t_modeclass,
             }
             traveldata = request.env['travel.details.line'].sudo().create(lines)
@@ -180,11 +181,11 @@ class AllExpense(http.Controller):
             }
             staydata = request.env['stay.details.line'].sudo().create(stay_lines)
 
-            create_record.sudo().update(
-                {
-                    'travel_detail_line_ids': [(4, traveldata.id)],
-                    'stay_detail_line_ids': [(4, staydata.id)],
-                })
+            # create_record.sudo().update(
+                # {
+                #     'travel_detail_line_ids': [(4, traveldata.id)],
+                #     'stay_detail_line_ids': [(4, staydata.id)],
+                # })
 
             # it can redirect to the created record after submit
             if create_record:
