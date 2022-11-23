@@ -5,6 +5,7 @@ from odoo import models, fields, api, _
 
 class TravelRequisitionExpense(models.Model):
     _inherit = 'hr.expense'
+    _rec_name = 'hr_sequence'
 
     # sequence for my reimbursement & travel requisition
     hr_sequence = fields.Char(string='No.', required=True, copy=False, readonly=True, index=True,
@@ -91,6 +92,18 @@ class TravelRequisitionExpense(models.Model):
             else:
                 vals['hr_sequence'] = self.env['ir.sequence'].next_by_code('my.reimburse.code') or _('New')
         return super(TravelRequisitionExpense, self).create(vals)
+
+    # @api.model
+    # def create(self, vals):
+    #     obj = super(TravelRequisitionExpense, self).create(vals)
+    #     if obj.hr_sequence == _('New'):
+    #         if self.env.context.get('default_travel_requisition_opt'):
+    #             number = self.env['ir.sequence'].next_by_code('travel.requisition.code') or _('New')
+    #             obj.write({'hr_sequence': number})
+    #         else:
+    #             number = self.env['ir.sequence'].next_by_code('my.reimburse.code') or _('New')
+    #             obj.write({'hr_sequence': number})
+    #     return obj
 
     class TravelDetailsLine(models.Model):
         _name = 'travel.details.line'

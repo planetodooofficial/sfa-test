@@ -69,7 +69,7 @@ class AllExpense(http.Controller):
 
             lines = {
                 'hr_exp_id': expense.id,
-                'date': datetime.strptime(rdate,'%Y-%m-%d').date(),
+                'date': datetime.strptime(rdate, '%Y-%m-%d').date(),
                 'from_dates': datetime.strptime(rfrom, '%Y-%m-%d').date(),
                 'to_dates': datetime.strptime(rto, '%Y-%m-%d').date(),
                 'departs_time': rdepartstime,
@@ -125,8 +125,10 @@ class AllExpense(http.Controller):
         # get current date
         cdate = date.today()
 
-        # for getting travel requisition field values
-        t_purpose = request.env['hr.expense'].sudo().search([])
+        # for getting travel requisition sequence value
+        seq_id = request.env['ir.sequence'].sudo().search([('code', '=', 'travel.requisition.code')])
+        seq_pool = request.env['ir.sequence']
+        app_no = seq_pool.sudo().get_id(seq_id.id)
 
         t_mode_class = request.env['mode.class.master'].sudo().search([])
         user_info = request.env['hr.employee'].sudo().browse(userid.id)
@@ -212,12 +214,14 @@ class AllExpense(http.Controller):
                 rcheckoutdate = kw.get('t_checkout_date')
 
             tvals = {
+                'hr_sequence': app_no,
                 'name': kw.get('t_expname'),
                 'product_id': product_name,
                 'total_amount': kw.get('t_total_amount'),
                 # don't know about this field, this field shows mandatory therefore i pass 1
                 'unit_amount': 1,
                 'payment_mode': 'company_account',
+                'travel_requisition_opt': True,
                 'purpose_of_visit': kw.get('t_purpose'),
             }
 

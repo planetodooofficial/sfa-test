@@ -77,6 +77,11 @@ class AllMyExpense(http.Controller):
         # get current date
         cdate = date.today()
 
+        # sequence add from portal
+        # seq_id = request.env['ir.sequence'].sudo().search([('code', '=', 'my.reimburse.code')])
+        # seq_pool = request.env['ir.sequence']
+        # app_no = seq_pool.sudo().get_id(seq_id.id)
+
         # field for attachment add
         files = request.httprequest.files.getlist('myfile')
         print(files, "this is file")
@@ -99,6 +104,7 @@ class AllMyExpense(http.Controller):
                 product_name = False
 
             vals = {
+                # 'hr_sequence': app_no,
                 'name': kw.get('expname'),
                 'product_id': product_name,
                 'total_amount': kw.get('total_amount'),
