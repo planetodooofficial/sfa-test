@@ -30,8 +30,8 @@ class TravelRequisitionExpense(models.Model):
     t_cadre = fields.Many2one('cadre.master', string='Cadre', related='employee_id.cadre')
     t_grade_title = fields.Many2one('grade.title.master', string='Grade Title', related='employee_id.grade_title')
 
-    travel_detail_line_ids = fields.One2many('travel.details.line', 'hr_exp_id', 'Travel Detail Line')
-    stay_detail_line_ids = fields.One2many('stay.details.line', 'hr_exp_id', 'Stay Detail Line')
+    travel_detail_line_ids = fields.One2many('travel.details.line', 'hr_exp_id', 'Travel Detail Line', required=True)
+    stay_detail_line_ids = fields.One2many('stay.details.line', 'hr_exp_id', 'Stay Detail Line', required=True)
     travel_requisition_opt = fields.Boolean(string='Travel Requisition', default=False)
 
     expense_document = fields.Binary('Add Attachment')
@@ -97,21 +97,21 @@ class TravelRequisitionExpense(models.Model):
 
         hr_exp_id = fields.Many2one('hr.expense', string='Hr Expense Id')
         date = fields.Date(string='Date')
-        from_dates = fields.Date(string='From date', required=True)
-        to_dates = fields.Date(string='To Date', required=True)
-        departs_time = fields.Float(string='Departs Time', required=True)
-        arrives_time = fields.Float(string='Arrives Time', required=True)
-        mode_and_class = fields.Many2one('mode.class.master', string='Mode & Class', required=True)
+        from_dates = fields.Date(string='From date')
+        to_dates = fields.Date(string='To Date')
+        departs_time = fields.Float(string='Departs Time')
+        arrives_time = fields.Float(string='Arrives Time')
+        mode_and_class = fields.Many2one('mode.class.master', string='Mode & Class')
 
     class StayDetailsLine(models.Model):
         _name = 'stay.details.line'
 
         hr_exp_id = fields.Many2one('hr.expense', string='Hr Expense Id')
-        name_line = fields.Many2one('hr.employee', string='Name', related='hr_exp_id.employee_id', required=True)
-        hotel_guest_line = fields.Char(string='Hotel / Guest House', required=True)
-        location_line = fields.Char(string='Location', required=True)
-        check_in_date = fields.Date(string='Check in Date', required=True)
-        check_out_date = fields.Date(string='Check Out Date', required=True)
+        name_line = fields.Many2one('hr.employee', string='Name', related='hr_exp_id.employee_id')
+        hotel_guest_line = fields.Char(string='Hotel / Guest House')
+        location_line = fields.Char(string='Location')
+        check_in_date = fields.Date(string='Check in Date')
+        check_out_date = fields.Date(string='Check Out Date')
 
     class ExpenseProductInherit(models.Model):
         _inherit = 'product.product'

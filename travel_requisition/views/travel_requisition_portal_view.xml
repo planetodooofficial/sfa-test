@@ -80,8 +80,6 @@
                                 <br/>
                                 <b>Total Amount</b>
                                 <br/>
-                                <!--<b>Taxes</b>-->
-                                <!--<br/>-->
                             </div>
                             <div class="col-lg-3">
                                 <t t-esc="expense.hr_sequence"/>
@@ -92,23 +90,13 @@
                                 <br/>
                                 <t t-esc="expense.total_amount"/>
                                 <br/>
-                                <!--<t t-esc="expense.tax_ids.name"/>-->
-                                <!--<br/>-->
                             </div>
 
                             <div class="col-lg-3">
                                 <b>Status</b>
                                 <br/>
-                                <!--<b>Bill Reference</b>-->
-                                <!--<br/>-->
                                 <b>Expense Date</b>
                                 <br/>
-                                <!--<b>Account</b>-->
-                                <!--<br/>-->
-                                <!--<b>Analytic Account</b>-->
-                                <!--<br/>-->
-                                <!--<b>Analytic Tags</b>-->
-                                <!--<br/>-->
                                 <b>Employee</b>
                                 <br/>
                                 <b>Paid By</b>
@@ -131,16 +119,8 @@
                                     <spam>REFUSED</spam>
                                 </t>
                                 <br/>
-                                <!--<t t-esc="expense.reference"/>-->
-                                <!--<br/>-->
                                 <t t-esc="expense.date"/>
                                 <br/>
-                                <!--<t t-esc="expense.account_id.name"/>-->
-                                <!--<br/>-->
-                                <!--<t t-esc="expense.analytic_account_id.name"/>-->
-                                <!--<br/>-->
-                                <!--<t t-esc="expense.analytic_tag_ids.name"/>-->
-                                <!--<br/>-->
                                 <t t-esc="expense.employee_id.name"/>
                                 <br/>
                                 <t t-if="expense.payment_mode == 'company_account'">
@@ -280,6 +260,107 @@
                                             </tr>
                                         </t>
                                     </table>
+                                    <t t-if="expense.state=='draft'">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#TravelDetailModal" style="padding: 2px 7px;">
+                                            Add a line
+                                        </button>
+                                    </t>
+                                </div>
+                                <!-- TRAVEL DETAIL LINE POPUP -->
+                                <div class="modal fade" id="TravelDetailModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="TravelModalLabel">Add Travel Details</h5>
+                                                <!--<t t-set="rec_id" t-value="expense"/>-->
+                                                <!--<span><t t-esc="rec_id"/>iljfdlj</span>-->
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST"
+                                                      enctype="multipart/form-data">
+                                                    <input type="hidden" name="csrf_token"
+                                                           t-att-value="request.csrf_token()"/>
+                                                    <table>
+                                                        <tr>
+                                                            <td style="width:167px;">
+                                                                <b>Date</b>
+                                                            </td>
+                                                            <td style="width:167px;">
+                                                                <input type="date" id="t_date" name="t_date"
+                                                                       style="width:167px;" required="1"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width:167px;">
+                                                                <b>From</b>
+                                                            </td>
+                                                            <td style="width:167px;">
+                                                                <input type="date" id="t_from" name="t_from"
+                                                                       style="width:167px;" required="1"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width:167px;">
+                                                                <b>Departs Time</b>
+                                                            </td>
+                                                            <td style="width:167px;">
+                                                                <input type="time" id="t_depart_time"
+                                                                       name="t_depart_time"
+                                                                       style="width:167px;" required="1"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width:167px;">
+                                                                <b>To</b>
+                                                            </td>
+                                                            <td style="width:167px;">
+                                                                <input type="date" id="t_to" name="t_to"
+                                                                       style="width:167px;"
+                                                                       required="1"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width:167px;">
+                                                                <b>Arrives Time</b>
+                                                            </td>
+                                                            <td style="width:167px;">
+                                                                <input type="time" id="t_arrive_time"
+                                                                       name="t_arrive_time"
+                                                                       style="width:167px;" required="1"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="width:167px;">
+                                                                <b>Mode &amp; Class</b>
+                                                            </td>
+                                                            <td style="width:169px;">
+                                                                <select id="t_mode_class" name="t_mode_class"
+                                                                        required="1" style="width:169px;">
+                                                                    <option></option>
+                                                                    <t t-foreach="t_mode_class" t-as="tmodclas">
+                                                                        <option t-att-value="tmodclas.id">
+                                                                            <t t-esc="tmodclas.mode_class_line"/>
+                                                                        </option>
+                                                                    </t>
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal" onclick="this.form.reset();">Cancel
+                                                        </button>
+                                                        <input type="submit" class="btn btn-primary" value="Create"
+                                                               name="travel_detail_line_create"/>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
                                 <br/>
                             </div>
@@ -396,6 +477,90 @@
                                             </tr>
                                         </t>
                                     </table>
+                                    <t t-if="expense.state=='draft'">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#StayDetailModal" style="padding: 2px 7px;">
+                                            Add a line
+                                        </button>
+                                    </t>
+                                </div>
+
+                                <!-- STAY DETAIL LINE POPUP-->
+                                <div class="modal fade" id="StayDetailModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="stayModalLabel">Add Stay Details</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="" method="POST"
+                                                      enctype="multipart/form-data">
+                                                    <input type="hidden" name="csrf_token"
+                                                           t-att-value="request.csrf_token()"/>
+                                                    <table style="width:100%">
+                                                        <tr>
+                                                            <td>
+                                                                <b>Name</b>
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" id="t_stay_name" name="t_stay_name"
+                                                                       t-att-value="t_stay_name.name"
+                                                                       style="width:200px;"
+                                                                       disabled="1" required="1"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>Hotel / Guest House</b>
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" id="t_hotelguest" name="t_hotelguest"
+                                                                       style="width:200px;" required="1"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>Location</b>
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" id="t_location" name="t_location"
+                                                                       style="width:200px;" required="1"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>Check In Date</b>
+                                                            </td>
+                                                            <td>
+                                                                <input type="date" id="t_checkin_date"
+                                                                       name="t_checkin_date"
+                                                                       style="width:200px;" required="1"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <b>Check out Date</b>
+                                                            </td>
+                                                            <td>
+                                                                <input type="date" id="t_checkout_date"
+                                                                       name="t_checkout_date"
+                                                                       style="width:200px;" required="1"/>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal" onclick="this.form.reset();">Cancel
+                                                        </button>
+                                                        <input type="submit" class="btn btn-primary" value="Create"
+                                                               name="stay_detail_line_create"/>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <br/>
                             </div>
@@ -496,71 +661,6 @@
 
     <!-- My Reimbursement form to create record in odoo portal -->
     <template id="create_travel_requisition" name="Travel Requisition">
-        <!--<script type="text/javascript" src="sfa-test/travel_requisition/static/src/js/portal.js"></script>-->
-        <script type="text/javascript">
-            function create_tr(table_id){
-            let table_body = document.getElementById(table_id),
-            first_tr = table_body.firstElementChild
-            tr_clone = first_tr.cloneNode(true);
-
-            table_body.append(tr_clone);
-
-            clean_first_tr(table_body.firstElementChild);
-            }
-
-            function clean_first_tr(firstTr){
-            let children = firstTr.children;
-
-            children = Array.isArray(children) ? children : Object.values(children);
-            children.forEach(x=>{
-            if(x !== firstTr.lastElementChild)
-            {
-            x.firstElementChild.value = '';
-            }
-            });
-            }
-
-            function remove_tr(This){
-            if(This.closest('tbody').childElementCount == 1)
-            {
-            alert("You Don't have Permission to delete This!")
-            }else{
-            This.closest('tr').remove();
-            }
-            }
-
-            <!-- js for stay detail line -->
-            function stay_create_tr(table_id){
-            let table_body = document.getElementById(table_id),
-            first_tr = table_body.firstElementChild
-            tr_clone = first_tr.cloneNode(true);
-
-            table_body.append(tr_clone);
-
-            stay_clean_first_tr(table_body.firstElementChild);
-            }
-
-            function stay_clean_first_tr(firstTr){
-            let children = firstTr.children;
-
-            children = Array.isArray(children) ? children : Object.values(children);
-            children.forEach(x=>{
-            if(x !== firstTr.lastElementChild)
-            {
-            x.firstElementChild.value = '';
-            }
-            });
-            }
-
-            function stay_remove_tr(This){
-            if(This.closest('tbody').childElementCount == 1)
-            {
-            alert("You Don't have Permission to delete This!")
-            }else{
-            This.closest('tr').remove();
-            }
-            }
-        </script>
         <div class="oe_structure">
             <form role="form" action="/create/TravelRequisition" method="POST"
                   enctype="multipart/form-data">
@@ -593,17 +693,9 @@
                                                 <b>Expense Date</b>
                                             </td>
                                             <td>
-                                                <!-- <t t-set="curdate" t-value="date.today().strftime('%d/%m/%Y')"/>-->
                                                 <input type="date" id="cdate" name="cdate" t-att-value="cdate"
                                                        style="width:210px;"/>
                                             </td>
-                                            <!--<td style="width:150px">-->
-                                            <!--<b>Bill Reference</b>-->
-                                            <!--</td>-->
-                                            <!--<td style="width:300px">-->
-                                            <!--<input type="text" id="t_ref" name="t_ref" style="width:210px;"-->
-                                            <!--    required="1"/>-->
-                                            <!--</td>-->
                                         </tr>
 
                                         <tr>
@@ -638,8 +730,8 @@
                                                 <sup style="color:red;">*</sup>
                                             </td>
                                             <td>
-                                                <input type="text" id="t_total_amount" name="t_total_amount"
-                                                       style="width:210px;"/>
+                                                <input type="number" id="t_total_amount" name="t_total_amount"
+                                                       style="width:210px;" required="1"/>
                                             </td>
                                             <td>
                                                 <b>Paid By</b>
@@ -728,8 +820,6 @@
                                                         <b>Purpose of Visit</b>
                                                     </td>
                                                     <td>
-                                                        <!--<input type="text" id="t_purpose" name="t_purpose"-->
-                                                        <!--style="width:210px;" required="1"/>-->
                                                         <textarea id="t_purpose" name="t_purpose" required="1"/>
                                                     </td>
                                                 </tr>
@@ -774,15 +864,8 @@
                                                     <td style="width:167px;">
                                                         <b>Arrives Time</b>
                                                     </td>
-                                                    <td style="width:167px;">
+                                                    <td style="width:167px;" colspan="2">
                                                         <b>Mode &amp; Class</b>
-                                                    </td>
-                                                    <td>
-                                                        <button id="add1" type="button"
-                                                                class="btn btn-secondary"
-                                                                onclick="create_tr('table_body')">
-                                                            Add
-                                                        </button>
                                                     </td>
                                                 </tr>
                                             </thead>
@@ -791,22 +874,23 @@
                                                 <tr>
                                                     <td style="width:167px;">
                                                         <input type="date" id="t_date" name="t_date"
-                                                               style="width:167px;"/>
+                                                               style="width:167px;" required="1"/>
                                                     </td>
                                                     <td style="width:167px;">
                                                         <input type="date" id="t_from" name="t_from"
-                                                               style="width:167px;"/>
+                                                               style="width:167px;" required="1"/>
                                                     </td>
                                                     <td style="width:167px;">
                                                         <input type="time" id="t_depart_time" name="t_depart_time"
-                                                               style="width:167px;"/>
+                                                               style="width:167px;" required="1"/>
                                                     </td>
                                                     <td style="width:167px;">
-                                                        <input type="date" id="t_to" name="t_to" style="width:167px;"/>
+                                                        <input type="date" id="t_to" name="t_to" style="width:167px;"
+                                                               required="1"/>
                                                     </td>
                                                     <td style="width:167px;">
                                                         <input type="time" id="t_arrive_time" name="t_arrive_time"
-                                                               style="width:167px;"/>
+                                                               style="width:167px;" required="1"/>
                                                     </td>
                                                     <td style="width:169px;">
                                                         <select id="t_mode_class" name="t_mode_class"
@@ -818,19 +902,6 @@
                                                                 </option>
                                                             </t>
                                                         </select>
-                                                    </td>
-                                                    <td>
-                                                        <button id="del1" type="button" class="btn btn-danger"
-                                                                onclick="remove_tr(this)">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                 height="16"
-                                                                 fill="currentColor" class="bi bi-trash"
-                                                                 viewBox="0 0 16 16">
-                                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                                                <path fill-rule="evenodd"
-                                                                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                                            </svg>
-                                                        </button>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -946,56 +1017,36 @@
                                                         <td>
                                                             <b>Check out Date</b>
                                                         </td>
-                                                        <td>
-                                                            <button id="add2" type="button"
-                                                                    action="stay_create_tr('table_body')"
-                                                                    class="btn btn-secondary">
-                                                                Add
-                                                            </button>
-                                                        </td>
                                                     </tr>
                                                 </thead>
 
-                                                <tbody id="table_body">
+                                                <tbody id="table_body1">
                                                     <tr>
                                                         <td>
                                                             <input type="text" id="t_stay_name" name="t_stay_name"
-                                                                   style="width:200px;" t-att-value="t_stay_name.name" disabled="1"/>
+                                                                   style="width:200px;" t-att-value="t_stay_name.name"
+                                                                   disabled="1" required="1"/>
                                                         </td>
                                                         <td>
                                                             <input type="text" id="t_hotelguest" name="t_hotelguest"
-                                                                   style="width:200px;"/>
+                                                                   style="width:200px;" required="1"/>
                                                         </td>
                                                         <td>
                                                             <input type="text" id="t_location" name="t_location"
-                                                                   style="width:200px;"/>
+                                                                   style="width:200px;" required="1"/>
                                                         </td>
                                                         <td>
                                                             <input type="date" id="t_checkin_date"
                                                                    name="t_checkin_date"
-                                                                   style="width:200px;"/>
+                                                                   style="width:200px;" required="1"/>
                                                         </td>
                                                         <td>
                                                             <input type="date" id="t_checkout_date"
                                                                    name="t_checkout_date"
-                                                                   style="width:200px;"/>
-                                                        </td>
-                                                        <td>
-                                                            <button id="del2" type="button" class="btn btn-danger"
-                                                                    action="stay_remove_tr(This)">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                     height="16"
-                                                                     fill="currentColor" class="bi bi-trash"
-                                                                     viewBox="0 0 16 16">
-                                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                                                    <path fill-rule="evenodd"
-                                                                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                                                </svg>
-                                                            </button>
+                                                                   style="width:200px;" required="1"/>
                                                         </td>
                                                     </tr>
                                                 </tbody>
-                                                <!--</t>-->
                                             </table>
                                         </div>
                                         <br/>
