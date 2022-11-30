@@ -32,7 +32,7 @@ class AllMyExpense(http.Controller):
     def display_my_expense_detail(self, rexpense):
 
         # field for show attached file in record on website form
-        attachments = request.env['ir.attachment'].sudo().search(
+        attachments = request.env['ir.attachment'].search(
             [('res_model', '=', 'hr.expense'),
              ('res_id', '=', rexpense.id)], order='id')
 
@@ -46,7 +46,7 @@ class AllMyExpense(http.Controller):
     @http.route(['/attachment/download', ], type='http', auth='public')
     def download_attachment(self, attachment_id):
         # Check if this is a valid attachment id
-        attachment = request.env['ir.attachment'].sudo().search([('id', '=', int(attachment_id))])
+        attachment = request.env['ir.attachment'].search([('id', '=', int(attachment_id))])
 
         if attachment:
             attachment = attachment[0]
@@ -68,19 +68,19 @@ class AllMyExpense(http.Controller):
     def myreimbursement_form(self, **kw):
         # get current login user
         userid = request.env.user.employee_id
-        demo = request.env['hr.expense'].sudo().search([('travel_requisition_opt', '=', False)])
+        demo = request.env['hr.expense'].search([('travel_requisition_opt', '=', False)])
 
         # get products based on search filter from many2one
-        r_product = request.env['product.product'].sudo().search(
+        r_product = request.env['product.product'].search(
             [('travel_requisition', '=', False), ('can_be_expensed', '=', True)])
 
         # get current date
         cdate = date.today()
 
         # sequence add from portal
-        # seq_id = request.env['ir.sequence'].sudo().search([('code', '=', 'my.reimburse.code')])
+        # seq_id = request.env['ir.sequence'].search([('code', '=', 'my.reimburse.code')])
         # seq_pool = request.env['ir.sequence']
-        # app_no = seq_pool.sudo().get_id(seq_id.id)
+        # app_no = seq_pool.get_id(seq_id.id)
 
         # field for attachment add
         files = request.httprequest.files.getlist('myfile')
@@ -114,7 +114,7 @@ class AllMyExpense(http.Controller):
             }
 
             # create method override to create record from form
-            create_record = request.env['hr.expense'].sudo().create(vals)
+            create_record = request.env['hr.expense'].create(vals)
 
             # this code related to add attachment from website
             if kw.get('myfile', False):
@@ -123,7 +123,7 @@ class AllMyExpense(http.Controller):
                 # file = kwargs.get('myfile', False)
                 for file in files:
                     attachment = file.read()
-                    attachment_id = Attachments.sudo().create({
+                    attachment_id = Attachments.create({
                         'name': file.filename,
                         'display_name': 'new',
                         'res_name': 'new',
@@ -134,7 +134,7 @@ class AllMyExpense(http.Controller):
                     })
                     print(attachment_id)
 
-                showdata = create_record.sudo().update(
+                showdata = create_record.update(
                     {'expense_document': attachment_id.datas, 'expensename': attachment_id.display_name})
 
                 # it can redirect to the created record after submit
@@ -147,7 +147,7 @@ class AllMyExpense(http.Controller):
 class MyExpenseCustomerPortal(CustomerPortal):
     def _prepare_home_portal_values(self, counters):
         values = super(MyExpenseCustomerPortal, self)._prepare_home_portal_values(counters)
-        count_my_expenses = request.env['hr.expense'].sudo().search_count(
+        count_my_expenses = request.env['hr.expense'].search_count(
             [('state', '=', ('draft', 'reported', 'approved', 'done', 'refused')),
              ('payment_mode', '=', 'own_account')])
         values.update({

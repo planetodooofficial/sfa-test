@@ -28,12 +28,12 @@ class AllExpense(http.Controller):
     @http.route('/my/TravelRequisition/<model("hr.expense"):expense>', auth='public', website=True)
     def display_expense_detail(self, expense, **kw):
         # this part for add line of one to many field
-        t_mode_class = request.env['mode.class.master'].sudo().search([])
+        t_mode_class = request.env['mode.class.master'].search([])
 
         # field to get current login user id
         userid = request.env.user.employee_id
         # field for auto field data
-        user_info = request.env['hr.employee'].sudo().browse(userid.id)
+        user_info = request.env['hr.employee'].browse(userid.id)
 
         if kw.get('travel_detail_line_create'):
             # all fields related to Travel details one to many
@@ -76,7 +76,7 @@ class AllExpense(http.Controller):
                 'arrives_time': rarrivetime,
                 'mode_and_class': t_modeclass,
             }
-            traveldata = request.env['travel.details.line'].sudo().create(lines)
+            traveldata = request.env['travel.details.line'].create(lines)
             if traveldata:
                 return request.redirect('/my/TravelRequisition/%s' % expense.id)
 
@@ -101,7 +101,7 @@ class AllExpense(http.Controller):
                 'check_in_date': datetime.strptime(rcheckindate, '%Y-%m-%d').date(),
                 'check_out_date': datetime.strptime(rcheckoutdate, '%Y-%m-%d').date(),
             }
-            staydata = request.env['stay.details.line'].sudo().create(stay_lines)
+            staydata = request.env['stay.details.line'].create(stay_lines)
 
             if staydata:
                 return request.redirect('/my/TravelRequisition/%s' % expense.id)
@@ -119,19 +119,19 @@ class AllExpense(http.Controller):
         userid = request.env.user.employee_id
 
         # get products based on search filter from many 2 one
-        t_product = request.env['product.product'].sudo().search(
+        t_product = request.env['product.product'].search(
             [('travel_requisition', '=', True), ('can_be_expensed', '=', True)])
 
         # get current date
         cdate = date.today()
 
         # for getting travel requisition sequence value
-        seq_id = request.env['ir.sequence'].sudo().search([('code', '=', 'travel.requisition.code')])
+        seq_id = request.env['ir.sequence'].search([('code', '=', 'travel.requisition.code')])
         seq_pool = request.env['ir.sequence']
-        app_no = seq_pool.sudo().get_id(seq_id.id)
+        app_no = seq_pool.get_id(seq_id.id)
 
-        t_mode_class = request.env['mode.class.master'].sudo().search([])
-        user_info = request.env['hr.employee'].sudo().browse(userid.id)
+        t_mode_class = request.env['mode.class.master'].search([])
+        user_info = request.env['hr.employee'].browse(userid.id)
 
         autofill_data = {
             # 'key' : mention fields
@@ -226,7 +226,7 @@ class AllExpense(http.Controller):
             }
 
             # create method override to create record from form
-            create_record = request.env['hr.expense'].sudo().create(tvals)
+            create_record = request.env['hr.expense'].create(tvals)
 
             lines = {
                 'hr_exp_id': int(create_record.id),
@@ -237,7 +237,7 @@ class AllExpense(http.Controller):
                 'arrives_time': rarrivetime,
                 'mode_and_class': t_modeclass,
             }
-            traveldata = request.env['travel.details.line'].sudo().create(lines)
+            traveldata = request.env['travel.details.line'].create(lines)
 
             stay_lines = {
                 'hr_exp_id': create_record.id,
@@ -246,9 +246,9 @@ class AllExpense(http.Controller):
                 'check_in_date': datetime.strptime(rcheckindate, '%Y-%m-%d').date(),
                 'check_out_date': datetime.strptime(rcheckoutdate, '%Y-%m-%d').date(),
             }
-            staydata = request.env['stay.details.line'].sudo().create(stay_lines)
+            staydata = request.env['stay.details.line'].create(stay_lines)
 
-            # create_record.sudo().update(
+            # create_record.update(
             # {
             #     'travel_detail_line_ids': [(4, traveldata.id)],
             #     'stay_detail_line_ids': [(4, staydata.id)],
