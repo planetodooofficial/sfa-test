@@ -8,7 +8,7 @@ import io
 
 
 class AllMyExpense(http.Controller):
-    @http.route('/my/MyReimbursement/', website=True, auth='public')
+    @http.route('/my/MyReimbursement/', type='http', website=True, auth='public')
     def display_my_expenses(self, sortby=None, **kw):
         searchbar_sortings = {
             'date': {'label': _('Expense Date'), 'order': 'date desc'},
@@ -64,7 +64,7 @@ class AllMyExpense(http.Controller):
         else:
             return request.not_found()
 
-    @http.route('/create/MyReimbursement', website=True, auth='public')
+    @http.route('/create/MyReimbursement', type='http', website=True, auth='public')
     def myreimbursement_form(self, **kw):
         # get current login user
         userid = request.env.user.employee_id
