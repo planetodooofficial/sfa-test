@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- reports starts here -->
 <odoo>
-    <template id="hr_payroll.report_payslip_lang">
+    <template t-name="hr_payroll.report_payslip_lang">
         <t t-call="web.html_container">
             <t t-call="sfa.report_salary_slip">
                 <style>
@@ -21,19 +20,29 @@
                     <t t-set="pf" t-value="0"/>
                     <t t-set="prof_tax" t-value="0"/>
                     <t t-set="days" t-value="0"/>
+                    <t t-set="expense" t-value="0"/>
+                    <t t-set="ba" t-value="0"/>
                     <t t-foreach="docs" t-as="doc">
                         <t t-foreach="doc.worked_days_line_ids" t-as="day">
                             <t t-if="day.work_entry_type_id.name == 'Attendance'">
                                 <t t-set="days" t-value="day.number_of_days"/>
                             </t>
                         </t>
+                        <t t-foreach="doc.input_line_ids" t-as="daz">
+                            <t t-if="daz.input_type_id.name == 'Expenses'">
+                                <t t-set="expense" t-value="daz.amount"/>
+                            </t>
+                            <t t-if="daz.input_type_id.name == 'Bonus Allowance'">
+                                <t t-set="ba" t-value="daz.amount"/>
+                            </t>
+                        </t>
+
                         <table style="width:100%; border:1px solid; font-size:15px;">
                             <tr>
                                 <td colspan="5" class="text-center">
                                     <br/>
                                     <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)"
-                                         style="height: 100px; width: 120px;"
-                                         alt="Logo"/>
+                                         style="height: 100px; width: 120px;" alt="Logo"/>
                                     <br/>
                                     <br/>
                                 </td>
@@ -80,8 +89,8 @@
                                     <b>DOJ</b>
                                 </td>
                                 <td class="td_style">
-                                    <t t-esc="doc.employee_id.joining_date"
-                                       t-options='{"widget": "date", "format": "dd-MM-yyyy"}'/>
+                                                                    <t t-esc="doc.employee_id.joining_date"
+                                                                       t-options="{&quot;widget&quot;: &quot;date&quot;, &quot;format&quot;: &quot;dd-MM-yyyy&quot;}"/>
                                 </td>
                             </tr>
                             <tr>
@@ -96,8 +105,8 @@
                                     <b>DOB</b>
                                 </td>
                                 <td class="td_style">
-                                    <t t-esc="doc.employee_id.birthday"
-                                       t-options='{"widget": "date", "format": "dd-MM-yyyy"}'/>
+                                                                    <t t-esc="doc.employee_id.birthday"
+                                                                       t-options="{&quot;widget&quot;: &quot;date&quot;, &quot;format&quot;: &quot;dd-MM-yyyy&quot;}"/>
                                 </td>
                             </tr>
                             <tr>
@@ -110,7 +119,7 @@
                                 <td class="td_style">
                                     <b>Pay Period Begin Date</b>
                                 </td>
-                                <td class="td_style"></td>
+                                <td class="td_style"/>
                             </tr>
                             <tr>
                                 <td class="td_style">
@@ -122,7 +131,7 @@
                                 <td class="td_style">
                                     <b>Pay Period End Date</b>
                                 </td>
-                                <td class="td_style"></td>
+                                <td class="td_style"/>
                             </tr>
                             <tr>
                                 <td class="td_style">
@@ -159,8 +168,8 @@
                                 <td colspan="2" class="td_style">
                                     <t t-esc="doc.contract_id.bank_name"/>
                                 </td>
-                                <td class="td_style"></td>
-                                <td class="td_style"></td>
+                                <td class="td_style"/>
+                                <td class="td_style"/>
                             </tr>
                             <tr>
                                 <td class="td_style" style="text-align: center;">
@@ -229,7 +238,7 @@
                                     </t>
                                 </td>
                                 <td class="td_style">ESIC</td>
-                                <td class="td_style" tyle="text-align:right;">
+                                <td class="td_style" style="text-align:right;">
                                     <t t-esc="doc.employee_id.esic_number"/>
                                 </td>
                             </tr>
@@ -283,7 +292,7 @@
                                     </t>
                                 </td>
                                 <td class="td_style">TDS</td>
-                                <td class="td_style" tyle="text-align:right;"></td>
+                                <td class="td_style" tyle="text-align:right;"/>
                             </tr>
                             <tr>
                                 <td class="td_style">Special Allowance</td>
@@ -307,7 +316,7 @@
                                 <td class="td_style">Recovery of Excess
                                     Allowance
                                 </td>
-                                <td class="td_style"></td>
+                                <td class="td_style"/>
                             </tr>
                             <tr>
                                 <td class="td_style">Choice Pay</td>
@@ -328,49 +337,77 @@
                                         </t>
                                     </t>
                                 </td>
+                                <td class="td_style">Expenses</td>
+                                <td class="td_style" style="text-align:right;">
+                                    <t t-esc="expense" t-options="{'widget': 'float', 'precision': 2}"/>
+                                    <t t-set="total_deductions" t-value="total_deductions + expense" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td_style">Gratuity</td>
+                                <td style="width:13%; text-align:right;" class="td_style">
+                                    <t t-foreach="doc.line_ids" t-as="line">
+                                        <t t-if="line.name =='Gratuity'">
+                                            <t t-esc="line.total" t-options="{'widget': 'float', 'precision': 2}"/>
+                                        </t>
+                                    </t>
+                                </td>
+                                <td style="width:12%; text-align:right;" class="td_style">
+                                    <t t-foreach="doc.line_ids" t-as="line">
+                                        <t t-if="line.name =='Gratuity'">
+                                            <t t-set="total_earnings"
+                                               t-value="total_earnings + ((line.total/30)*days)"/>
+                                            <t t-esc="((line.total/30)*days)"
+                                               t-options="{'widget': 'float', 'precision': 2}"/>
+                                        </t>
+                                    </t>
+                                </td>
                                 <td class="td_style"/>
                                 <td class="td_style"/>
                             </tr>
-
-                            <!-- <tr>-->
-                            <!-- <td class="td_style">Gratuity</td>-->
-                            <!-- <td style="width:13%; text-align:right;" class="td_style">-->
-                            <!-- <t t-foreach="doc.line_ids" t-as="line">-->
-                            <!-- <t t-if="line.name =='Gratuity'">-->
-                            <!-- <t t-esc="line.total"  t-options="{'widget': 'float', 'precision': 2}"/>-->
-                            <!-- </t>-->
-                            <!-- </t>-->
-                            <!-- </td>-->
-                            <!-- <td style="width:12%; text-align:right;" class="td_style">-->
-                            <!-- <t t-foreach="doc.line_ids" t-as="line">-->
-                            <!-- <t t-if="line.name =='Gratuity'">-->
-                            <!-- <t t-set="total_earnings" t-value="total_earnings + ((line.total/30)*days)"/>-->
-                            <!-- <t t-esc="((line.total/30)*days)"  t-options="{'widget': 'float', 'precision': 2}"/>-->
-                            <!-- </t>-->
-                            <!-- </t>-->
-                            <!-- </td>-->
-                            <!-- <td class="td_style"/>-->
-                            <!-- <td class="td_style"/>-->
-                            <!-- </tr>-->
-
+                            <tr>
+                                <td class="td_style">Employer's PF Contribution</td>
+                                <td style="width:13%; text-align:right;" class="td_style">
+                                    <span>1950.00</span>
+                                </td>
+                                <td style="width:12%; text-align:right;" class="td_style">
+                                    <t t-set="total_earnings" t-value="total_earnings + ((1950/30)*days)"/>
+                                    <span>1950.00</span>
+                                </td>
+                                <td class="td_style"/>
+                                <td class="td_style"/>
+                            </tr>
+                            <tr>
+                                <td class="td_style">Bonus Allowance</td>
+                                <td style="width:13%; text-align:right;" class="td_style">
+<!--                                    <span>1950.00</span>-->
+                                </td>
+                                <td style="width:12%; text-align:right;" class="td_style">
+<!--                                    <t t-set="total_earnings" t-value="total_earnings + ((1950/30)*days)"/>-->
+<!--                                    <span>1950.00</span>-->
+                                    <t t-esc="ba" t-options="{'widget': 'float', 'precision': 2}"/>
+                                </td>
+                                <td class="td_style"/>
+                                <td class="td_style"/>
+                            </tr>
                             <tr>
                                 <td class="td_style">Hold Salary</td>
-                                <td style="width:12%;" class="td_style"></td>
-                                <td style="width:13%;" class="td_style"></td>
+                                <td style="width:12%;" class="td_style"/>
+                                <td style="width:13%;" class="td_style"/>
                                 <td class="td_style"/>
                                 <td class="td_style"/>
                             </tr>
                             <tr>
                                 <td class="td_style">Arrear</td>
-                                <td style="width:12%;" class="td_style"></td>
-                                <td style="width:13%;" class="td_style"></td>
+                                <td style="width:12%;" class="td_style"/>
+                                <td style="width:13%;" class="td_style"/>
                                 <td class="td_style"/>
                                 <td class="td_style"/>
                             </tr>
                             <tr>
                                 <td class="td_style">Reimbursement</td>
-                                <td style="width:12%;" class="td_style"></td>
-                                <td style="width:13%;" class="td_style"></td>
+                                <td style="width:12%;" class="td_style"/>
+                                <td style="width:13%;" class="td_style"/>
                                 <td class="td_style"/>
                                 <td class="td_style"/>
                             </tr>
@@ -381,7 +418,7 @@
                                 <td style="width:13%; text-align:right;" class="td_style">
                                     <b>
                                         <t t-foreach="doc.line_ids" t-as="line">
-                                            <t t-if="line.name =='Gross'">
+                                            <t t-if="line.name =='Total Cost to Company'">
                                                 <t t-esc="line.total" t-options="{'widget': 'float', 'precision': 2}"/>
                                             </t>
                                         </t>
@@ -390,8 +427,8 @@
                                 <td style="width:12%; text-align:right;" class="td_style">
                                     <b>
                                         <t t-foreach="doc.line_ids" t-as="line">
-                                            <t t-if="line.name =='Gross'">
-                                                <t t-esc="total_earnings"
+                                            <t t-if="line.name =='Total Cost to Company'">
+                                                <t t-esc="total_earnings + ba"
                                                    t-options="{'widget': 'float', 'precision': 2}"/>
                                             </t>
                                         </t>
@@ -414,7 +451,8 @@
                                     <b>
                                         <t t-foreach="doc.line_ids" t-as="line">
                                             <t t-if="line.name =='Net Salary'">
-                                                <t t-esc="line.total" t-options="{'widget': 'float', 'precision': 2}"/>
+                                                <t t-esc="total_earnings + ba -total_deductions"
+                                                   t-options="{'widget': 'float', 'precision': 2}"/>
                                             </t>
                                         </t>
                                     </b>
@@ -429,7 +467,7 @@
                                         <t t-foreach="doc.line_ids" t-as="line">
                                             <t t-if="line.name =='Net Salary'">
                                                 <span style="text-transform: capitalize;"
-                                                      t-esc="doc._compute_total_claimable_amt_words(line.total)"/>
+                                                      t-esc="doc._compute_total_claimable_amt_words(total_earnings + ba - total_deductions)"/>
                                             </t>
                                         </t>
                                     </b>
@@ -450,14 +488,12 @@
         </t>
     </template>
     <template id="external_layout_standard_salary_slip">
-        <!--          this is for header part   -->
+        <!--           this is for header part    -->
         <div t-attf-class="header o_company_#{company.id}_layout">
             <div class="row">
-                <div class="col-md-12" style="position:absolute; ">
-
-                </div>
+                <div class="col-md-12" style="position:absolute; "></div>
             </div>
-            <!--            <div class="o_boxed_header"/>/-->
+            <!--             <div class="o_boxed_header"/>/ -->
         </div>
         <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"
              t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
@@ -465,19 +501,18 @@
             <div class="o_boxed_header"/>
             <t t-raw="0"/>
         </div>
-        <!--          this is for footer part  -->
+        <!--           this is for footer part   -->
         <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
-            <!--            <div class="text-center" style="border-top: 1px solid black">-->
-            <!--                <div class="col-md-12">-->
-
-            <!--                </div>-->
-            <!--            </div>-->
+            <!--             <div class="text-center" style="border-top: 1px solid black"> -->
+            <!--                 <div class="col-md-12"> -->
+            <!--                 </div> -->
+            <!--             </div> -->
         </div>
     </template>
     <template id="report_salary_slip">
         <t t-if="not o" t-set="o" t-value="doc"/>
         <t t-if="not company">
-            <!--    Multicompany    -->
+            <!--     Multicompany     -->
             <t t-if="company_id">
                 <t t-set="company" t-value="company_id"/>
             </t>
@@ -493,3 +528,4 @@
         </t>
     </template>
 </odoo>
+

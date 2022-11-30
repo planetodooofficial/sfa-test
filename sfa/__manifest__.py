@@ -9,6 +9,7 @@
     "data": [
         "security/ir.model.access.csv",
         "wizards/analytic_account_wizard.xml",
+        "views/hr_payslip_change.xml",
         "reports/report.xml",
         "reports/proforma_invoice.xml",
         "reports/salary_slip.xml",
@@ -24,7 +25,7 @@
         "views/import_contra_voucher.xml",
         "views/import_receipt_register.xml",
         "views/accounting.xml",
-        "views/hr_payslip_change.xml",
+
     ],
     "assets": {
         "web.assets_backend": [
