@@ -5,4 +5,5 @@ grade_master,grade.master,model_grade_master,,1,1,1,1
 cadre_master,cadre.master,model_cadre_master,,1,1,1,1
 grade_title_master,grade.title.master,model_grade_title_master,,1,1,1,1
 mode_class_master,mode.class.master,model_mode_class_master,,1,1,1,1
+access_hr_expense_portal,hr.expense.portal,hr_expense.model_hr_expense,base.group_portal,1,1,1,1
 

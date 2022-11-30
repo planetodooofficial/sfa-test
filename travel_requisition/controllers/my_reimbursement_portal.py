@@ -8,7 +8,7 @@ import io
 
 
 class AllMyExpense(http.Controller):
-    @http.route('/my/MyReimbursement/', type='http', website=True, auth='public')
+    @http.route('/my/MyReimbursement/', website=True, auth='public')
     def display_my_expenses(self, sortby=None, **kw):
         searchbar_sortings = {
             'date': {'label': _('Expense Date'), 'order': 'date desc'},
@@ -43,7 +43,7 @@ class AllMyExpense(http.Controller):
         })
 
     # this function for show attachment on webform which is already attached
-    @http.route(['/attachment/download', ], type='http', auth='public')
+    @http.route(['/attachment/download', ], type='http', auth='public', website=True)
     def download_attachment(self, attachment_id):
         # Check if this is a valid attachment id
         attachment = request.env['ir.attachment'].search([('id', '=', int(attachment_id))])
@@ -64,7 +64,7 @@ class AllMyExpense(http.Controller):
         else:
             return request.not_found()
 
-    @http.route('/create/MyReimbursement', type='http', website=True, auth='public')
+    @http.route('/create/MyReimbursement', website=True, auth='public')
     def myreimbursement_form(self, **kw):
         # get current login user
         userid = request.env.user.employee_id

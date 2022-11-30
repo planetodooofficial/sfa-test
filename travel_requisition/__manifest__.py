@@ -8,6 +8,7 @@
         'base', 'hr_expense', 'product', 'website', 'portal', 'hr', 'l10n_in_hr_payroll', 'website', 'portal',
     ],
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'views/travel_requisition_views.xml',
         'views/travel_requisition_portal_view.xml',
