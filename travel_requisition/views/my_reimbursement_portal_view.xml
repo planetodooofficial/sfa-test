@@ -295,7 +295,7 @@
                                                 <b>Employee</b>
                                             </td>
                                             <td>
-                                                <input type="text" id="name" name="name" t-att-value="user.name"
+                                                <input type="text" id="name" name="name" t-att-value="user"
                                                        readonly="1" style="width:210px;"/>
                                             </td>
                                         </tr>
