@@ -105,28 +105,31 @@ class TravelRequisitionExpense(models.Model):
     #             obj.write({'hr_sequence': number})
     #     return obj
 
-    class TravelDetailsLine(models.Model):
-        _name = 'travel.details.line'
 
-        hr_exp_id = fields.Many2one('hr.expense', string='Hr Expense Id')
-        date = fields.Date(string='Date')
-        from_dates = fields.Date(string='From date')
-        to_dates = fields.Date(string='To Date')
-        departs_time = fields.Float(string='Departs Time')
-        arrives_time = fields.Float(string='Arrives Time')
-        mode_and_class = fields.Many2one('mode.class.master', string='Mode & Class')
+class TravelDetailsLine(models.Model):
+    _name = 'travel.details.line'
 
-    class StayDetailsLine(models.Model):
-        _name = 'stay.details.line'
+    hr_exp_id = fields.Many2one('hr.expense', string='Hr Expense Id')
+    date = fields.Date(string='Date')
+    from_dates = fields.Date(string='From date')
+    to_dates = fields.Date(string='To Date')
+    departs_time = fields.Float(string='Departs Time')
+    arrives_time = fields.Float(string='Arrives Time')
+    mode_and_class = fields.Many2one('mode.class.master', string='Mode & Class')
 
-        hr_exp_id = fields.Many2one('hr.expense', string='Hr Expense Id')
-        name_line = fields.Many2one('hr.employee', string='Name', related='hr_exp_id.employee_id')
-        hotel_guest_line = fields.Char(string='Hotel / Guest House')
-        location_line = fields.Char(string='Location')
-        check_in_date = fields.Date(string='Check in Date')
-        check_out_date = fields.Date(string='Check Out Date')
 
-    class ExpenseProductInherit(models.Model):
-        _inherit = 'product.product'
+class StayDetailsLine(models.Model):
+    _name = 'stay.details.line'
 
-        travel_requisition = fields.Boolean('Travel Requisitions')
+    hr_exp_id = fields.Many2one('hr.expense', string='Hr Expense Id')
+    name_line = fields.Many2one('hr.employee', string='Name', related='hr_exp_id.employee_id')
+    hotel_guest_line = fields.Char(string='Hotel / Guest House')
+    location_line = fields.Char(string='Location')
+    check_in_date = fields.Date(string='Check in Date')
+    check_out_date = fields.Date(string='Check Out Date')
+
+
+class ExpenseProductInherit(models.Model):
+    _inherit = 'product.product'
+
+    travel_requisition = fields.Boolean('Travel Requisitions')

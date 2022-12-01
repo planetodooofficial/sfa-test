@@ -86,7 +86,7 @@
                                 <br/>
                                 <t t-esc="expense.name"/>
                                 <br/>
-                                <t t-esc="expense.product_id.name"/>
+                                <t t-esc="expense.sudo().product_id.name"/>
                                 <br/>
                                 <t t-esc="expense.total_amount"/>
                                 <br/>
@@ -375,7 +375,7 @@
                                             <b>Pan Card Number</b>
                                         </td>
                                         <td>
-                                            <t t-esc="expense.pan_no_new"/>
+                                            <t t-esc="expense.sudo().pan_no_new"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -383,7 +383,7 @@
                                             <b>Driving License Number</b>
                                         </td>
                                         <td>
-                                            <t t-esc="expense.dl_number"/>
+                                            <t t-esc="expense.sudo().dl_number"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -391,7 +391,7 @@
                                             <b>Age</b>
                                         </td>
                                         <td>
-                                            <t t-esc="expense.age"/>
+                                            <t t-esc="expense.sudo().age"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -407,7 +407,7 @@
                                             <b>Name on Passport</b>
                                         </td>
                                         <td>
-                                            <t t-esc="expense.pass_name"/>
+                                            <t t-esc="expense.sudo().pass_name"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -415,7 +415,7 @@
                                             <b>Passport No.</b>
                                         </td>
                                         <td>
-                                            <t t-esc="expense.pass_no"/>
+                                            <t t-esc="expense.sudo().pass_no"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -424,8 +424,8 @@
                                         </td>
                                         <td>
                                             <div class="o_row">
-                                                <t t-esc="expense.pass_issue_date"/>
-                                                <t t-esc="expense.pass_issue_loc"/>
+                                                <t t-esc="expense.sudo().pass_issue_date"/>
+                                                <t t-esc="expense.sudo().pass_issue_loc"/>
                                             </div>
                                         </td>
                                     </tr>
@@ -637,7 +637,7 @@
                             </a>
                         </td>
                         <td class="text-right">
-                            <span t-field="expense.employee_id.name"/>
+                            <span t-field="expense.sudo().employee_id.name"/>
                         </td>
                         <td class="text-right">
                             <span t-field="expense.payment_mode"/>

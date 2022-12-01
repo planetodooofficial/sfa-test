@@ -88,7 +88,7 @@
                                 <br/>
                                 <t t-esc="rexpense.name"/>
                                 <br/>
-                                <t t-esc="rexpense.product_id.name"/>
+                                <t t-esc="rexpense.sudo().product_id.name"/>
                                 <br/>
                                 <t t-esc="rexpense.total_amount"/>
                                 <br/>
@@ -131,7 +131,7 @@
                                 <br/>
                                 <t t-esc="rexpense.date"/>
                                 <br/>
-                                <t t-esc="rexpense.employee_id.name"/>
+                                <t t-esc="rexpense.sudo().employee_id.name"/>
                                 <br/>
                                 <t t-if="rexpense.payment_mode == 'company_account'">
                                     <spam>Company</spam>
@@ -213,7 +213,9 @@
                             </a>
                         </td>
                         <td class="text-right">
-                            <span t-field="rexpense.employee_id.name"/>
+                            <t t-if="rexpense.employee_id">
+                                <span t-field="rexpense.sudo().employee_id.name"/>
+                            </t>
                         </td>
                         <td class="text-right">
                             <span t-field="rexpense.payment_mode"/>

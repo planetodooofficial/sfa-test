@@ -16,7 +16,7 @@ class AllExpense(http.Controller):
         order = searchbar_sortings[sortby]['order']
 
         all_expenses = http.request.env['hr.expense'].search(
-            [('state', '=', ('draft', 'reported', 'approved', 'done', 'refused')),
+            [('state', 'in', ('draft', 'reported', 'approved', 'done', 'refused')),
              ('payment_mode', '=', 'company_account')], order=order)
         return http.request.render('travel_requisition.portal_all_expenses_list', {
             'expenses': all_expenses,
@@ -113,7 +113,7 @@ class AllExpense(http.Controller):
             't_stay_name': user_info,
         })
 
-    @http.route('/create/TravelRequisition', website=True, auth='public')
+    @http.route('/create/TravelRequisition', website=True, auth="public")
     def travelrequisition_form(self, **kw):
         # get current login user
         userid = request.env.user.employee_id
@@ -265,7 +265,7 @@ class ExpenseCustomerPortal(CustomerPortal):
     def _prepare_home_portal_values(self, counters):
         values = super(ExpenseCustomerPortal, self)._prepare_home_portal_values(counters)
         count_expenses = http.request.env['hr.expense'].search_count(
-            [('state', '=', ('draft', 'reported', 'approved', 'done', 'refused')),
+            [('state', 'in', ('draft', 'reported', 'approved', 'done', 'refused')),
              ('payment_mode', '=', 'company_account')])
         values.update({
             'count_expenses': count_expenses,
