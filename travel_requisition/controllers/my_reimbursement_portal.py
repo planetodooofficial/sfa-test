@@ -65,10 +65,9 @@ class AllMyExpense(http.Controller):
             return request.not_found()
 
     @http.route('/create/MyReimbursement', website=True, auth='public')
-    def myreimbursement_form(self, user_id=None, **kw):
-        user = request.env['hr.employee'].browse(user_id) if user_id else request.env.user
+    def myreimbursement_form(self, **kw):
         # get current login user
-        # userid = request.env.user.employee_id
+        userid = request.env.user.employee_id
         demo = request.env['hr.expense'].sudo().search([('travel_requisition_opt', '=', False)])
 
         # get products based on search filter from many2one
@@ -90,8 +89,7 @@ class AllMyExpense(http.Controller):
 
         autofill_data = {
             # 'module_fields_name' : defined_fields_name
-            # 'user': userid,
-            'user': user.sudo().employee_id.name,
+            'user': userid.sudo().name,
             'r_product': r_product,
             'cdate': cdate,
             'demo': demo,
